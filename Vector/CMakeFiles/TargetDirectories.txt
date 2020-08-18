@@ -1,0 +1,4 @@
+/mnt/f/repos/OOP/Vector/CMakeFiles/rebuild_cache.dir
+/mnt/f/repos/OOP/Vector/CMakeFiles/edit_cache.dir
+/mnt/f/repos/OOP/Vector/CMakeFiles/test_vector.dir
+/mnt/f/repos/OOP/Vector/CMakeFiles/test.dir

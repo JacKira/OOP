@@ -3,7 +3,7 @@
 
 # Relative path conversion top directories.
 set(CMAKE_RELATIVE_PATH_TOP_SOURCE "/mnt/f/Repos/OOP/Vector")
-set(CMAKE_RELATIVE_PATH_TOP_BINARY "/mnt/f/Repos/OOP/Vector")
+set(CMAKE_RELATIVE_PATH_TOP_BINARY "/mnt/f/repos/OOP/Vector")
 
 # Force unix paths in dependencies.
 set(CMAKE_FORCE_UNIX_PATHS 1)
