@@ -1,0 +1,10 @@
+F:\Repos\OOP\TaskManager\bin\Debug\TaskManager.exe.config
+F:\Repos\OOP\TaskManager\bin\Debug\TaskManager.exe
+F:\Repos\OOP\TaskManager\bin\Debug\TaskManager.pdb
+F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csprojAssemblyReference.cache
+F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.MainForm.resources
+F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.Properties.Resources.resources
+F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csproj.GenerateResource.cache
+F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
+F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.exe
+F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.pdb
