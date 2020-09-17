@@ -35,7 +35,8 @@ namespace TaskManager
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            AddNote("Test task","Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+            for(int i = 0; i < 10; i++)
+                AddNote("Test task","Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Active");
 
         }
@@ -45,7 +46,7 @@ namespace TaskManager
         {
 
 
-            var NewNote = new System.Windows.Forms.TableLayoutPanel();
+            var NewNote = new System.Windows.Forms.TableLayoutPanel() { Margin = new Padding(5) };
             NewNote.BackColor = System.Drawing.SystemColors.Window;
             NewNote.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             NewNote.ColumnCount = 1;
