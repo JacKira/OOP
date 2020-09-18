@@ -114,10 +114,11 @@ namespace TaskManager
                 Multiline = true,
                 ReadOnly = true,
                 Size = new System.Drawing.Size(322, 30),
-                Text = "CLICK ME",
+                // Text = "CLICK ME",
                 TextAlign = HorizontalAlignment.Center,
-                TabIndex = 5
-            });
+                TabIndex = 5,
+                Cursor = System.Windows.Forms.Cursors.Default
+        }) ;
             NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote);
             return NewNote;
         }
