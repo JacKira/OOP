@@ -11,8 +11,6 @@ using System.Runtime.InteropServices;
 
 namespace TaskManager
 {
-
-
     public partial class MainForm : Form
     {
         [DllImport("user32.dll")]
@@ -155,6 +153,26 @@ namespace TaskManager
         private void RemoveNote(System.Windows.Forms.TableLayoutPanel note)
         {
             note.Dispose();
+            int row = last_note_cords[0];
+            int col = last_note_cords[1];
+            if ((row == 0) && (col == 0))
+            {
+                return;
+            }
+            if (col == 0)
+            {
+                row--;
+                col = 2;
+                last_note_cords[0] = row;
+                last_note_cords[1] = col;
+                
+            }
+            else
+            {
+                col--;
+                last_note_cords[0] = row;
+                last_note_cords[1] = col;
+            }
         }
 
 
