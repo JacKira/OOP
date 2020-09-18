@@ -18,6 +18,7 @@ namespace TaskManager
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
         private int[] last_note_cords = { 0, 0 };
+        private static System.Windows.Forms.TableLayoutPanel currentnote = null;
         public MainForm()
         {
             InitializeComponent();
@@ -35,7 +36,6 @@ namespace TaskManager
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            tableLayoutPanel1.Controls[0].Text = "Test task";
             for (int i = 0; i < 10; i++)
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Active");
@@ -67,7 +67,7 @@ namespace TaskManager
             {
                 BackColor = Color.White,
                 Multiline = true,
-                
+
                 Text = title,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 30)
@@ -79,7 +79,7 @@ namespace TaskManager
             {
                 BackColor = Color.White,
                 Multiline = true,
-                
+
                 Text = description,
                 WordWrap = true,
                 ScrollBars = ScrollBars.Vertical,
@@ -91,7 +91,7 @@ namespace TaskManager
             textbox = new System.Windows.Forms.TextBox()
             {
                 BackColor = Color.White,
-                
+
                 Text = employer,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
@@ -102,7 +102,7 @@ namespace TaskManager
             textbox = new System.Windows.Forms.TextBox()
             {
                 BackColor = Color.White,
-                
+
                 Text = status,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20)
@@ -122,7 +122,7 @@ namespace TaskManager
                 TextAlign = HorizontalAlignment.Center,
                 TabIndex = 5
             });
-            NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu();
+            NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote);
             return NewNote;
         }
 
@@ -131,11 +131,11 @@ namespace TaskManager
         {
             int row = last_note_cords[0];
             int col = last_note_cords[1];
-            /*    if ((row == 0) && (col == 0))
-                {
-                    TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                    return;
-                } */
+            if ((row == 0) && (col == 0))
+            {
+                TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                return;
+            }
             if (col == 2)
             {
                 row++;
@@ -156,10 +156,16 @@ namespace TaskManager
 
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
         {
-            public NoteContextMenu()
+            public NoteContextMenu(System.Windows.Forms.TableLayoutPanel note)
             {
                 this.Items.Add(new ToolStripMenuItem("Удалить"));
+                this.Size = new System.Drawing.Size(180, 22);
+                this.Text = "Remove note";
+                Note = note;
+                this.Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
             }
+
+            public System.Windows.Forms.TableLayoutPanel Note;
         }
 
         private void RemoveNote(System.Windows.Forms.TableLayoutPanel note)
@@ -167,6 +173,12 @@ namespace TaskManager
             note.Dispose();
         }
 
-      
+
+        private static void removeNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var menu = (NoteContextMenu)sender;
+            menu.Note.Dispose();
+        }
+
     }
 }
