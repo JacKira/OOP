@@ -18,10 +18,10 @@ namespace TaskManager
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
         private int[] last_note_cords = { 0, 0 };
-        private static System.Windows.Forms.TableLayoutPanel currentnote = null;
         public MainForm()
         {
             InitializeComponent();
+            TaskTable.ContextMenuStrip = contextMenuStrip1;
         }
 
         private void groupBox1_Enter(object sender, EventArgs e)
@@ -45,8 +45,6 @@ namespace TaskManager
         private System.Windows.Forms.TableLayoutPanel InitNote(string title = "\0", string description = "\0",
                                                                string employer = "\0", string status = "\0")
         {
-
-
             var NewNote = new System.Windows.Forms.TableLayoutPanel() { Margin = new Padding(5) };
             NewNote.BackColor = System.Drawing.SystemColors.Window;
             NewNote.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
@@ -156,15 +154,29 @@ namespace TaskManager
 
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
         {
+           
+
+
+
             public NoteContextMenu(System.Windows.Forms.TableLayoutPanel note)
             {
-                this.Items.Add(new ToolStripMenuItem("Удалить"));
+                this.Items.Add(new MenuItem(note));
+                this.Items[0].Text = "Remove Note";
+                this.Items.Add(new ToolStripMenuItem("NOT Remove Note"));
                 this.Size = new System.Drawing.Size(180, 22);
-                this.Text = "Remove note";
-                Note = note;
-                this.Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
+                this.Items[0].Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
             }
 
+            
+        }
+
+        private class MenuItem : ToolStripMenuItem
+        {
+            public MenuItem(System.Windows.Forms.TableLayoutPanel note)
+            {
+                this.Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
+                Note = note;
+            }
             public System.Windows.Forms.TableLayoutPanel Note;
         }
 
@@ -176,9 +188,13 @@ namespace TaskManager
 
         private static void removeNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var menu = (NoteContextMenu)sender;
+            var menu = (MenuItem)sender;
             menu.Note.Dispose();
         }
 
+        private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddNote();
+        }
     }
 }
