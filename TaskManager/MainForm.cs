@@ -43,9 +43,9 @@ namespace TaskManager
         }
 
         private System.Windows.Forms.TableLayoutPanel InitNote(string title = "\0", string description = "\0",
-                                                               string employer = "\0", string status = "\0")
+                                                               string employer = "\0", string status = "\0", long ID = 0)
         {
-            var NewNote = new System.Windows.Forms.TableLayoutPanel() { Margin = new Padding(5) };
+            var NewNote = new Note() { Margin = new Padding(5) };
             NewNote.BackColor = System.Drawing.SystemColors.Window;
             NewNote.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             NewNote.ColumnCount = 1;
@@ -152,34 +152,6 @@ namespace TaskManager
 
         }
 
-        private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
-        {
-           
-
-
-
-            public NoteContextMenu(System.Windows.Forms.TableLayoutPanel note)
-            {
-                this.Items.Add(new MenuItem(note));
-                this.Items[0].Text = "Remove Note";
-                this.Items.Add(new ToolStripMenuItem("NOT Remove Note"));
-                this.Size = new System.Drawing.Size(180, 22);
-                this.Items[0].Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
-            }
-
-            
-        }
-
-        private class MenuItem : ToolStripMenuItem
-        {
-            public MenuItem(System.Windows.Forms.TableLayoutPanel note)
-            {
-                this.Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
-                Note = note;
-            }
-            public System.Windows.Forms.TableLayoutPanel Note;
-        }
-
         private void RemoveNote(System.Windows.Forms.TableLayoutPanel note)
         {
             note.Dispose();
@@ -196,5 +168,33 @@ namespace TaskManager
         {
             AddNote();
         }
+/* =========================================== CLASSES ===============================================*/
+        private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
+        {
+            public NoteContextMenu(System.Windows.Forms.TableLayoutPanel note)
+            {
+                this.Items.Add(new MenuItem(note));
+                this.Items[0].Text = "Remove Note";
+                this.Items.Add(new ToolStripMenuItem("NOT Remove Note"));
+                this.Size = new System.Drawing.Size(180, 22);
+                this.Items[0].Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
+            }
+        }
+
+        private class MenuItem : ToolStripMenuItem
+        {
+            public MenuItem(System.Windows.Forms.TableLayoutPanel note)
+            {
+                this.Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
+                Note = note;
+            }
+            public System.Windows.Forms.TableLayoutPanel Note;
+        }
+
+        private class Note : TableLayoutPanel
+        {
+            public long ID = 0;
+        }
+/* =========================================== CLASSES ===============================================*/
     }
 }
