@@ -15,7 +15,6 @@ namespace TaskManager
             get { return _tableData[id]; }
             set { _tableData[id] = value; }
         }
-         
         public void Add(NoteData note = null)
         {
             if(note == null)
