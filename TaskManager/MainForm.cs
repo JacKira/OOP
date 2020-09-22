@@ -35,7 +35,7 @@ namespace TaskManager
         private void MainForm_Load(object sender, EventArgs e)
         {
             for (int i = 0; i < 10; i++)
-                AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+                AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Active");
 
         }
@@ -43,7 +43,7 @@ namespace TaskManager
         private System.Windows.Forms.TableLayoutPanel InitNote(string title = "\0", string description = "\0",
                                                                string employer = "\0", string status = "\0", long ID = 0)
         {
-            var NewNote = new Note() { Margin = new Padding(5) };
+            var NewNote = new Note() { Margin = new Padding(10)};
             NewNote.BackColor = System.Drawing.SystemColors.Window;
             NewNote.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             NewNote.ColumnCount = 1;
@@ -114,11 +114,11 @@ namespace TaskManager
                 Multiline = true,
                 ReadOnly = true,
                 Size = new System.Drawing.Size(322, 30),
-                // Text = "CLICK ME",
+                Text = "---",
                 TextAlign = HorizontalAlignment.Center,
                 TabIndex = 5,
-                Cursor = System.Windows.Forms.Cursors.Default
-        }) ;
+                Cursor = System.Windows.Forms.Cursors.Hand
+            }) ;
             NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote);
             return NewNote;
         }
@@ -126,28 +126,29 @@ namespace TaskManager
         private void AddNote(string title = "\0", string description = "\0",
                              string employer = "\0", string status = "\0")
         {
-            int row = last_note_cords[0];
-            int col = last_note_cords[1];
-            if ((row == 0) && (col == 0))
-            {
-                TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                return;
-            }
-            if (col == 2)
-            {
-                row++;
-                col = 0;
-                last_note_cords[0] = row;
-                last_note_cords[1] = col;
-                TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-            }
-            else
-            {
-                col++;
-                last_note_cords[0] = row;
-                last_note_cords[1] = col;
-                TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-            }
+            /* int row = last_note_cords[0];
+             int col = last_note_cords[1];
+             if ((row == 0) && (col == 0))
+             {
+                 TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                 return;
+             }
+             if (col == 2)
+             {
+                 row++;
+                 col = 0;
+                 last_note_cords[0] = row;
+                 last_note_cords[1] = col;
+                 TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+             }
+             else
+             {
+                 col++;
+                 last_note_cords[0] = row;
+                 last_note_cords[1] = col;
+                 TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+             }*/
+            TaskTable.Controls.Add(InitNote(title, description, employer, status), 0, 0);
 
         }
 
@@ -214,6 +215,16 @@ namespace TaskManager
         {
             public long ID = 0;
         }
-/* =========================================== CLASSES ===============================================*/
+
+        private void MainForm_Resize(object sender, EventArgs e)
+        {
+            TaskTable.Width = this.Width;
+            TaskTable.ColumnCount = (int)(TaskTable.Width / 450) ;
+            TaskTable.Height = this.Height - 50;
+            TaskTable.RowCount = this.Height / 320;
+            
+            
+        }
+        /* =========================================== CLASSES ===============================================*/
     }
 }
