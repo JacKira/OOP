@@ -1,0 +1,2 @@
+F:\Repos\OOP\FirstLab\Debug\FirstLab.exe
+F:\Repos\OOP\FirstLab\Debug\FirstLab.pdb
