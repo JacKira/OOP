@@ -1,2 +1,3 @@
 ﻿  1LabFunc.cpp
+F:\Repos\OOP\FirstLab\1LabFunc.cpp(47,6): warning C4101: task: неиспользованная локальная переменная
   FirstLab.vcxproj -> F:\Repos\OOP\FirstLab\Debug\FirstLab.exe

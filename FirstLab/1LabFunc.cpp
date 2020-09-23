@@ -1,29 +1,34 @@
 #include <iostream>
 #include <cmath>
-#include <stdlib.h>
+#include <cstdlib>
 #include <fstream>
 #include <cstdio>
 #include <string>
 
 using namespace std;
 
-#define A 1
-#define B 10e10
-#define EPS 1e-2
-#define M 8
-#define N 3
 
+
+
+
+
+// FIRST TASK
 double MyFunc(double x);
 void CalcFunc();
+#define A 1
+#define B 10e10
 
+// SECOND TASK
 bool MyLogicFunc(bool a, bool b, bool c);
 void CalcLogicFunc();
 
+// THIRD TASK
 int Factorial(int n);
 double FuncForSeq(int n, double x);
 void CalcSeq();
+#define EPS 1e-5
 
-
+// FOURTH TASK
 int GetRowCount();
 int GetColCount();
 double* GetArr(int m, int n);
@@ -32,6 +37,8 @@ void PrintSumArr(double arr[], int m, int n);
 void InputArr(char filename[], double arr[], int m, int n);
 void OutputArr(double arr[], int m, int n);
 void ArrTask();
+#define M 8
+#define N 3
 
 
 int main()
@@ -39,8 +46,7 @@ int main()
 	setlocale(LC_ALL, "Russian");
 	int task;
 	bool work = true;
-	char tree;
-	
+	char branch;
 	do {
 		cout << "\nВыберите задачу: \n";
 		cout << "1 - Вычисление арифметического выражения\n";
@@ -48,14 +54,13 @@ int main()
 		cout << "3 - Вычисление суммы ряда функции\n";
 		cout << "4 - Работа с массивом\n";
 		cout << "Любая другая клавиша чтобы выйти\n";
-		cin >> task;
+		cin >> branch;
 		system("cls");
-		tree = task + 48;
-		switch (tree)
-		{		
+		switch (branch)
+		{
 		case '1': CalcFunc();
 			break;
-		case '2' : CalcLogicFunc();
+		case '2': CalcLogicFunc();
 			break;
 		case '3': CalcSeq();
 			break;
@@ -63,11 +68,13 @@ int main()
 			break;
 		default: work = false;
 		}
-	}while(work);
-	
+	} while (work);
+
 	return 0;
 }
 
+
+// FIRST TASK
 double MyFunc(double x)
 {
 	return (B * B * x + exp(-x) * pow(sin(B * x), 5)) / (log(A + B) - log(B - x) / log(5));
@@ -82,6 +89,8 @@ void CalcFunc()
 	cout << "Результат F(x) = " << MyFunc(x) << endl;
 }
 
+
+// SECOND TASK
 bool MyLogicFunc(bool a, bool b, bool c)
 {
 	return (a && (!b) && (!c)) || ((!a) && b && (!c)) || ((!a) && (!b) && c);
@@ -90,14 +99,22 @@ bool MyLogicFunc(bool a, bool b, bool c)
 void CalcLogicFunc()
 {
 	bool a, b, c;
-	cout << "Введите три логические переменные, используя числа, через пробел, считая что 0 - это ложь, а не 0 - истина\n";
-	cin >> a;
-	cin >> b;
-	cin >> c;
-	cout << "Результат логического выражения, где истина, когда только одна переменная - истина, а остальное - ложь:\n"
+	double x1, x2, x3;
+	cout << "Введите число для сравнения X > 0\n\n";
+	cin >> x1;
+	cout << "Введите число для сравнения X < 0\n\n";
+	cin >> x2;
+	cout << "Введите число для сравнения X = 0\n\n";
+	cin >> x3;
+	a = x1 > 0;
+	b = x2 < 0;
+	c = x3 == 0;
+	cout << "Результат логического выражения на основе трех сравнений, где истина, когда только одна переменная - истина, а остальное - ложь:\n"
 		<< (MyLogicFunc(a, b, c) ? "True\n" : "False\n");
 }
 
+
+// THIRD TASK
 int Factorial(int n)
 {
 	int res = 1;
@@ -123,65 +140,50 @@ void CalcSeq()
 	double x;
 	int n = 0;
 	double res;
-	cout << "Введите Х для вычисления (sin(x))^2\n";
+	cout << "Введите Х для вычисления (sin(x))^2, где |X| < 1;\n";
 	cin >> x;
+	if ((x <= -1) || (x >= 1)) {
+		x = (x <= -1 ? -0.99 : x);
+		x = (x >= 1 ? 0.99 : x);
+		cout << "X вне границ сходимости и будет заменено\n";
+		cout << "на минимальное или минимальное число, при котором ряд сходится\n";
+	}
 	do
 	{
 		n++;
 		res = FuncForSeq(n, x);
 		sum += res;
-	} while (res > EPS);
+	} while (fabs(res) > EPS);
+	cout << "X = " << x << endl;
 	cout << "Сумма ряда Тейлора функции\n";
 	cout << sum << endl;
 	cout << "\nМатематическая функция\n"
 		<< sin(x) * sin(x) << endl;
+	cout << "\nМатематическая функция sin(x)\n"
+		<< sin(x) << endl;
 }
 
+
+// FOURTH TASK
 int GetRowCount()
 {
-	bool deny;
 	int m;
-	do
-	{
-		deny = false;
-		cout << "Введите число строк, меньше или равное восьми\n";
-		cin >> m;
-		system("cls");
-		if ((m > M) || (m < 0))
-		{
-			cout << "Введено неверное число, повторите ввод или введите 0 для выхода\n";
-			deny = true;
-		}
-	} while (deny);
-	if (m == 0)
-	{
-		return -1;
-	}
+	cout << "Введите число строк\n";
+	cin >> m;
+	system("cls");
 	return m;
 }
 
 int GetColCount()
 {
-	bool deny;
 	int n;
-	do
-	{
-		deny = false;
-		cout << "Введите число столбцов, меньше или равное трем\n";
-		cin >> n;
-		system("cls");
-		if ((n > N) || (n < 0))
-		{
-			cout << "Введено неверное число, повторите ввод или введите 0 для выхода\n";
-			deny = true;
-		}
-	} while (deny);
-	if (n == 0)
-	{
-		return -1;
-	}
+	cout << "Введите число столбцов\n";
+	cin >> n;
+	system("cls");
 	return n;
 }
+
+
 
 void OutputArr(double arr[], int m, int n)
 {
@@ -260,8 +262,22 @@ void PrintSumArr(double arr[], int m, int n)
 
 
 void ArrTask() {
-	int m = GetRowCount();
-	int n = GetColCount();
+	bool deny;
+	int m;
+	int n;
+	do {
+		deny = false;
+		cout << "Введите размер массива, где количество элементов не превышает 24\n";
+		m = GetRowCount();
+		n = GetColCount();
+		system("cls");
+		if ((m * n) > 24)
+		{
+			cout << "Количество элементов массива больше 24, повторите ввод\n";
+			deny = true;
+		}
+
+	} while (deny);
 	int minmax_m = m / 2;
 	char filename[] = "nums.txt";
 	double* minmax;
@@ -273,7 +289,7 @@ void ArrTask() {
 	cout << endl;
 	cout << "Массив максимальных отрицательных чисел каждой четной строки:\n";
 	OutputArr(minmax, minmax_m, 1);
-	cout << "\nСумма отрицательных элементов для четной строки:\n";
+	cout << "\nСумма отрицательных элементов для четных столбцов:\n";
 	PrintSumArr(arr, m, n);
 	delete[] minmax;
 	delete[] arr;
