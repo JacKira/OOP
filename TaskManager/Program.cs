@@ -14,9 +14,11 @@ namespace TaskManager
         [STAThread]
         static void Main()
         {
+            // В будущем тут будет иницииадизция объекта с данным записей
+             
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            Application.Run(new MainForm()); //#1 Инициализируем главную форму со всеми ее компонентами: Меню, доска записей и т.д.
         }
     }
 }

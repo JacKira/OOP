@@ -33,6 +33,7 @@
             this.TaskTable = new System.Windows.Forms.TableLayoutPanel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.testToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -49,6 +50,8 @@
             // TaskTable
             // 
             this.TaskTable.AutoScroll = true;
+            this.TaskTable.AutoScrollMargin = new System.Drawing.Size(10, 300);
+            this.TaskTable.AutoScrollMinSize = new System.Drawing.Size(10, 300);
             this.TaskTable.BackColor = System.Drawing.SystemColors.Control;
             this.TaskTable.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.TaskTable.ColumnCount = 3;
@@ -65,9 +68,10 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.addNoteToolStripMenuItem});
+            this.addNoteToolStripMenuItem,
+            this.testToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(124, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(124, 48);
             // 
             // addNoteToolStripMenuItem
             // 
@@ -76,11 +80,18 @@
             this.addNoteToolStripMenuItem.Text = "Add note";
             this.addNoteToolStripMenuItem.Click += new System.EventHandler(this.addNoteToolStripMenuItem_Click);
             // 
+            // testToolStripMenuItem
+            // 
+            this.testToolStripMenuItem.Name = "testToolStripMenuItem";
+            this.testToolStripMenuItem.Size = new System.Drawing.Size(123, 22);
+            this.testToolStripMenuItem.Text = "Test";
+            this.testToolStripMenuItem.Click += new System.EventHandler(this.testToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1348, 856);
+            this.ClientSize = new System.Drawing.Size(1357, 856);
             this.Controls.Add(this.TaskTable);
             this.Controls.Add(this.NavigationMenu);
             this.Name = "MainForm";
@@ -99,6 +110,7 @@
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem addNoteToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
     }
 }
 

@@ -8,3 +8,13 @@ F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csproj.GenerateResource.cache
 F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
 F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.exe
 F:\Repos\OOP\TaskManager\obj\Debug\TaskManager.pdb
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\bin\Debug\TaskManager.exe.config
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\bin\Debug\TaskManager.exe
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\bin\Debug\TaskManager.pdb
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.csprojAssemblyReference.cache
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.MainForm.resources
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.Properties.Resources.resources
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.csproj.GenerateResource.cache
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.exe
+C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.pdb
