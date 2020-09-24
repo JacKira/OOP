@@ -18,3 +18,13 @@ C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.csproj
 C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
 C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.exe
 C:\Users\Silve\Source\Repos\JacKira\OOP\TaskManager\obj\Debug\TaskManager.pdb
+E:\Repos\TaskManager\bin\Debug\TaskManager.exe.config
+E:\Repos\TaskManager\bin\Debug\TaskManager.exe
+E:\Repos\TaskManager\bin\Debug\TaskManager.pdb
+E:\Repos\TaskManager\obj\Debug\TaskManager.csprojAssemblyReference.cache
+E:\Repos\TaskManager\obj\Debug\TaskManager.MainForm.resources
+E:\Repos\TaskManager\obj\Debug\TaskManager.Properties.Resources.resources
+E:\Repos\TaskManager\obj\Debug\TaskManager.csproj.GenerateResource.cache
+E:\Repos\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
+E:\Repos\TaskManager\obj\Debug\TaskManager.exe
+E:\Repos\TaskManager\obj\Debug\TaskManager.pdb

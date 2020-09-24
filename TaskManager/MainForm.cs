@@ -234,7 +234,7 @@ namespace TaskManager
             TaskTable.Width += d_w;
             TaskTable.ColumnCount = (int)(TaskTable.Width / 350);
             TaskTable.Height += d_h;
-            TaskTable.RowCount = (int)(TaskTable.Height / 500);
+            //TaskTable.RowCount = (int)(TaskTable.Height / 330);
             TaskTable.AutoScrollMargin = new Size(10, TaskTable.Height);
             //  TaskTable.AutoScroll = true;
 
