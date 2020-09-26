@@ -42,15 +42,16 @@ class FindSeqOfSinX
 	double CalcSeq();
 };
 
-int GetRowCount();
+/*int GetRowCount();
 int GetColCount();
 double **GetArr(int m, int n);
 void InputArr(char filename[], double **&arr, int m, int n);
 void OutputArr(double **&arr, int m, int n);
 void DelArr(double **&arr, int m);
-
+*/
 int main(int argc, char *argv[])
 {
+	setlocale(LC_ALL, "Russia");
 	cout << "Конструктор по умоланию\n";
 	FindSeqOfSinX find1;
 	find1.CalcSeq();
@@ -137,6 +138,7 @@ double FindSeqOfSinX ::CalcSeq()
 	cout << sum << endl;
 	cout << "\nМатематическая функция при X = " << _x << endl
 		 << sin(_x) * sin(_x) << endl;
+	return sum;
 }
 /*
 int GetRowCount()
