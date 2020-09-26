@@ -1,4 +1,4 @@
-#include <iostream>
+﻿#include <iostream>
 #include <cmath>
 #include <stdlib.h>
 #include <fstream>
@@ -49,9 +49,9 @@ void InputArr(char filename[], double **&arr, int m, int n);
 void OutputArr(double **&arr, int m, int n);
 void DelArr(double **&arr, int m);
 */
-int main(int argc, char *argv[])
+int main()
 {
-	setlocale(LC_ALL, "Russia");
+	setlocale(LC_ALL, "RUS");
 	cout << "Конструктор по умоланию\n";
 	FindSeqOfSinX find1;
 	find1.CalcSeq();
