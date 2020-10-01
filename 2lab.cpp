@@ -5,23 +5,29 @@
 
 using namespace std;
 
-class FindSeqOfSinX
+
+
+class FindSeqOfSinX 
 {
-  private:
+private:
 	double _x;
 	double _eps;
 	int _n = 0;
+	int _rn = 0;
+	int _recurn = 0;
 	bool _flag_n = false;
-	double FuncForSeq(int n, double x);
+	double FuncForSeq(int n);
 	int Factorial(int n);
+	double FuncRecurnt(int n);
 
-  public:
+public:
+	
 	FindSeqOfSinX()
 	{
 		_x = 0.5;
 		_eps = 1e-6;
 	}
-	~FindSeqOfSinX(){};
+
 	FindSeqOfSinX(double x)
 	{
 		_x = x;
@@ -38,8 +44,12 @@ class FindSeqOfSinX
 		_n = n;
 		_flag_n = true;
 	}
-
-	double CalcSeq();
+	~FindSeqOfSinX() {
+		cout << "\nУдаление объекта с Х = " << _x << "; Точность = " << _eps << endl;
+	};
+	double CalcSeqDefault();
+	double CalcSeqRec();
+	double CalcSeqRecurnt();
 };
 
 /*int GetRowCount();
@@ -51,24 +61,40 @@ void DelArr(double **&arr, int m);
 */
 int main()
 {
+	
 	setlocale(LC_ALL, "RUS");
+	/*
 	cout << "Конструктор по умоланию\n";
 	FindSeqOfSinX find1;
-	find1.CalcSeq();
+	find1.CalcSeqDefault();
 	cout << "\n======================\n";
 	cout << "\nКонструктор с заданным x" << endl;
 	FindSeqOfSinX find2(0.5);
-	find2.CalcSeq();
+	find2.CalcSeqDefault();
 	cout << "\n======================\n";
 	cout << "\nКонструктор с заданным x и n" << endl;
 	FindSeqOfSinX find3(0.5, (int)15);
-	find3.CalcSeq();
-
+	find3.CalcSeqDefault();
+	*/
 	cout << "\n======================\n";
 	cout << "\nКонструктор с заданным x и заданной точностью" << endl;
 	FindSeqOfSinX find4(0.5, 1e-1);
-	find4.CalcSeq();
-	
+	find4.CalcSeqDefault();
+
+
+	cout << "\n======================\n";
+	cout << "\nКонструктор с заданным x и заданной точностью" << endl;
+	FindSeqOfSinX find5(0.5, 1e-4);
+	cout << "Рекурсивная сумма ряда sin(x)^2 для Х = " << 0.5 << " = ";
+	cout << find5.CalcSeqRec() << endl;
+	cout << "Математическая функция sin(x)^2 = " << sin(0.5) * sin(0.5) << endl;
+
+	cout << "\n======================\n";
+	cout << "\nКонструктор с заданным x и заданной точностью" << endl;
+	FindSeqOfSinX find6(0.5);
+	find5.CalcSeqRecurnt();
+
+
 		cout << "\n======================\n";
 	cout << "\nИспользование массива объектов с варьированием X" << endl;
 	double h = 0.1;
@@ -78,23 +104,24 @@ int main()
 	{
 		cout << endl;
 		finds[i] = new FindSeqOfSinX(i * h);
-		finds[i]->CalcSeq();
+		finds[i]->CalcSeqDefault();
 		cout << endl;
 	}
-	
+
 	for(int i = 0; i < m; i++)
 	{
 		delete finds[i];
 	}
 	delete[] finds;
 	
-	
+
 	
 	
 	return 0;
+	
 }
 
-int FindSeqOfSinX ::Factorial(int n)
+int FindSeqOfSinX::Factorial(int n)
 {
 	int res = 1;
 	if (n >= 2)
@@ -107,20 +134,20 @@ int FindSeqOfSinX ::Factorial(int n)
 	return res;
 }
 
-double FindSeqOfSinX ::FuncForSeq(int n, double x)
+double FindSeqOfSinX::FuncForSeq(int n)
 {
 	int one = ((n % 2) ? 1 : -1);
-	return one * pow(2, 2 * n - 1) * pow(x, 2 * n) / Factorial(2 * n);
+	return one * pow(2, 2 * n - 1) * pow(_x, 2 * n) / Factorial(2 * n);
 }
 
-double FindSeqOfSinX ::CalcSeq()
+double FindSeqOfSinX::CalcSeqDefault()
 {
 	double sum = 0, res;
 	int n = 0;
 	do
 	{
 		n++;
-		res = FuncForSeq(n, _x);
+		res = FuncForSeq(n);
 		sum += res;
 		if (_flag_n && (n >= _n))
 		{
@@ -136,126 +163,54 @@ double FindSeqOfSinX ::CalcSeq()
 		cout << "Сумма ряда Тейлора функции при X = " << _x << "  и количестве членов = " << n << endl;
 	}
 	cout << sum << endl;
-	cout << "\nМатематическая функция при X = " << _x << endl
-		 << sin(_x) * sin(_x) << endl;
+	cout << "\nМатематическая функция sin(x)^2 при X = " << _x << endl
+		<< sin(_x) * sin(_x) << endl;
 	return sum;
 }
-/*
-int GetRowCount()
-{
-	bool deny;
-	int m;
+
+
+double FindSeqOfSinX::CalcSeqRec() {
+	_rn++;
+	double el = FuncForSeq(_rn);
+	if (fabs(el) < _eps) {
+		_rn = 0;
+		return el;
+	}
+	return el + CalcSeqRec();
+}
+
+double FindSeqOfSinX::FuncRecurnt(int n) {
+	double mul = _x * _x;
+	for (int i = 1; i < n; i++) {
+		mul *= -((double)2 * 2) * (_x * _x) / (((double)2 * n - 1) * ((double)2 * n));
+	}
+	return mul;
+	
+}
+
+double FindSeqOfSinX::CalcSeqRecurnt() {
+	double sum = 0, res;
+	int n = 0;
 	do
 	{
-		deny = false;
-		cout << "Введите число строк, меньше или равное восьми\n";
-		cin >> m;
-		system("cls");
-		if ((m > M) || (m < 0))
+		n++;
+		res = FuncRecurnt(n);
+		sum += res;
+		if (_flag_n && (n >= _n))
 		{
-			cout << "Введено неверное число, повторите ввод или введите 0 для выхода\n";
-			deny = true;
+			break;
 		}
-	} while (deny);
-	if (m == 0)
+	} while (_flag_n || (fabs(res) > _eps));
+	if (!_flag_n)
 	{
-		return -1;
+		cout << "Сумма ряда Тейлора через рекуррентую формулу функции при X = " << _x << " и точности: " << _eps << " , и количестве членов = " << n << endl;
 	}
-	return m;
-}
-
-int GetColCount()
-{
-	bool deny;
-	int n;
-	do
-	{
-		deny = false;
-		cout << "Введите число столбцов, меньше или равное трем\n";
-		cin >> n;
-		system("cls");
-		if ((n > N) || (n < 0))
-		{
-			cout << "Введено неверное число, повторите ввод или введите 0 для выхода\n";
-			deny = true;
-		}
-	} while (deny);
-	if (n == 0)
-	{
-		return -1;
-	}
-	return n;
-}
-
-void OutputArr(double **&arr, int m, int n)
-{
-	for (int i = 0; i < m; i++)
-	{
-		for (int j = 0; j < n; j++)
-		{
-			cout << arr[i][j] << "  ";
-		}
-		cout << endl;
-	}
-}
-
-void DelArr(double **&arr, int m)
-{
-	for (int i = 0; i < m; i++)
-	{
-		delete[] arr[i];
-	}
-	delete[] arr;
-}
-
-double **GetArr(int m, int n)
-{
-	double **arr = new double *[m];
-	for (int i = 0; i < m; i++)
-	{
-		arr[i] = new double[n];
-	}
-	return arr;
-}
-
-void InputArr(char filename[], double **&arr, int m, int n)
-{
-	ifstream fin(filename);
-	if (!fin)
-		cout << "Error!" << endl;
 	else
 	{
-		for (int i = 0; i < m; i++)
-		{
-			for (int j = 0; j < n; j++)
-			{
-				fin >> arr[i][j];
-			}
-		}
+		cout << "Сумма ряда Тейлора через рекуррентую формулу функции при X = " << _x << "  и количестве членов = " << n << endl;
 	}
-	fin.close();
+	cout << sum << endl;
+	cout << "\nМатематическая функция sin(x)^2 при X = " << _x << endl
+		<< sin(_x) * sin(_x) << endl;
+	return sum;
 }
-
-/*    ifstream fin("file.txt");
-    if (!fin) cout << "Error!" << endl;
-    else
-    {
-        int cols;
-        int rows;
-        char str[10];
-        
-        fin >> str >> cols;
-        fin >> str >> rows;
- 
-        double** arr = new double*[rows];
-        for (int i = 0; i < rows; ++i)
-            arr[i] = new double[cols];
- 
-        for (int i = 0; i < rows; ++i)
-            for ( int j = 0; j < cols; ++j)
-                fin >> arr[i][j];
- 
-        fin.close();
-    }
-    
-   */
