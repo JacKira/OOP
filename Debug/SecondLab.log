@@ -1,3 +1,0 @@
-﻿  2lab.cpp
-E:\Repos\OOP\2lab.cpp(75,8): warning C4244: инициализация: преобразование "double" в "int", возможна потеря данных
-  SecondLab.vcxproj -> E:\Repos\OOP\Debug\SecondLab.exe

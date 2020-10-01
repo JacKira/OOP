@@ -1,2 +1,0 @@
-E:\Repos\OOP\Debug\SecondLab.exe
-E:\Repos\OOP\Debug\SecondLab.pdb
