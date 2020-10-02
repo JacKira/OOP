@@ -36,6 +36,7 @@ double* GetArrAftProc(double arr[], int m, int n);
 void PrintSumArr(double arr[], int m, int n);
 void InputArr(char filename[], double arr[], int m, int n);
 void OutputArr(double arr[], int m, int n);
+void OutputArrToFile(char filename[], double arr[], int m, int n);
 void ArrTask();
 #define M 8
 #define N 3
@@ -291,6 +292,26 @@ void ArrTask() {
 	OutputArr(minmax, minmax_m, 1);
 	cout << "\nСумма отрицательных элементов для четных столбцов:\n";
 	PrintSumArr(arr, m, n);
+	*filename = *("output.txt");
+	OutputArrToFile(filename, arr, m, n);
 	delete[] minmax;
 	delete[] arr;
+}
+
+void OutputArrToFile(char filename[], double arr[], int m, int n) {
+	ofstream fout(filename);
+	if (!fout)
+		cout << "Error!" << endl;
+	else
+	{
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				fout << arr[i * n + j] << ' ';
+			}
+			fout << endl;
+		}
+	}
+	fout.close();
 }
