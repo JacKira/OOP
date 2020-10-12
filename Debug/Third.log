@@ -1,4 +1,3 @@
 ﻿  lab3.cpp
-F:\Repos\OOP\lab3.cpp(40,11): error C2679: бинарный "=": не найден оператор, принимающий правый операнд типа "void" (или приемлемое преобразование отсутствует)
-F:\Repos\OOP\lab3.cpp(32,7): message : может быть "void Stack::operator =(Stack)"
-F:\Repos\OOP\lab3.cpp(40,11): message : при попытке сопоставить список аргументов "(Stack, void)"
+MSVCRTD.lib(exe_winmain.obj) : error LNK2019: ссылка на неразрешенный внешний символ _WinMain@16 в функции "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ).
+F:\Repos\OOP\Debug\Third.exe : fatal error LNK1120: неразрешенных внешних элементов: 1
