@@ -1,0 +1,4 @@
+﻿  lab3.cpp
+F:\Repos\OOP\lab3.cpp(40,11): error C2679: бинарный "=": не найден оператор, принимающий правый операнд типа "void" (или приемлемое преобразование отсутствует)
+F:\Repos\OOP\lab3.cpp(32,7): message : может быть "void Stack::operator =(Stack)"
+F:\Repos\OOP\lab3.cpp(40,11): message : при попытке сопоставить список аргументов "(Stack, void)"
