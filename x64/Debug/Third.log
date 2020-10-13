@@ -1,2 +1,3 @@
 ﻿  lab3.cpp
+F:\Repos\OOP\lab3.cpp(135): warning C4172: возвращение адреса локальной или временной переменной : a
   Third.vcxproj -> F:\Repos\OOP\x64\Debug\Third.exe
