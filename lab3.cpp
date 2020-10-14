@@ -212,6 +212,9 @@ string* ParseToThree(const string str, const char c)
 	for(int i = 0; i < 3; i++)
 	{
 		new_str[i] = string(p);
+		if (new_str[i].size() == 0) {
+			return NULL;
+		}
 		p = strtok(NULL, &c);
 	}
 	return new_str;
