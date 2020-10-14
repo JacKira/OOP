@@ -3,10 +3,12 @@
 #include <ctime>
 
 using namespace std;
+string* ParseToThree(const string s, const char c);
+long ToInt(const string &s);
 
 class MyData
 {
-protected:
+public:
 	string _artist = "\0";
 	string _dateOfBirth = "\0";
 	string _dateOfDeath = "\0";
@@ -53,10 +55,6 @@ public:
 
 int main(int argc, char* argv[])
 {	
-	setlocale(LC_ALL, "RUS");
-	MyData a("Ivozovsky", "19.19.2020", "19.18.2020");
-	a.PrintData();
-	system("pause");
 	return 0;
 }
 
@@ -203,4 +201,35 @@ int Stack::GetCount()
 {
 	int n = this->_count;
 	return n;
+}
+
+string* ParseToThree(const string str, const char c)
+{
+	char *s = new char[str.size() + 1];
+	strcpy(s, str.c_str());
+	char *p = strtok(s, &c);
+	string* new_str = new string[3];
+	for(int i = 0; i < 3; i++)
+	{
+		new_str[i] = string(p);
+		p = strtok(NULL, &c);
+	}
+	return new_str;
+}
+
+long ToInt(const string &s)
+{
+	long i;
+	i = 0;
+	int n = s.size();
+	for (int j = 0; j < n; j++) {
+		if (s[j] >= '0' && s[j] <= '9') {
+			i = i * 10 + (s[j] - '0');
+		}
+		else
+		{
+			return -1;
+		}
+	}
+	return i;
 }
