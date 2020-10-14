@@ -39,7 +39,7 @@ public:
 	friend Stack operator-(Stack& a, const MyData& d);
 	Stack& operator-=(const MyData& d);
 	void push(const MyData& d);
-	MyData& pop();
+	MyData pop();
 	void RemoveAll();
 };
 
@@ -124,7 +124,7 @@ void Stack::push(const MyData& d)
 	this->ptr = p;
 }
 
-MyData& Stack::pop()
+MyData Stack::pop()
 {
 	MyData a = this->data;
 	Stack* p = ptr->ptr;
