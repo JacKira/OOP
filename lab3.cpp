@@ -1,16 +1,20 @@
 #include <iostream>
+#include <string>
+#include <ctime>
 
 using namespace std;
 
 class MyData
 {
 protected:
-	int a = 0;
+	string _artist = "\0";
+	string _dateOfBirth = "\0";
+	string _dateOfDeath = "\0";
 
 public:
 	bool operator==(const MyData& d);
 	bool operator!=(const MyData& d);
-	MyData(int a);
+	MyData(const string artist, const string dateFrom, const string dateTo);
 	MyData() {};
 	MyData& operator=(const MyData& d);
 	void PrintData();
@@ -19,19 +23,20 @@ public:
 class Stack
 {
 private:
-	int count = 0;
+	int _count = 0;
+	MyData _data;
+	Stack* _ptr;
 public:
-	MyData data;
-	Stack* ptr;
-	Stack(MyData a)
+	
+	Stack(const MyData &a)
 	{
-		data = a;
-		ptr = NULL;
-		count = 1;
+		this->_data = a;
+		_ptr = NULL;
+		_count = 1;
 	};
 	Stack()
 	{
-		ptr = NULL;
+		_ptr = NULL;
 	};
 	~Stack();
 	Stack& operator=(const Stack& s);
@@ -47,48 +52,51 @@ public:
 };
 
 int main(int argc, char* argv[])
-{
-	MyData a(1);
-	Stack s;
-	
-	cout << s.GetCount() << endl;
-	for (int i = 0; i < 100000; i++)
-		s.push(a);
-	cout << s.GetCount() << endl;
-	for (int i = 0; i < 99995; i++)
-		s -= a;
-	cout << s.GetCount() << endl;
-	s.PrintStack();
-	system("pause");
-	s.~Stack();
+{	
+	setlocale(LC_ALL, "RUS");
+	MyData a("Ivozovsky", "19.19.2020", "19.18.2020");
+	a.PrintData();
 	system("pause");
 	return 0;
 }
 
-MyData::MyData(int a)
+MyData::MyData(const string artist,const string dateFrom,const string dateTo)
 {
-	this->a = a;
+	this->_artist = string(artist);
+	if ((this->_artist.length() % 2) != 0) {
+		this->_artist += ' ';
+	}
+	this->_dateOfBirth = string(dateFrom);
+	this->_dateOfDeath = string(dateTo);
 }
 
 bool MyData ::operator==(const MyData& d)
 {
-	return (this->a == d.a);
+	return ((this->_artist == d._artist) && (this->_dateOfBirth == d._dateOfBirth) && (this->_dateOfDeath == d._dateOfDeath));
 }
 
 bool MyData ::operator!=(const MyData& d)
 {
-	return (this->a != d.a);
+	return !(*this == d);
 }
 
 void MyData::PrintData()
 {
-	cout << this->a << endl;
+	int n = (this->_artist.size() > this->_dateOfBirth.size() ? this->_artist.size() : this->_dateOfBirth.size());
+	string s1(n + 2, '='), s2(n + 2, '-'), s3((n - this->_dateOfDeath.size()) / 2, ' ');
+	cout << "#" + s1 + "#\n";
+	cout << "# " + this->_artist + string( n - this->_artist.size(), ' ') +  " #\n";
+	cout << "#" + s2 + "#\n";
+	cout << "# " + s3 + this->_dateOfBirth + s3 + " #\n";
+	cout << "#" + s2 + "#\n";
+	cout << "# " + s3 + this->_dateOfDeath + s3 + " #\n";
+	cout << "#" + s1 + "#\n";
 }
 
 Stack& Stack ::operator=(const Stack& s)
 {
-	this->data = s.data;
-	this->ptr = s.ptr;
+	this->_data = s._data;
+	this->_ptr = s._ptr;
 	return *this;
 }
 
@@ -101,13 +109,15 @@ Stack operator+(const Stack& s, const MyData& d)
 
 Stack& Stack ::operator+=(const MyData& d)
 {
-	push(d);
+	this->push(d);
 	return *this;
 }
 
 MyData& MyData ::operator=(const MyData& d)
 {
-	this->a = d.a;
+	this->_artist = d._artist;
+	this->_dateOfBirth = d._dateOfBirth;
+	this->_dateOfDeath = d._dateOfDeath;
 	return *this;
 }
 
@@ -120,70 +130,70 @@ Stack operator-(const Stack& s, const MyData& d)
 
 Stack& Stack ::operator-=(const MyData& d)
 {
-	if (data == d) {
-		pop();
+	if (this->_data == d) {
+		this->pop();
 	}
 	return *this;
 }
 
 void Stack::push(const MyData& d)
 {
-	if (count > 0) {
-		Stack* p = new Stack(this->data);
-		(*p).ptr = this->ptr;
-		(*p).count = -1;
-		this->count++;
-		this->data = d;
-		this->ptr = p;
+	if (this->_count > 0) {
+		Stack* p = new Stack(this->_data);
+		(*p)._ptr = this->_ptr;
+		(*p)._count = -1;
+		this->_count++;
+		this->_data = d;
+		this->_ptr = p;
 	}
 	else {
-		this->data = d;
-		this->count = 1;
+		this->_data = d;
+		this->_count = 1;
 	}
 }
 
 MyData Stack::pop()
 {
-	MyData a = this->data;
-	if (count > 1) {
-		Stack* p = ptr->ptr;
-		MyData d = ptr->data;
-		delete this->ptr;
-		this->data = d;
-		this->ptr = p;
+	MyData a = this->_data;
+	if (this->_count > 1) {
+		Stack* p = _ptr->_ptr;
+		MyData d = _ptr->_data;
+		delete this->_ptr;
+		this->_data = d;
+		this->_ptr = p;
 	}
 	else {
-		this->ptr = NULL;
+		this->_ptr = NULL;
 	}
-	this->count--;
+	this->_count--;
 	return a;
 };
 
 void Stack::RemoveAll()
 {
 	Stack* cptr, *pptr;
-	cptr = this->ptr;
+	cptr = this->_ptr;
 	while (cptr != NULL)
 	{
 		pptr = cptr;
-		cptr = cptr->ptr;
+		cptr = cptr->_ptr;
 		delete pptr;
 		pptr = NULL;
 	}
-	this->ptr = NULL;
-	this->count = 0;
+	this->_ptr = NULL;
+	this->_count = 0;
 }
 
 Stack :: ~Stack()
 {
-	if (count > 0) {
+	if (this->_count > 0) {
 		RemoveAll();
 	}
 }
 
 void Stack::PrintStack()
 {
-	while (this->count)
+	while (this->_count)
 	{
 		pop().PrintData();
 	} 
@@ -191,6 +201,6 @@ void Stack::PrintStack()
 
 int Stack::GetCount()
 {
-	int n = count;
+	int n = this->_count;
 	return n;
 }
