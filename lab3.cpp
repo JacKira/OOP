@@ -1,47 +1,98 @@
 #include <iostream>
 #include <string>
+#include "Artist.h"
+#include "Stack_unit.h"
 
 using namespace std;
 string* ParseToThree(const string s, const char c);
 long ToInt(const string &s);
+
+class List {
+private:
+	Artist _data;
+	List* _left;
+	List* _right;
+	List* _head;
+	int _count = 0;
+public:
+	List();
+	List(const Artist& d);
+	void Add(const Artist& d);
+  /*void Remove(const Artist& d);
+	Artist Find(const char* artist);
+	void RemoveAll();
+	void Print();
+	Artist operator[](int i); */
+	List& operator=(const List& l);
+};
 
 int main(int argc, char* argv[])
 {	
 	return 0;
 }
 
+List::List() {
+	this->_head = this;
+	this->_left = this->_right = NULL;
+}
 
+List::List(const Artist& d) {
+	this->_data = d;
+	this->_left = this->_right = NULL;
+	this->_head = this;
+	this->_count = 1;
+}
 
-string* ParseToThree(const string str, const char c)
+List& List :: operator=(const List& l) {
+	this->_data = l._data;
+	this->_left = l._left;
+	this->_right = l._right;
+	this->_head = l._head;
+	this->_count = l._count;
+	return *this;
+}
+
+void List::Add(const Artist& d)
 {
-	char *s = new char[str.size() + 1];
-	strcpy(s, str.c_str());
-	char *p = strtok(s, &c);
-	string* new_str = new string[3];
-	for(int i = 0; i < 3; i++)
+	if (this->_count == 0)
 	{
-		new_str[i] = string(p);
-		if (new_str[i].size() == 0) {
-			return NULL;
-		}
-		p = strtok(NULL, &c);
+		this->_data = d;
+		this->_head = this;
+		this->_count = 1;
+		return;
 	}
-	return new_str;
+
+	List* cptr, *pptr;
+	cptr = pptr = this->_head;
+	while (cptr != NULL) {
+		if (cptr->_data > d) {
+			break;
+		}
+		pptr = cptr;
+		cptr = cptr->_right;
+	}
+
+	if (cptr != NULL) {
+		List* _new = new List(d);
+		_new->_head = this->_head;
+		_new->_left = pptr;
+		_new->_right = cptr;
+		_new->_count = -1;
+		this->_head->_count++;
+		return;
+	}
+	else
+	{
+		List* _new = new List(d);
+		_new->_head = this->_head;
+		_new->_left = pptr;
+		_new->_count = -1;
+		this->_head->_count++;
+		return;
+	}
 }
 
-long ToInt(const string &s)
-{
-	long i;
-	i = 0;
-	int n = s.size();
-	for (int j = 0; j < n; j++) {
-		if (s[j] >= '0' && s[j] <= '9') {
-			i = i * 10 + (s[j] - '0');
-		}
-		else
-		{
-			return -1;
-		}
-	}
-	return i;
-}
+
+
+
+

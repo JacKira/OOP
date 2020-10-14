@@ -32,13 +32,6 @@ Stack_unit& Stack_unit ::operator+=(const Artist& d)
 	return *this;
 }
 
-Artist& Artist ::operator=(const Artist& d)
-{
-	this->_artist = d._artist;
-	this->_dateOfBirth = d._dateOfBirth;
-	this->_dateOfDeath = d._dateOfDeath;
-	return *this;
-}
 
 Stack_unit operator-(const Stack_unit& s, const Artist& d)
 {
@@ -110,7 +103,7 @@ Stack_unit :: ~Stack_unit()
 	}
 }
 
-void Stack_unit::PrintStack()
+void Stack_unit::Print()
 {
 	while (this->_count)
 	{
