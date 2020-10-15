@@ -57,8 +57,8 @@ Artist& Artist ::operator=(const Artist& d)
 
 void Artist::PrintData()
 {
-	int n = (this->_artist.size() > 10 ? this->_artist.size() : 10);
-	string s1(n + 2, '='), s2(n + 2, '-'), s3((n - 10) / 2, ' ');
+	int n = (this->_artist.size() > 12 ? this->_artist.size() : 12);
+	string s1(n + 2, '='), s2(n + 2, '-'), s3((n - 8) / 2, ' ');
 	cout << "#" + s1 + "#\n";
 	cout << "# " + this->_artist + string(n - this->_artist.size(), ' ') + " #\n";
 	cout << "#" + s2 + "#\n";
@@ -68,4 +68,9 @@ void Artist::PrintData()
 	cout << "# " + s3 + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1]) + '.'
 		+ to_string(this->_dateOfDeath[2]) + s3 + " #\n";
 	cout << "#" + s1 + "#\n";
+}
+
+string Artist :: GetArtist() {
+	string art = this->_artist;
+	return art;
 }

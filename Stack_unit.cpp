@@ -73,11 +73,12 @@ Artist Stack_unit::pop()
 		delete this->_ptr;
 		this->_data = d;
 		this->_ptr = p;
+		this->_count--;
 	}
 	else {
 		this->_ptr = NULL;
+		this->_count = 0;
 	}
-	this->_count--;
 	return a;
 };
 
@@ -115,4 +116,14 @@ int Stack_unit::GetCount()
 {
 	int n = this->_count;
 	return n;
+}
+
+Stack_unit& Stack_unit :: operator--() {
+	this->pop();
+	return *this;
+}
+
+Stack_unit& Stack_unit :: operator--(int) {
+	this->pop();
+	return *this;
 }

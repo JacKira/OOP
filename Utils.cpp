@@ -35,3 +35,17 @@ long ToInt(const string& s)
 	}
 	return i;
 }
+
+bool IsInStr(const string& s, const string& ps)
+{
+	int pos = s.find(ps);
+	if (pos != std::string::npos)
+	{
+
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

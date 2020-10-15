@@ -17,6 +17,8 @@ public:
 	Stack_unit& operator+=(const Artist& d);
 	friend Stack_unit operator-(Stack_unit& a, const Artist& d);
 	Stack_unit& operator-=(const Artist& d);
+	Stack_unit& operator--();
+	Stack_unit& operator--(int);
 	void RemoveAll();
 	void Print();
 	void push(const Artist& d);

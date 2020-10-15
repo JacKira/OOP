@@ -16,5 +16,6 @@ public:
 	Artist() {};
 	Artist& operator=(const Artist& d);
 	void PrintData();
+	string GetArtist();
 };
 
