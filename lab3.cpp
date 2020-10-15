@@ -51,8 +51,10 @@ int main(int argc, char* argv[])
 	b.Remove("dasdasdasd");
 	cout << "\nПосле удаления\n\n";
 	b.Print();
+	Artist a = *b.Find("fqf");
 	int i = b.GetCount();
-	cout << i << endl;
+	cout << i << endl << endl;
+	a.PrintData();
 	system("pause");
 	return 0;
 }
@@ -224,6 +226,7 @@ Artist* List::Find(const string &artist)
 {
 	List *cptr;
 	int n = this->_count;
+	cptr = this->_head;
 	for (int i = 0; (i < n) && (cptr != NULL); i++)
 	{
 		if (IsInStr(cptr->_data.GetArtist(), artist))
