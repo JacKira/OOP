@@ -25,7 +25,7 @@ public:
 	List& operator-=(const string& artist);
 	void Add(const Artist& d);
 	bool Remove(const string& s);
-	bool Find(const string& artist);
+	Artist* Find(const string& artist);
 	//void RemoveAll();
 	//Artist operator[](int i); */
 	//friend List operator=(const List& l);
@@ -218,6 +218,21 @@ List& List ::operator-=(const string& artist)
 {
 	this->Remove(artist);
 	return *this;
+}
+
+Artist* List::Find(const string &artist)
+{
+	List *cptr;
+	int n = this->_count;
+	for (int i = 0; (i < n) && (cptr != NULL); i++)
+	{
+		if (IsInStr(cptr->_data.GetArtist(), artist))
+		{
+			return new Artist(cptr->_data);
+		}
+		cptr = cptr->_right;
+	}
+	return NULL;
 }
 
 
