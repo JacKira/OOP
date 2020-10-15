@@ -18,12 +18,16 @@ private:
 public:
 	List();
 	List(const Artist& d);
-	List operator=(const List& l);
+	List& operator=(const List& l);
+	friend const List operator+(const List& a, const Artist& d);
+	List& operator+=(const Artist& d);
+	friend const List operator-(List& a, const string& artist);
+	List& operator-=(const string& artist);
 	void Add(const Artist& d);
 	bool Remove(const string& s);
-	/*Artist Find(const char* artist);
+	bool Find(const string& artist);
 	//void RemoveAll();
-	Artist operator[](int i); */
+	//Artist operator[](int i); */
 	//friend List operator=(const List& l);
 	void Print();
 	int GetCount();
@@ -32,16 +36,19 @@ public:
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "RUS");
-	Artist a1("fqf", "01.01.1231", "01.02.1281"), a2("fasfsaf", "01.02.1231", "01.02.1251"), a3("dasdasdasd", "04.03.1211", "01.02.1231"),
-		a4("dasdasdasd", "04.03.1211", "01.02.1212");
+	Artist a1("fqf", "01.01.0", "01.02.1"), a2("fasfsaf", "01.02.0", "01.02.3"), a3("dasdasdasd", "04.03.0", "01.02.5"),
+		a4("dasdasdasd", "04.03.0", "01.02.8");
 	List l;
-	l.Add(a1);
-	l.Add(a2);
-	l.Add(a3);
-	l.Add(a4);
-	List b = l;
+	l += (a1);
+	l += (a2);
+	//l = l + a3;
+	List b = l + a4;
+	//b -= "fasfsaf";
+	cout << "Original\n";
+	l.Print();
+	cout << "Duplcate without fasfsaf\n";
 	b.Print();
-	b.Remove("fqf");
+	b.Remove("dasdasdasd");
 	cout << "\nПосле удаления\n\n";
 	b.Print();
 	int i = b.GetCount();
@@ -62,16 +69,17 @@ List::List(const Artist& d) {
 	this->_count = 1;
 }
 
-List List :: operator=(const List& l) {
-	List _new;
+List& List :: operator=(const List& l) {
+	if (this == &l) {
+		return *this;
+	}
 	List* cptr;
-	Artist a;
 	cptr = l._head;
 	while (cptr != NULL) {
-		_new.Add(cptr->_data);
+		this->Add(cptr->_data);
 		cptr = cptr->_right;
 	}
-	return _new;
+	return *this;
 }
 
 void List::Add(const Artist& d)
@@ -143,32 +151,37 @@ int List::GetCount() {
 	return i;
 }
 
-bool List :: Remove(const string& s) {
-	List* cptr, * pptr;
+bool List :: Remove(const string& s)
+{
+	List* cptr, * pptr, *r;
 	cptr = this->_head;
 	pptr = NULL;
-	while (cptr != NULL) {
+	int n = this->_count;
+	for(int i = 0; (i < n) && (cptr != NULL); i++ )
+	{
 		if (IsInStr(cptr->_data.GetArtist(), s)) 
 		{
-			if (cptr == this->_head) {
-				if (pptr != NULL) {
-					this->_head = pptr;
-				}
+			if (i == 0)
+			{
+				r = cptr->_right;
+				r->_left = NULL;
+				this->_head = r;
 			}
-			if (cptr == this) {
-				this->_count = 0;
-				return true;;
+			if ((i > 0) && i < (n - 1))
+			{
+				r = cptr->_right;
+				pptr->_right = r;
+				r->_left = pptr;
 			}
-			if (cptr->_right != NULL) {
-				cptr->_right->_left = pptr;
-				if (pptr != NULL) {
-					pptr->_right = cptr->_right;
-				}
+			if (i == n - 1) 
+			{
+				pptr->_right = NULL;
 			}
-
-		
-
-			
+			if (cptr->_count = n) 
+			{
+				this->_count--;
+				return true;
+			}
 			delete cptr;
 			this->_count--;
 			return true;
@@ -177,7 +190,34 @@ bool List :: Remove(const string& s) {
 		cptr = cptr->_right;
 	}
 	return false;
+}
 
+
+List const operator+(const List& s, const Artist& d)
+{
+	List _new = s;
+	_new += d;
+	return _new;
+}
+
+List& List ::operator+=(const Artist& d)
+{
+	this->Add(d);
+	return *this;
+}
+
+
+List const operator-(const List& s, const string& artist)
+{
+	List _new = s;
+	_new -= artist;
+	return _new;
+}
+
+List& List ::operator-=(const string& artist)
+{
+	this->Remove(artist);
+	return *this;
 }
 
 
