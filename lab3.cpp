@@ -37,18 +37,17 @@ public:
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "RUS");
-	Artist a1("fqf", "01.01.0", "01.02.1"), a2("fasfsaf", "01.02.0", "01.02.3");
+	Artist a1("fqf", "01.10.1000", "01.20.1000"), a2("fasfsaf", "10.20.1000", "10.20.3000");
 	List l;
 	system("pause");
-	for (int i = 0; i < 10000; i++) {
+	for (int i = 0; i < 5; i++) {
 		l += (a1);
 		l += (a2);
 
 	}
-	system("pause");
+	l.Print();
+	cout << endl;
 	l.RemoveAll();
-	int i = l.GetCount();
-	cout << i << endl << endl;
 	system("pause");
 	return 0;
 }
@@ -73,7 +72,7 @@ List::List(const Artist& d)
 
 List :: ~List()
 {
-	if (this != this->_main) {
+	if (this == this->_main) {
 		RemoveAll();
 	}
 }
@@ -252,12 +251,9 @@ void List :: RemoveAll()
 		cptr = cptr->_right;
 		if (pptr != this->_main)
 		{
-			if (pptr->_left != NULL) {
-				p = pptr->_left;
-				p->_right = NULL;
-			}
 			delete pptr;	
 		}
+		
 		this->_count--;
 	}
 	this->_head = this->_main;

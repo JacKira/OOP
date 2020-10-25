@@ -1,2 +1,4 @@
 F:\Repos\OOP\x64\Debug\Third.exe
 F:\Repos\OOP\x64\Debug\Third.pdb
+E:\Repos\JacKira\OOP\x64\Debug\Third.exe
+E:\Repos\JacKira\OOP\x64\Debug\Third.pdb
