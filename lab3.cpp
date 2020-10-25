@@ -1,8 +1,10 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include "Artist.h"
 #include "Stack_unit.h"
 #include "Utils.h"
+
 
 using namespace std;
 string* ParseToThree(const string s, const char c);
@@ -37,17 +39,47 @@ public:
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "RUS");
-	Artist a1("fqf", "01.10.1000", "01.20.1000"), a2("fasfsaf", "10.20.1000", "10.20.3000");
-	List l;
-	system("pause");
-	for (int i = 0; i < 5; i++) {
-		l += (a1);
-		l += (a2);
-
+	char filename[] = "data.txt";
+	ifstream fin(filename);
+	if (!fin)
+	{
+		cout << "Файл не открыт\n\n";
+		return -1;
 	}
-	l.Print();
+	Stack_unit stack;
+	List list;
+	string art1, art2, date1, date2;
+	while (!fin.eof())
+	{
+		fin >> art1;
+		fin >> art2;
+		fin >> date1;
+		fin >> date2;
+		Artist artist(art1 + ' ' + art2, date1, date2);
+		stack += artist;
+		list += artist;
+	}
+	fin.close();
+	
+	stack.Print();
 	cout << endl;
-	l.RemoveAll();
+	list.Print();
+	cout << endl << "Stack size: " << stack.GetCount() << endl;
+	cout << endl << "List size: " << list.GetCount() << endl;
+	Artist *search;
+	string for_search = "Икэно";
+	search = list.Find(for_search);
+	if (search != NULL) {
+		cout << "Найденная запись\n";
+		search->PrintData();
+	}
+	else
+	{
+		cout << "Запись не найдена\n";
+	}
+
+	list.RemoveAll();
+	cout << endl;
 	system("pause");
 	return 0;
 }

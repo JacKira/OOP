@@ -1,5 +1,6 @@
 #include "Stack_unit.h"
 #include "Artist.h"
+#include <iostream>
 Stack_unit::Stack_unit(const Artist& a)
 {
 	this->_data = a;
@@ -108,8 +109,10 @@ void Stack_unit::Print()
 {
 	while (this->_count)
 	{
+		std :: cout << std::endl;
 		pop().PrintData();
 	}
+
 }
 
 int Stack_unit::GetCount()
