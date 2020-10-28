@@ -99,6 +99,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Fourth.cpp" />
+    <ClCompile Include="glut-3.7\lib\mui\browseparse.c" />
+    <ClCompile Include="glut-3.7\lib\mui\browser.c" />
+    <ClCompile Include="glut-3.7\lib\mui\button.c" />
+    <ClCompile Include="glut-3.7\lib\mui\displaylist.c" />
+    <ClCompile Include="glut-3.7\lib\mui\gizmo.c" />
+    <ClCompile Include="glut-3.7\lib\mui\glutmui.c" />
+    <ClCompile Include="glut-3.7\lib\mui\hslider.c" />
+    <ClCompile Include="glut-3.7\lib\mui\miscui.c" />
+    <ClCompile Include="glut-3.7\lib\mui\mui.c" />
+    <ClCompile Include="glut-3.7\lib\mui\pulldown.c" />
+    <ClCompile Include="glut-3.7\lib\mui\textlist.c" />
+    <ClCompile Include="glut-3.7\lib\mui\uicolor.c" />
+    <ClCompile Include="glut-3.7\lib\mui\vslider.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="glut-3.7\include\GL\fgl.h" />
@@ -107,6 +120,13 @@
     <ClInclude Include="glut-3.7\include\GL\glsmap.h" />
     <ClInclude Include="glut-3.7\include\GL\glut.h" />
     <ClInclude Include="glut-3.7\include\GL\tube.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glut-3.7\lib\mui\Imakefile" />
+    <None Include="glut-3.7\lib\mui\Makefile" />
+    <None Include="glut-3.7\lib\mui\Makefile.sgi" />
+    <None Include="glut-3.7\lib\mui\Makefile.win" />
+    <None Include="glut-3.7\lib\mui\ObjectType.mk" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

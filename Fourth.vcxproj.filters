@@ -13,10 +13,52 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav</Extensions>
     </Filter>
+    <Filter Include="Resource Files\lib">
+      <UniqueIdentifier>{60aabf60-475e-4524-a89d-f0aae1a91a89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Fourth.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\browseparse.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\browser.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\button.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\displaylist.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\gizmo.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\glutmui.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\hslider.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\miscui.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\mui.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\pulldown.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\textlist.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\uicolor.c">
+      <Filter>Header Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glut-3.7\lib\mui\vslider.c">
+      <Filter>Header Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -38,5 +80,22 @@
     <ClInclude Include="glut-3.7\include\GL\tube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glut-3.7\lib\mui\Imakefile">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="glut-3.7\lib\mui\Makefile">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="glut-3.7\lib\mui\Makefile.sgi">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="glut-3.7\lib\mui\Makefile.win">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="glut-3.7\lib\mui\ObjectType.mk">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

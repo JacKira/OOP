@@ -1,5 +1,6 @@
 ﻿#include <iostream>
-#include "glut-3.7/include/GL/glut.h"
+
+
 using namespace std;
 
 class TwoDFigure
