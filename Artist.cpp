@@ -57,17 +57,15 @@ Artist& Artist ::operator=(const Artist& d)
 
 void Artist::PrintData()
 {
-	int n = (this->_artist.size() > 12 ? this->_artist.size() : 12);
-	string s1(n + 2, '='), s2(n + 2, '-'), s3((n - 8) / 2, ' ');
-	cout << "#" + s1 + "#\n";
-	cout << "# " + this->_artist + string(n - this->_artist.size(), ' ') + " #\n";
-	cout << "#" + s2 + "#\n";
-	cout << "# " + s3 + to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1]) + '.'
-		+ to_string(this->_dateOfBirth[2]) + s3 + " #\n";
-	cout << "#" + s2 + "#\n";
-	cout << "# " + s3 + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1]) + '.'
-		+ to_string(this->_dateOfDeath[2]) + s3 + " #\n";
-	cout << "#" + s1 + "#\n";
+	const int size = 98;
+	int n = this->_artist.size();
+	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
+		+ '.' + to_string(this->_dateOfBirth[2]) + " - " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
+		+ '.' + to_string(this->_dateOfDeath[2]);
+	int m = dateStr.size();
+	string s1(size, '=');
+	
+	cout << "#" + s1 + "#\n# " + this->_artist + string(size - n - m - 4, ' ') + "| " + dateStr + " #\n#" + s1 + "#";
 }
 
 string Artist :: GetArtist() {
