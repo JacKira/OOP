@@ -1,2 +1,4 @@
 F:\Repos\OOP\bgi\Debug\bgi.exe
 F:\Repos\OOP\bgi\Debug\bgi.pdb
+F:\Repos\OOP\Debug\bgi.exe
+F:\Repos\OOP\Debug\bgi.pdb

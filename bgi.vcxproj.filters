@@ -48,7 +48,7 @@
     <ClCompile Include="main.cxx">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Fourth.cpp">
+    <ClCompile Include="Fourth.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
