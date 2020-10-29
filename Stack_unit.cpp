@@ -108,7 +108,7 @@ void Stack_unit::Print()
 {
 	while (this->_count)
 	{
-		pop().PrintData();
+		this->pop().PrintData();
 	}
 }
 
