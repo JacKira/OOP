@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="TwoDRectangle">
+    <Position X="1.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAEAAAAAAAAAAIAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Fourth.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TwoDLine">
+    <Position X="4" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAAIAAAAAACAQAAAAAA=</HashCode>
+      <FileName>Fourth.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TwoDFigure">
+    <Position X="4" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAAAABAAAgAABAAAAABAAAAIgAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Fourth.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TwoDCircle">
+    <Position X="6.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAgAAAgAAAAAAAAAAAAAIAAAAAACAAAiAAAA=</HashCode>
+      <FileName>Fourth.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Color">
+    <Position X="4" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAACAAAgAgAAAAAA=</HashCode>
+      <FileName>Fourth.cpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -75,7 +75,7 @@ int main()
 	int mas2[2] = { 300, 300 };
 	int radius = 50;
 	TwoDLine l(mas);
-	l.SetColor("red");
+	l.SetColor("white");
 	l.Draw();
 	TwoDRectangle rect(mas);
 	rect.SetColor("blue");
