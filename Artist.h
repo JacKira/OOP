@@ -15,7 +15,9 @@ public:
 	Artist(const string artist, const string dateFrom, const string dateTo);
 	Artist() {};
 	Artist& operator=(const Artist& d);
+	void PrintDataRow();
 	void PrintData();
+
 	string GetArtist();
 };
 

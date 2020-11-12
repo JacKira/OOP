@@ -1,91 +1,5 @@
-#include <iostream>
-#include <fstream>
-#include <string>
-#include "Artist.h"
-#include "Stack_unit.h"
-#include "Utils.h"
+#include "List.h"
 
-
-using namespace std;
-string* ParseToThree(const string s, const char c);
-long ToInt(const string &s);
-
-class List {
-private:
-	Artist _data;
-	List* _left = NULL;
-	List* _right = NULL;
-	List* _head = this;
-	List* _main = this;
-	int _count = 0;
-public:
-	List();
-	List(const Artist& d);
-	~List();
-	List& operator=(const List& l);
-	friend const List operator+(const List& a, const Artist& d);
-	List& operator+=(const Artist& d);
-	friend const List operator-(List& a, const string& artist);
-	List& operator-=(const string& artist);
-	void Add(const Artist& d);
-	bool Remove(const string& s);
-	Artist* Find(const string& artist);
-	void RemoveAll();
-	//Artist operator[](int i); */
-	void Print();
-	int GetCount();
-};
-
-int main(int argc, char* argv[])
-{
-	setlocale(LC_ALL, "RUS");
-	char filename[] = "data.txt";
-	ifstream fin(filename);
-	if (!fin)
-	{
-		cout << "Файл не открыт\n\n";
-		return -1;
-	}
-	Stack_unit stack;
-	List list;
-	string art1, art2, date1, date2;
-	while (!fin.eof())
-	{
-		fin >> art1;
-		fin >> art2;
-		fin >> date1;
-		fin >> date2;
-		Artist artist(art1 + ' ' + art2, date1, date2);
-		stack += artist;
-		list += artist;
-	}
-	fin.close();
-	
-	stack.Print();
-	cout << endl;
-	list.Print();
-	cout << endl << "Stack size: " << stack.GetCount() << endl;
-	cout << endl << "List size: " << list.GetCount() << endl;
-	Artist *search;
-	string for_search = "Икэно";
-	search = list.Find(for_search);
-	if (search != NULL) {
-		cout << "Найденная запись\n";
-		search->PrintData();
-		//Удалим найденную запись из листа
-		list -= search->GetArtist();
-		cout << "\nЛист без записи о " + search->GetArtist() + "\n\n";
-		list.Print();
-	}
-	else
-	{
-		cout << "Запись не найдена\n";
-	}
-	list.RemoveAll();
-	cout << endl;
-	system("pause");
-	return 0;
-}
 
 List::List()
 {
@@ -134,7 +48,7 @@ void List::Add(const Artist& d)
 		this->_count = 1;
 		return;
 	}
-	List* cptr, *pptr;
+	List* cptr, * pptr;
 	cptr = this->_head;
 	pptr = NULL;
 	while (cptr != NULL) {
@@ -152,12 +66,12 @@ void List::Add(const Artist& d)
 	_new->_count = -1;
 	this->_count++;
 	if (cptr != NULL) {
-		
+
 		if (pptr != NULL) {
 			pptr->_right = _new;
 		}
 		else {
-			this->_head = _new;			
+			this->_head = _new;
 		}
 		cptr->_left = _new;
 		_new->_right = cptr;
@@ -166,7 +80,7 @@ void List::Add(const Artist& d)
 	{
 		if (pptr != NULL) {
 			pptr->_right = _new;
-		}	
+		}
 	}
 }
 
@@ -177,7 +91,7 @@ void List::Print()
 
 	while (cptr != NULL) {
 		cout << endl;
-		cptr->_data.PrintData();
+		cptr->_data.PrintDataRow();
 		cptr = cptr->_right;
 	}
 
@@ -188,15 +102,15 @@ int List::GetCount() {
 	return i;
 }
 
-bool List :: Remove(const string& s)
+bool List::Remove(const string& s)
 {
-	List* cptr, * pptr, *r;
+	List* cptr, * pptr, * r;
 	cptr = this->_head;
 	pptr = NULL;
 	int n = this->_count;
-	for(int i = 0; (i < n) && (cptr != NULL); i++ )
+	for (int i = 0; (i < n) && (cptr != NULL); i++)
 	{
-		if (IsInStr(cptr->_data.GetArtist(), s)) 
+		if (IsInStr(cptr->_data.GetArtist(), s))
 		{
 			if (i == 0)
 			{
@@ -214,7 +128,7 @@ bool List :: Remove(const string& s)
 			{
 				pptr->_right = NULL;
 			}
-			if (cptr == this->_main) 
+			if (cptr == this->_main)
 			{
 				this->_left = NULL;
 				this->_right = NULL;
@@ -259,9 +173,9 @@ List& List ::operator-=(const string& artist)
 	return *this;
 }
 
-Artist* List::Find(const string &artist)
+Artist* List::Find(const string& artist)
 {
-	List *cptr;
+	List* cptr;
 	int n = this->_count;
 	cptr = this->_head;
 	for (int i = 0; (i < n) && (cptr != NULL); i++)
@@ -275,28 +189,26 @@ Artist* List::Find(const string &artist)
 	return NULL;
 }
 
-void List :: RemoveAll()
+void List::RemoveAll()
 {
-	List *cptr, *pptr, *p;
+	List* cptr, * pptr, * p;
 	int n = this->_count;
 	cptr = this->_head;
-	while(cptr != NULL)
+	while (cptr != NULL)
 	{
 		pptr = cptr;
 		cptr = cptr->_right;
 		if (pptr != this->_main)
 		{
-			delete pptr;	
+			delete pptr;
 		}
-		
+
 		this->_count--;
 	}
 	this->_head = this->_main;
 	this->_right = NULL;
 	this->_left = NULL;
 }
-
-
 
 
 

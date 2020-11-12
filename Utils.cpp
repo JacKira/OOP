@@ -49,3 +49,22 @@ bool IsInStr(const string& s, const string& ps)
 		return false;
 	}
 }
+
+// FOURTH TASK
+int GetRowCount()
+{
+	int m;
+	cout << "Введите количество строк\n";
+	cin >> m;
+	system("cls");
+	return m;
+}
+
+int GetColCount()
+{
+	int n;
+	cout << "Введите количество столбцов\n";
+	cin >> n;
+	system("cls");
+	return n;
+}
