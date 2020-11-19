@@ -1,7 +1,7 @@
 #include "DynArr.h"
 
 
-void DynArr :: OutputArr()
+void DynArr::OutputArr()
 {
 	string s = string(11 * n + 1, '=');
 	cout << s << endl;
@@ -16,15 +16,6 @@ void DynArr :: OutputArr()
 	}
 }
 
-/*
-CONSTRUCTOR
-double* GetArr(int m, int n)
-{
-	double* arr = new double[m * n];
-	return arr;
-}
-
-*/
 
 
 double* DynArr::GetArr(int m, int n)
@@ -45,21 +36,21 @@ DynArr::DynArr(double* arr, int m, int n)
 	SetArr(arr, m, n);
 }
 
-double* DynArr :: GetArr()
+double* DynArr::GetArr()
 {
 	double* new_arr = new double[m * n];
 	for (int i = 0; i < m; i++)
 	{
 		for (int j = 0; j < n; j++)
 		{
-			new_arr[i * n + j] =  arr[i * n + j];
+			new_arr[i * n + j] = arr[i * n + j];
 		}
 	}
 	return new_arr;
 }
 
 
-void DynArr :: InputArr(char filename[])
+void DynArr::InputArr(char filename[])
 {
 	ifstream fin(filename);
 	if (!fin)
@@ -78,7 +69,7 @@ void DynArr :: InputArr(char filename[])
 }
 
 
-void DynArr :: OutputArrToFile(char filename[]) {
+void DynArr::OutputArrToFileTxt(char filename[]) {
 	ofstream fout(filename);
 	if (!fout)
 		cout << "Error!" << endl;
@@ -96,9 +87,30 @@ void DynArr :: OutputArrToFile(char filename[]) {
 	fout.close();
 }
 
-void DynArr :: SetArr(double* arr, int m, int n)
+
+void DynArr::OutputInFileBin(char filename[])
 {
-	if(this->arr != NULL)
+	ofstream fbinout(filename, ios::binary | ios::out);
+	if (!(fbinout))
+	{
+		cout << "Error output array in file!" << endl;
+	}
+	else
+	{
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				fbinout.write((char*)&arr[i * n + j], sizeof arr[i * n + j]);
+			}
+		}
+	}
+	fbinout.close();
+}
+
+void DynArr::SetArr(double* arr, int m, int n)
+{
+	if (this->arr != NULL)
 	{
 		delete[] this->arr;
 	}
@@ -115,7 +127,7 @@ void DynArr :: SetArr(double* arr, int m, int n)
 
 }
 
-double* DynArr :: GetArrAftProc()
+double* DynArr::GetArrAftProc()
 {
 	int l_m = m / 2;
 	double* minmax = new double[l_m];
@@ -134,7 +146,7 @@ double* DynArr :: GetArrAftProc()
 	return minmax;
 }
 
-void DynArr :: PrintSumArr()
+void DynArr::PrintSumArr()
 {
 	int l_n = n / 2;
 	for (int j = 0; j < l_n; j++)

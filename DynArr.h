@@ -18,14 +18,14 @@ public:
 	DynArr() {};
 	~DynArr() { delete[] arr; };
 	DynArr(int m, int n);
-	DynArr(double *arr, int m, int n);
+	DynArr(double* arr, int m, int n);
 	double* GetArr();
 	double* GetArrAftProc();
 	void PrintSumArr();
 	void InputArr(char filename[]);
 	void OutputArr();
-	void OutputArrToFile(char filename[]);
+	void OutputArrToFileTxt(char filename[]);
 	void SetArr(double* arr, int m, int n);
-	
-};
+	void OutputInFileBin(char filename[]);
 
+};

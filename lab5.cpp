@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
 	} while (deny);
 	int minmax_m = m / 2;
-	char filename[] = "nums.txt";
+	char* filename = "nums.txt\0";
 	DynArr minmax;
 	DynArr arr(m, n);
 	arr.InputArr(filename);
@@ -45,11 +45,11 @@ int main(int argc, char* argv[])
 	minmax.OutputArr();
 	cout << "\nСумма отрицательных элементов каждого столбца:\n";
 	arr.PrintSumArr();
-	*filename = *("output.txt");
-	arr.OutputArrToFile(filename);
+	filename = "output.txt\0";
+	arr.OutputArrToFileTxt(filename);
 
-
-
+	filename = "binoutput.bin\0";
+	arr.OutputInFileBin(filename);
 
 
 	/*char filename[] = "data.txt";

@@ -1,3 +1,14 @@
-﻿  lab3.cpp
+﻿  Artist.cpp
+  DynArr.cpp
+  lab5.cpp
+  List.cpp
+D:\Repos\OOP\List.cpp(194,24): warning C4101: p: неиспользованная локальная переменная
+  Stack_unit.cpp
+  Utils.cpp
+D:\Repos\OOP\Utils.cpp(6,2): warning C4996: 'strcpy': This function or variable may be unsafe. Consider using strcpy_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Repos\OOP\Utils.cpp(7,12): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+D:\Repos\OOP\Utils.cpp(15,7): warning C4996: 'strtok': This function or variable may be unsafe. Consider using strtok_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  Создание кода...
+lab5.obj : error LNK2019: ссылка на неразрешенный внешний символ "public: void __thiscall DynArr::OutputInFile<class std::basic_ofstream<char,struct std::char_traits<char> > >(class std::basic_ofstream<char,struct std::char_traits<char> > *)" (??$OutputInFile@V?$basic_ofstream@DU?$char_traits@D@std@@@std@@@DynArr@@QAEXPAV?$basic_ofstream@DU?$char_traits@D@std@@@std@@@Z) в функции _main.
 MSVCRTD.lib(exe_winmain.obj) : error LNK2019: ссылка на неразрешенный внешний символ _WinMain@16 в функции "int __cdecl invoke_main(void)" (?invoke_main@@YAHXZ).
-F:\Repos\OOP\Debug\Third.exe : fatal error LNK1120: неразрешенных внешних элементов: 1
+D:\Repos\OOP\Debug\Fifth.exe : fatal error LNK1120: неразрешенных внешних элементов: 2
