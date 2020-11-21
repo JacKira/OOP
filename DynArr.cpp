@@ -50,7 +50,7 @@ double* DynArr::GetArr()
 }
 
 
-void DynArr::InputArr(char filename[])
+void DynArr::InputArrFromTxt(char filename[])
 {
 	ifstream fin(filename);
 	if (!fin)
@@ -62,6 +62,24 @@ void DynArr::InputArr(char filename[])
 			for (int j = 0; j < n; j++)
 			{
 				fin >> arr[i * n + j];
+			}
+		}
+	}
+	fin.close();
+}
+
+void DynArr::InputArrFromBin(char filename[])
+{
+	ifstream fin(filename, ios::binary);
+	if (!fin)
+		cout << "Error!" << endl;
+	else
+	{
+		for (int i = 0; i < m; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				fin.read((char*)& arr[i * n + j], sizeof(arr[i * n + j]));
 			}
 		}
 	}
@@ -88,7 +106,7 @@ void DynArr::OutputArrToFileTxt(char filename[]) {
 }
 
 
-void DynArr::OutputInFileBin(char filename[])
+void DynArr::OutputArrToFileBin(char filename[])
 {
 	ofstream fbinout(filename, ios::binary | ios::out);
 	if (!(fbinout))
@@ -106,6 +124,24 @@ void DynArr::OutputInFileBin(char filename[])
 		}
 	}
 	fbinout.close();
+}
+
+void DynArr::EditElementInBinFile(char filename[], double new_el, int k, int l)
+{
+	ofstream fout(filename, ios::binary | ios::out);
+	if (!(fout))
+	{
+		cout << "Error open file!" << endl;
+		exit(1);
+	}
+	else
+	{
+		int index = (k - 1) * (l - 1) + (l - 1);
+		fout.seekp(index, ios::beg);
+		fout.write((char*)& new_el, sizeof(new_el));
+	}
+	fout.close();
+
 }
 
 void DynArr::SetArr(double* arr, int m, int n)

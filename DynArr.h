@@ -22,10 +22,13 @@ public:
 	double* GetArr();
 	double* GetArrAftProc();
 	void PrintSumArr();
-	void InputArr(char filename[]);
+	void InputArrFromTxt(char filename[]);
+	void InputArrFromBin(char filename[]);
 	void OutputArr();
 	void OutputArrToFileTxt(char filename[]);
 	void SetArr(double* arr, int m, int n);
-	void OutputInFileBin(char filename[]);
+	void OutputArrToFileBin(char filename[]);
+	void EditElementInBinFile(char filename[], double new_el, int k, int l);
+
 
 };

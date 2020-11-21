@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
 	char* filename = "nums.txt\0";
 	DynArr minmax;
 	DynArr arr(m, n);
-	arr.InputArr(filename);
+	arr.InputArrFromTxt(filename);
 	minmax.SetArr(arr.GetArrAftProc(), minmax_m, 1);
 	cout << "Исходный массив" << endl;
 	arr.OutputArr();
@@ -49,7 +49,26 @@ int main(int argc, char* argv[])
 	arr.OutputArrToFileTxt(filename);
 
 	filename = "binoutput.bin\0";
-	arr.OutputInFileBin(filename);
+	arr.OutputArrToFileBin(filename);
+	arr.InputArrFromBin(filename);
+	cout << "Чтение из бинарного\n";
+	arr.OutputArr();
+	arr.EditElementInBinFile(filename, 42, 1, 1);
+	
+	arr.InputArrFromBin(filename);
+	cout << "\n\nЧтение из бинарного c изменением строки " << 1 << " и столбца " << 1 << "на значение "<< 42 << endl;
+	arr.OutputArr();
+
+	ifstream new_in("data.txt");
+	Artist test(new_in);
+	cout << endl;
+	test.PrintDataRow();
+	new_in.close();
+
+	ofstream new_out("newData.txt");
+	test.PrintDataRowToFileTxt(new_out);
+	new_out.close();
+	cout << endl;
 
 
 	/*char filename[] = "data.txt";
