@@ -59,63 +59,28 @@ int main(int argc, char* argv[])
 	cout << "\n\nЧтение из бинарного c изменением строки " << 1 << " и столбца " << 1 << "на значение "<< 42 << endl;
 	arr.OutputArr();
 
-	ifstream new_in("data.txt");
-	Artist test(new_in);
+	filename = "data.txt\0";
+	Stack_unit new_stack(filename);
+	cout << "\nВывод данных, считанных из файла txt в файл txt\n";
+	filename = "dataout.txt\0";
+	new_stack.OutputToFileTxt(filename);
 	cout << endl;
-	test.PrintDataRow();
-	new_in.close();
-
-	ofstream new_out("newData.txt");
-	test.PrintDataRowToFileTxt(new_out);
-	new_out.close();
+	cout << "\nВывод данных, считанных из файла txt, который заполнили данными из файла txt\n";
+	new_stack.InputFormFileTxt(filename);
+	new_stack.Print();
 	cout << endl;
 
-
-	/*char filename[] = "data.txt";
-	ifstream fin(filename);
-	if (!fin)
-	{
-		cout << "Файл не открыт\n\n";
-		return -1;
-	}
-	Stack_unit stack;
-	List list;
-	string art1, art2, date1, date2;
-	while (!fin.eof())
-	{
-		fin >> art1;
-		fin >> art2;
-		fin >> date1;
-		fin >> date2;
-		Artist artist(art1 + ' ' + art2, date1, date2);
-		stack += artist;
-		list += artist;
-	}
-	fin.close();
+	filename = "data.txt\0";
+	new_stack.InputFormFileTxt(filename);
+	filename = "newData.bin\0";
+	new_stack.OutputToFileBin(filename);
 	
-	stack.Print();
+	new_stack.DeleteMaxFromBin(filename);
+	new_stack.InputFormFileBin(filename);
+	new_stack.Print();
 	cout << endl;
-	list.Print();
-	cout << endl << "Stack size: " << stack.GetCount() << endl;
-	cout << endl << "List size: " << list.GetCount() << endl;
-	Artist *search;
-	string for_search = "Икэно";
-	search = list.Find(for_search);
-	if (search != NULL) {
-		cout << "Найденная запись\n";
-		search->PrintDataRow();
-		//Удалим найденную запись из листа
-		list -= search->GetArtist();
-		cout << "\nЛист без записи о " + search->GetArtist() + "\n\n";
-		list.Print();
-	}
-	else
-	{
-		cout << "Запись не найдена\n";
-	}
-	list.RemoveAll();
-	cout << endl;
-	*/
+
+	
 	system("pause");
 	return 0;
 }

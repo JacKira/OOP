@@ -19,10 +19,12 @@ public:
 	Artist& operator=(const Artist& d);
 	void PrintDataRow();
 	void InputDataRowFromFileTxt(ifstream &fin);
-	//void InputDataRowToFileBin(ofstream fout);
-
+	void InputDataRowFromFileBin(ifstream &fin);
 	void PrintDataRowToFileTxt(ofstream &fout);
 	void PrintDataRowToFileBin(ofstream &fout);
+
+	long CopyFromFileBin(long pos, char filename[]);
+	void PasteInFileBin(long pos, char filename[]);
 	string GetArtist();
 };
 

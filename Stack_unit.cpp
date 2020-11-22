@@ -4,6 +4,7 @@
 
 using namespace std;
 
+
 Stack_unit::Stack_unit(const Artist& a)
 {
 	this->_data = a;
@@ -14,6 +15,20 @@ Stack_unit::Stack_unit(const Artist& a)
 Stack_unit::Stack_unit()
 {
 	this->_ptr = NULL;
+}
+
+Stack_unit::Stack_unit(char filename[])
+{
+	this->_ptr = NULL;
+	ifstream fin(filename);
+	if (!fin) {
+		cout << "Error open txt file\n";
+		return;
+	}
+	while (!fin.eof()) {
+		this->push(Artist(fin));
+	}
+	fin.close();
 }
 
 Stack_unit& Stack_unit ::operator=(const Stack_unit& s)
@@ -115,6 +130,167 @@ void Stack_unit::Print()
 		std::cout << std::endl;
 		this->pop().PrintDataRow();
 	}
+}
+
+void Stack_unit::OutputToFileTxt(char filename[])
+{
+	ofstream fout(filename);
+	if (!fout) {
+		cout << "Error open output file\n";
+		return;
+	}
+	while (this->_count)
+	{
+		this->pop().PrintDataRowToFileTxt(fout);
+	}
+	fout.close();
+}
+
+void Stack_unit::OutputToFileBin(char filename[])
+{
+	ofstream fout(filename, ios::binary);
+	if (!fout) {
+		cout << "Error open output file\n";
+		return;
+	}
+	while (this->_count)
+	{
+		this->pop().PrintDataRowToFileBin(fout);
+	}
+	fout.close();
+}
+
+void Stack_unit::InputFormFileTxt(char filename[])
+{
+	ifstream fin(filename);
+	if (!fin) {
+		cout << "Error open txt file\n";
+		return;
+	}
+	long pos;
+	char b;
+	while (!fin.eof()) {
+		pos = fin.tellg();
+		fin.get(b);
+		if (fin.eof()) {
+			break;
+		}
+		else {
+			if (b == '\n')
+			{
+				while (fin.get(b))
+				{
+					if (b == '\n')
+					{
+						fin.get(b);
+						break;
+					}
+				}
+				break;
+			}
+			fin.seekg(pos, ios::beg);
+		}
+		this->push(Artist(fin));
+	}
+	fin.close();
+}
+
+void Stack_unit::InputFormFileBin(char filename[])
+{
+	ifstream fin(filename, ios::binary);
+	if (!fin) {
+		cout << "Error open txt file\n";
+		return;
+	}
+	long pos;
+	char b;
+	while (!fin.eof()) {
+		pos = fin.tellg();
+		fin.read((char*)&b, sizeof(b));
+		if (fin.eof()) {
+			break;
+		}
+		else {
+			if (b == '\n')
+			{
+				while (fin.read((char*)&b, sizeof(b)))
+				{
+					if (b == '\n')
+					{
+						fin.read((char*)&b, sizeof(b));;
+						break;
+					}
+				}
+				break;
+			}
+			fin.seekg(pos, ios::beg);
+		}
+		this->push(Artist(fin));
+	}
+	fin.close();
+}
+
+void Stack_unit::DeleteMaxFromBin(char filename[])
+{
+	fstream fstr(filename, ios::in | ios::out | ios::binary);
+	if (!fstr) {
+		cout << "Error open txt file\n";
+		return;
+	}
+	long pos = 0, prwPos = 0, nxtPos = 0, delPos = 0;
+	char b;
+	Artist max, new_dt;
+	while (!fstr.eof()) {
+		pos = fstr.tellg();
+		fstr.read((char*)&b, sizeof(b));
+		if (fstr.eof()) {
+			break;
+		}
+		else {
+			fstr.seekg(pos, ios::beg);
+		}
+		pos = fstr.tellg();
+		new_dt.InputDataRowFromFileBin(*(ifstream*)&fstr);
+		if (new_dt > max) {
+			max = new_dt;
+			delPos = pos;
+			nxtPos = fstr.tellg();
+		}
+	}
+	fstr.close();
+	fstr.open(filename, ios::in | ios::out | ios::binary);
+	if (pos == nxtPos) {
+		fstr.seekp(delPos, ios::beg);
+		b = '\n';
+		fstr.write((char*)&b, sizeof(b));
+	}
+	else {
+		fstr.seekg(nxtPos, ios::beg);
+		while (!fstr.eof())
+		{
+
+			prwPos = nxtPos;
+			fstr.seekg(prwPos, ios::beg);
+			pos = fstr.tellg();
+			fstr.read((char*)&b, sizeof(b));
+			if (fstr.eof()) {
+				break;
+			}
+			else
+			{
+				fstr.seekg(prwPos, ios::beg);
+			}
+			new_dt.InputDataRowFromFileBin(*(ifstream*)&fstr);
+			nxtPos = (long)fstr.tellg();
+			fstr.seekp(delPos, ios::beg);
+			new_dt.PrintDataRowToFileBin(*(ofstream*)&fstr);
+			delPos = fstr.tellp();
+		}
+	}
+	fstr.close();
+	cout << "\nДолгожитель:\n";
+	max.PrintDataRow();
+	cout << "\nДолжен быть удален\n";
 }
 
 int Stack_unit::GetCount()
