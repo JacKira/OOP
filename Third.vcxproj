@@ -23,6 +23,7 @@
     <ProjectGuid>{C28C4E4B-10ED-4735-A732-DB3DD3615E8F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Prcatise</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -100,7 +101,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Artist.cpp" />
-    <ClCompile Include="lab3.cpp" />
+    <ClCompile Include="Pracitse.cpp" />
     <ClCompile Include="Stack_unit.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
