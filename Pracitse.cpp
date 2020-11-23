@@ -1,303 +1,298 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "Artist.h"
-#include "Stack_unit.h"
+#include "Data.h"
+#include "StackNumTempl.h"
 #include "Utils.h"
 
 
 using namespace std;
-string* ParseToThree(const string s, const char c);
-long ToInt(const string &s);
 
-class List {
+
+template <class T>
+class Data
+{
 private:
-	Artist _data;
-	List* _left = NULL;
-	List* _right = NULL;
-	List* _head = this;
-	List* _main = this;
-	int _count = 0;
+	T _dat;
 public:
-	List();
-	List(const Artist& d);
-	~List();
-	List& operator=(const List& l);
-	friend const List operator+(const List& a, const Artist& d);
-	List& operator+=(const Artist& d);
-	friend const List operator-(List& a, const string& artist);
-	List& operator-=(const string& artist);
-	void Add(const Artist& d);
-	bool Remove(const string& s);
-	Artist* Find(const string& artist);
-	void RemoveAll();
-	//Artist operator[](int i); */
-	void Print();
-	int GetCount();
+	Data();
+	Data(T& data);
+	T& GetData();
+	void SetData(T& data);
+	Data<T>& operator=(const Data& s);
+	friend Data<T> operator+(Data& a, const Data& b);
+	Data<T>& operator+=(const Data& d);
+	friend Data<T> operator-(Data& a, const Data& b);
+	Data& operator-=(const Data& d);
+	bool operator==(const Data& d);
+	bool operator!=(const Data& d);
+	bool operator>(const Data& d);
+	bool operator<(const Data& d);
+	bool operator<=(const Data& d);
+	bool operator>=(const Data& d);
+	void PrintData();
+
 };
+
+
+template<class T>
+class StackNumTempl
+{
+private:
+	int _count = 0;
+	Data<T> _data;
+	StackNumTempl* _ptr;
+
+public:
+	StackNumTempl(const Data<T>& a);
+	StackNumTempl();
+	~StackNumTempl();
+	void RemoveAll();
+	void Print();
+	void push(const Data<T>& d);
+	Data<T> pop();
+	int GetCount();
+	Data<T>& GetMax();
+};
+
 
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "RUS");
-	char filename[] = "data.txt";
-	ifstream fin(filename);
-	if (!fin)
+	string str = "olleH\0";
+	StackNumTempl<int> stack_int;
+	StackNumTempl<double> stack_double;
+	StackNumTempl<char> stack_char;
+	for (int i = 0; i < str.size(); i++)
 	{
-		cout << "Файл не открыт\n\n";
-		return -1;
+		stack_int.push(Data<int>(i));
+		double d = i;
+		stack_double.push(Data<double>(d));
+		stack_char.push(Data<char>(str[i]));
 	}
-	Stack_unit stack;
-	List list;
-	string art1, art2, date1, date2;
-	while (!fin.eof())
-	{
-		fin >> art1;
-		fin >> art2;
-		fin >> date1;
-		fin >> date2;
-		Artist artist(art1 + ' ' + art2, date1, date2);
-		stack += artist;
-		list += artist;
-	}
-	fin.close();
-	
-	stack.Print();
-	cout << endl;
-	list.Print();
-	cout << endl << "Stack size: " << stack.GetCount() << endl;
-	cout << endl << "List size: " << list.GetCount() << endl;
-	Artist *search;
-	string for_search = "Икэно";
-	search = list.Find(for_search);
-	if (search != NULL) {
-		cout << "Найденная запись\n";
-		search->PrintData();
-		//Удалим найденную запись из листа
-		list -= search->GetArtist();
-		cout << "\nЛист без записи о " + search->GetArtist() + "\n\n";
-		list.Print();
-	}
-	else
-	{
-		cout << "Запись не найдена\n";
-	}
-	list.RemoveAll();
-	cout << endl;
-	system("pause");
+	stack_char.Print();
+	Data<int> max_int = stack_int.GetMax();
+	Data<double> max_double = stack_double.GetMax();
+	cout << "Максимальное целочисленное и вещественное значение: " << endl;
+	max_int.PrintData();
+	max_double.PrintData();
 	return 0;
 }
 
-List::List()
-{
-	this->_head = this;
-	this->_left = NULL;
-	this->_right = NULL;
-	this->_main = this;
-}
 
-List::List(const Artist& d)
+template<class T>
+StackNumTempl<T>::StackNumTempl(const Data<T>& a)
 {
-	this->_data = d;
+	this->_data = a;
+	this->_ptr = NULL;
 	this->_count = 1;
-	this->_head = this;
-	this->_left = NULL;
-	this->_right = NULL;
-	this->_main = this;
 }
 
-List :: ~List()
+template<class T>
+StackNumTempl<T>::StackNumTempl()
 {
-	if (this == this->_main) {
+	this->_ptr = NULL;
+}
+
+
+template<class T>
+void StackNumTempl<T>::push(const Data<T>& d)
+{
+	if (this->_count > 0) {
+		StackNumTempl<T>* p = new StackNumTempl<T>(this->_data);
+		(*p)._ptr = this->_ptr;
+		(*p)._count = -1;
+		this->_count++;
+		this->_data = d;
+		this->_ptr = p;
+	}
+	else {
+		this->_data = d;
+		this->_count = 1;
+	}
+}
+
+template<class T>
+Data<T> StackNumTempl<T>::pop()
+{
+	Data<T> a = this->_data;
+	if (this->_count > 1) {
+		StackNumTempl<T>* p = _ptr->_ptr;
+		Data<T> d = _ptr->_data;
+		delete this->_ptr;
+		this->_data = d;
+		this->_ptr = p;
+		this->_count--;
+	}
+	else {
+		this->_ptr = NULL;
+		this->_count = 0;
+	}
+	return a;
+};
+
+template<class T>
+void StackNumTempl<T>::RemoveAll()
+{
+	StackNumTempl<T>* cptr, * pptr;
+	cptr = this->_ptr;
+	while (cptr != NULL)
+	{
+		pptr = cptr;
+		cptr = cptr->_ptr;
+		delete pptr;
+		pptr = NULL;
+	}
+	this->_ptr = NULL;
+	this->_count = 0;
+}
+
+template<class T>
+StackNumTempl<T> :: ~StackNumTempl()
+{
+	if (this->_count > 0)
+	{
 		RemoveAll();
 	}
 }
-List& List :: operator=(const List& l) {
-	if (this == &l) {
-		return *this;
+
+template<class T>
+void StackNumTempl<T>::Print()
+{
+	while (this->_count)
+	{
+		this->pop().PrintData();
 	}
-	List* cptr;
-	cptr = l._head;
-	while (cptr != NULL) {
-		this->Add(cptr->_data);
-		cptr = cptr->_right;
+}
+
+template<class T>
+int StackNumTempl<T>::GetCount()
+{
+	int n = this->_count;
+	return n;
+}
+
+template<class T>
+Data<T>& StackNumTempl<T>::GetMax()
+{
+	T max = 0;
+	T crnt;
+	while (this->_count)
+	{
+		crnt = this->pop().GetData();
+		if (crnt > max)
+		{
+			max = crnt;
+		}
 	}
+	return Data<T>(max);
+}
+
+
+template<class T>
+Data<T>::Data()
+{
+	this->_dat = 0;
+}
+
+template<class T>
+Data<T>::Data(T& data)
+{
+	this->_dat = data;
+}
+
+template<class T>
+T& Data<T>::GetData()
+{
+	T new_d = this->_dat;
+	return new_d;
+}
+
+template<class T>
+void Data<T>::SetData(T& data)
+{
+	this->_dat = data;
+}
+
+template<class T>
+Data<T>& Data<T>::operator=(const Data<T>& data)
+{
+	this->_dat = data._dat;
 	return *this;
 }
 
-void List::Add(const Artist& d)
+template<class T>
+Data<T>& Data<T>::operator+=(const Data& d)
 {
-	if (this->_count == 0)
-	{
-		this->_data = d;
-		this->_head = this;
-		this->_main = this;
-		this->_count = 1;
-		return;
-	}
-	List* cptr, *pptr;
-	cptr = this->_head;
-	pptr = NULL;
-	while (cptr != NULL) {
-		if (cptr->_data > d) {
-			break;
-		}
-		pptr = cptr;
-		cptr = cptr->_right;
-	}
-	List* _new = new List(d);
-	_new->_main = this;
-	_new->_head = this->_head;
-	_new->_left = pptr;
-	_new->_right = cptr;
-	_new->_count = -1;
-	this->_count++;
-	if (cptr != NULL) {
-		
-		if (pptr != NULL) {
-			pptr->_right = _new;
-		}
-		else {
-			this->_head = _new;			
-		}
-		cptr->_left = _new;
-		_new->_right = cptr;
-	}
-	else
-	{
-		if (pptr != NULL) {
-			pptr->_right = _new;
-		}	
-	}
+	this->_dat += d._dat;
+	return *this;
 }
 
-void List::Print()
+template<class T>
+Data<T>& Data<T>::operator-=(const Data<T>& d)
 {
-	List* cptr;
-	cptr = this->_head;
-
-	while (cptr != NULL) {
-		cout << endl;
-		cptr->_data.PrintData();
-		cptr = cptr->_right;
-	}
-
+	this->_dat -= d._dat;
+	return *this;
 }
 
-int List::GetCount() {
-	int i = this->_count;
-	return i;
+template<class T>
+bool Data<T>::operator==(const Data& d)
+{
+	return this->_dat == d._dat;
 }
 
-bool List :: Remove(const string& s)
+template<class T>
+bool Data<T>::operator!=(const Data& d)
 {
-	List* cptr, * pptr, *r;
-	cptr = this->_head;
-	pptr = NULL;
-	int n = this->_count;
-	for(int i = 0; (i < n) && (cptr != NULL); i++ )
-	{
-		if (IsInStr(cptr->_data.GetArtist(), s)) 
-		{
-			if (i == 0)
-			{
-				r = cptr->_right;
-				r->_left = NULL;
-				this->_head = r;
-			}
-			if ((i > 0) && i < (this->_count - 1))
-			{
-				r = cptr->_right;
-				pptr->_right = r;
-				r->_left = pptr;
-			}
-			if (i == (this->_count - 1))
-			{
-				pptr->_right = NULL;
-			}
-			if (cptr == this->_main) 
-			{
-				this->_left = NULL;
-				this->_right = NULL;
-				this->_count--;
-				return true;
-			}
-			delete cptr;
-			this->_count--;
-			return true;
-		}
-		pptr = cptr;
-		cptr = cptr->_right;
-	}
-	return false;
+	return this->_dat != d._dat;
 }
 
-
-const List operator+(const List& s, const Artist& d)
+template<class T>
+bool Data<T>::operator>(const Data& d)
 {
-	List _new = s;
-	_new += d;
+	return this->_dat > d._dat;
+}
+
+template<class T>
+bool Data<T>::operator<(const Data& d)
+{
+	return this->_dat < d._dat;
+}
+
+template<class T>
+bool Data<T>::operator<=(const Data& d)
+{
+	return this->_dat <= d._dat;
+}
+
+template<class T>
+bool Data<T>::operator>=(const Data& d)
+{
+	return this->_dat >= d._dat;
+}
+
+template<class T>
+void Data<T>::PrintData()
+{
+	cout << "\n===";
+	cout << "\n\|" << this->_dat << "\|\n";
+	cout << "===\n";
+}
+
+template<class T>
+Data<T> operator+(Data<T>& a, const Data<T>& b)
+{
+	Data<T> _new(a._dat);
+	_new += b;
 	return _new;
 }
 
-List& List ::operator+=(const Artist& d)
+template<class T>
+Data<T> operator-(Data<T>& a, const Data<T>& b)
 {
-	this->Add(d);
-	return *this;
-}
-
-
-const List operator-(const List& s, const string& artist)
-{
-	List _new = s;
-	_new -= artist;
+	Data<T> _new(a._dat);
+	_new -= b;
 	return _new;
 }
-
-List& List ::operator-=(const string& artist)
-{
-	this->Remove(artist);
-	return *this;
-}
-
-Artist* List::Find(const string &artist)
-{
-	List *cptr;
-	int n = this->_count;
-	cptr = this->_head;
-	for (int i = 0; (i < n) && (cptr != NULL); i++)
-	{
-		if (IsInStr(cptr->_data.GetArtist(), artist))
-		{
-			return new Artist(cptr->_data);
-		}
-		cptr = cptr->_right;
-	}
-	return NULL;
-}
-
-void List :: RemoveAll()
-{
-	List *cptr, *pptr, *p;
-	int n = this->_count;
-	cptr = this->_head;
-	while(cptr != NULL)
-	{
-		pptr = cptr;
-		cptr = cptr->_right;
-		if (pptr != this->_main)
-		{
-			delete pptr;	
-		}
-		
-		this->_count--;
-	}
-	this->_head = this->_main;
-	this->_right = NULL;
-	this->_left = NULL;
-}
-
-
-
-
 
 

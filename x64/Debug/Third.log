@@ -1,2 +1,12 @@
-﻿  lab3.cpp
-  Third.vcxproj -> E:\Repos\JacKira\OOP\x64\Debug\Third.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: промежуточный каталог (x64\Debug\) содержит файлы, которые используются совместно с другим проектом (Third.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  Pracitse.cpp
+D:\Repos\OOP\Pracitse.cpp(278,10): warning C4129: |: неизвестная escape-последовательность
+D:\Repos\OOP\Pracitse.cpp(278,34): warning C4129: |: неизвестная escape-последовательность
+  StackNumTempl.cpp
+  Utils.cpp
+  Создание кода...
+D:\Repos\OOP\Pracitse.cpp(188): warning C4172: возвращение адреса локальной или временной переменной
+D:\Repos\OOP\Pracitse.cpp(188): warning C4172: возвращение адреса локальной или временной переменной
+D:\Repos\OOP\Pracitse.cpp(208): warning C4172: возвращение адреса локальной или временной переменной : new_d
+D:\Repos\OOP\Pracitse.cpp(208): warning C4172: возвращение адреса локальной или временной переменной : new_d
+  Third.vcxproj -> D:\Repos\OOP\x64\Debug\Prcatise.exe

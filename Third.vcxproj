@@ -99,20 +99,22 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Artist.cpp" />
+    <ClCompile Include="Data.cpp" />
     <ClCompile Include="Pracitse.cpp" />
-    <ClCompile Include="Stack_unit.cpp" />
+    <ClCompile Include="StackNumTempl.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Artist.h" />
+    <ClInclude Include="Data.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Stack_unit.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Third.rc" />
+    <ClInclude Include="StackNumTempl.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
