@@ -88,28 +88,26 @@ void Artist::PrintDataRow()
 
 
 
-void Artist::PrintDataRowToFileTxt(ofstream& fout)
+void Artist::PrintDataRowToFileTxt(ofstream& fout, int _width)
 {
-	int max_line = 100;
 	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
 		+ '.' + to_string(this->_dateOfBirth[2]) + " " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
 		+ '.' + to_string(this->_dateOfDeath[2]);
 	int n = this->_artist.size();
 	int m = dateStr.size();
-	string outStr = this->_artist + string(max_line - n - m - 1, ' ') + dateStr + "\n";
+	string outStr = this->_artist + string(_width - n - m - 1, ' ') + dateStr + "\n";
 	cout.width(100);
 	fout << outStr;
 }
 
-void Artist::PrintDataRowToFileBin(ofstream& fout)
+void Artist::PrintDataRowToFileBin(ofstream& fout, int _width)
 {
-	int max_line = 100;
-	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
+	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1]) 
 		+ '.' + to_string(this->_dateOfBirth[2]) + " " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
 		+ '.' + to_string(this->_dateOfDeath[2]);
 	int n = this->_artist.size();
 	int m = dateStr.size();
-	string outStr = this->_artist + string(max_line - n - m - 1, ' ') + dateStr + "\n";
+	string outStr = this->_artist + string(_width - n - m - 1, ' ') + dateStr + "\n";
 	for each (char b in outStr)
 	{
 		fout.write((char*)& b, sizeof(b));

@@ -22,8 +22,8 @@ public:
 	void PrintDataRow();
 	void InputDataRowFromFileTxt(ifstream &fin);
 	int InputDataRowFromFileBin(ifstream &fin);
-	void PrintDataRowToFileTxt(ofstream &fout);
-	void PrintDataRowToFileBin(ofstream &fout);
+	void PrintDataRowToFileTxt(ofstream &fout, int width = 60);
+	void PrintDataRowToFileBin(ofstream &fout, int width = 60);
 	string GetArtist();
 };
 
