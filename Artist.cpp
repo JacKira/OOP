@@ -21,6 +21,19 @@ Artist::Artist(const string artist, const string dateFrom, const string dateTo)
 
 }
 
+void Artist::PrintDataWithWidth()
+{
+	const int size = 98;
+	int n = this->_artist.size();
+	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
+		+ '.' + to_string(this->_dateOfBirth[2]) + " - " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
+		+ '.' + to_string(this->_dateOfDeath[2]);
+	int m = dateStr.size();
+	string s1(size, '=');
+	cout.width(100);
+	cout << "#" + s1 + "#\n# " + this->_artist + string(size - n - m - 4, ' ') + "| " + dateStr + " #\n#" + s1 + "#";
+}
+
 bool Artist ::operator==(const Artist& d)
 {
 	bool condition1 = (this->_artist == d._artist);
@@ -68,34 +81,35 @@ Artist& Artist ::operator=(const Artist& d)
 
 void Artist::PrintDataRow()
 {
-	const int size = 98;
-	int n = this->_artist.size();
-	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
-		+ '.' + to_string(this->_dateOfBirth[2]) + " - " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
-		+ '.' + to_string(this->_dateOfDeath[2]);
-	int m = dateStr.size();
-	string s1(size, '=');
-
-	cout << "#" + s1 + "#\n# " + this->_artist + string(size - n - m - 4, ' ') + "| " + dateStr + " #\n#" + s1 + "#";
+	PrintDataWithWidth();
 }
+
 
 
 
 
 void Artist::PrintDataRowToFileTxt(ofstream& fout)
 {
+	int max_line = 100;
 	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
 		+ '.' + to_string(this->_dateOfBirth[2]) + " " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
 		+ '.' + to_string(this->_dateOfDeath[2]);
-	fout << this->_artist + " " + dateStr + "\n";
+	int n = this->_artist.size();
+	int m = dateStr.size();
+	string outStr = this->_artist + string(max_line - n - m - 1, ' ') + dateStr + "\n";
+	cout.width(100);
+	fout << outStr;
 }
 
 void Artist::PrintDataRowToFileBin(ofstream& fout)
 {
+	int max_line = 100;
 	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
 		+ '.' + to_string(this->_dateOfBirth[2]) + " " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
 		+ '.' + to_string(this->_dateOfDeath[2]);
-	string outStr = this->_artist + " " + dateStr + "\n";
+	int n = this->_artist.size();
+	int m = dateStr.size();
+	string outStr = this->_artist + string(max_line - n - m - 1, ' ') + dateStr + "\n";
 	for each (char b in outStr)
 	{
 		fout.write((char*)& b, sizeof(b));
@@ -189,10 +203,11 @@ void Artist::InputDataRowFromFileTxt(ifstream& fin)
 	delete[] s2;
 }
 
-void Artist::InputDataRowFromFileBin(ifstream& fin)
+int Artist::InputDataRowFromFileBin(ifstream& fin)
 {
 
 	char b;
+	int endOfFile = 0;
 	string artist, dateFrom, dateTo, s = "";
 	fin.read((char*)& b, sizeof(b));
 	//Start read Artsit
@@ -264,27 +279,10 @@ void Artist::InputDataRowFromFileBin(ifstream& fin)
 	}
 	delete[] s1;
 	delete[] s2;
-
+	return endOfFile;
 
 }
 
-long Artist::CopyFromFileBin(long pos, char filename[])
-{
-	ifstream fin(filename, ios::binary);
-	fin.seekg(pos, ios::beg);
-	InputDataRowFromFileBin(fin);
-	long new_pos = fin.tellg();
-	fin.close();
-	return new_pos;
-}
-
-void Artist::PasteInFileBin(long pos, char filename[])
-{
-	ofstream fout(filename, ios::binary);
-	fout.seekp(pos, ios::beg);
-	PrintDataRowToFileBin(fout);
-	fout.close();
-}
 
 
 

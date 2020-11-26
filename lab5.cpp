@@ -63,20 +63,21 @@ int main(int argc, char* argv[])
 	Stack_unit new_stack(filename);
 	cout << "\nВывод данных, считанных из файла txt в файл txt\n";
 	filename = "dataout.txt\0";
-	new_stack.OutputToFileTxt(filename);
+	new_stack >> filename;
 	cout << endl;
 	cout << "\nВывод данных, считанных из файла txt, который заполнили данными из файла txt\n";
-	new_stack.InputFormFileTxt(filename);
+	new_stack << filename;
 	new_stack.Print();
 	cout << endl;
 
 	filename = "data.txt\0";
-	new_stack.InputFormFileTxt(filename);
+	new_stack << filename;
 	filename = "newData.bin\0";
-	new_stack.OutputToFileBin(filename);
+	new_stack >> filename;
 	
 	new_stack.DeleteMaxFromBin(filename);
-	new_stack.InputFormFileBin(filename);
+	new_stack.ModificationDataFromBin(filename, "Икэно", "0.0.0", "1.1.1");
+	new_stack << filename;
 	new_stack.Print();
 	cout << endl;
 

@@ -4,6 +4,8 @@
 using namespace std;
 class Artist
 {
+private:
+	void PrintDataWithWidth();
 protected:
 	string _artist = "\0";
 	int _dateOfBirth[3] = { 0, 0, 0 };
@@ -19,12 +21,9 @@ public:
 	Artist& operator=(const Artist& d);
 	void PrintDataRow();
 	void InputDataRowFromFileTxt(ifstream &fin);
-	void InputDataRowFromFileBin(ifstream &fin);
+	int InputDataRowFromFileBin(ifstream &fin);
 	void PrintDataRowToFileTxt(ofstream &fout);
 	void PrintDataRowToFileBin(ofstream &fout);
-
-	long CopyFromFileBin(long pos, char filename[]);
-	void PasteInFileBin(long pos, char filename[]);
 	string GetArtist();
 };
 
