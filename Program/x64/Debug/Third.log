@@ -1,3 +1,7 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(491,5): warning MSB8028: промежуточный каталог (x64\Debug\) содержит файлы, которые используются совместно с другим проектом (Third.vcxproj).  Это может привести к ошибкам очистки и перестроения.
+  Artist.cpp
   ObjectPool.cpp
-  Third.vcxproj -> E:\Repos\JacKira\OOP\x64\Debug\Seventh.exe
+  Stack_unit.cpp
+  Utils.cpp
+  Создание кода...
+  Third.vcxproj -> E:\Repos\JacKira\OOP\Program\x64\Debug\Seventh.exe

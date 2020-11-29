@@ -12,7 +12,6 @@ class ObjectPool
         static ObjectPool* instance;
         ObjectPool() {}
     public:
-   
         static ObjectPool* getInstance()
         {
             if (instance == NULL)

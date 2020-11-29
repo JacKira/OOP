@@ -2,3 +2,5 @@ F:\Repos\OOP\x64\Debug\Third.exe
 F:\Repos\OOP\x64\Debug\Third.pdb
 E:\Repos\JacKira\OOP\x64\Debug\Seventh.exe
 E:\Repos\JacKira\OOP\x64\Debug\Seventh.pdb
+E:\Repos\JacKira\OOP\Program\x64\Debug\Seventh.exe
+E:\Repos\JacKira\OOP\Program\x64\Debug\Seventh.pdb
