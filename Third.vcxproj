@@ -23,6 +23,7 @@
     <ProjectGuid>{C28C4E4B-10ED-4735-A732-DB3DD3615E8F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Seventh</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -98,9 +99,14 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Artist.cpp" />
-    <ClCompile Include="lab3.cpp" />
+    <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="Stack_unit.cpp" />
     <ClCompile Include="Utils.cpp" />
   </ItemGroup>
@@ -111,7 +117,7 @@
     <ClInclude Include="Stack_unit.h" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Third.rc" />
+    <ResourceCompile Include="Seventh.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,33 +1,14 @@
 #include <string>
 #include <iostream>
-#include <list>
-class Resource
-{
-    int value;
-    public:
-        Resource()
-        {
-            value = 0;
-        }
-        void reset()
-        {
-            value = 0;
-        }
-        int getValue()
-        {
-            return value;
-        }
-        void setValue(int number)
-        {
-            value = number;
-        }
-};
+#include "Stack_unit.h"
+
 /* Note, that this class is a singleton. */
 class ObjectPool
 {
     private:
-        std::list<Resource*> resources;
-
+        static const int max = 6;
+        Stack_unit resources = max;
+        int _using = 0;
         static ObjectPool* instance;
         ObjectPool() {}
     public:
@@ -39,7 +20,7 @@ class ObjectPool
          */
         static ObjectPool* getInstance()
         {
-            if (instance == 0)
+            if (instance == NULL)
             {
                 instance = new ObjectPool;
             }
@@ -53,20 +34,17 @@ class ObjectPool
          *
          * @return Resource instance.
          */
-        Resource* getResource()
+        Artist* getResource()
         {
-            if (resources.empty())
-            {
-                std::cout << "Creating new." << std::endl;
-                return new Resource;
-            }
-            else
-            {
-                std::cout << "Reusing existing." << std::endl;
-                Resource* resource = resources.front();
-                resources.pop_front();
+
+            if (_using < 6) {
+                std::cout << "\nReusing existing." << std::endl;
+                Artist* resource = resources.pop();
+                _using++;
                 return resource;
             }
+            return nullptr;
+                
         }
         /**
          * Return resource back to the pool.
@@ -78,34 +56,59 @@ class ObjectPool
          * @param object Resource instance.
          * @return void
          */
-        void returnResource(Resource* object)
+        void returnResource(Artist* object)
         {
-            object->reset();
-            resources.push_back(object);
+            if (resources.GetCount() < max) {
+                object->ResetValues();
+                resources.push(object);
+                _using--;
+            }   
+            else
+            {
+                cout << "\nLimit reached\n";
+            }
         }
+
+        int GetPoolCount()
+        {
+            int count = resources.GetCount();
+            return count;
+        }
+
+
 };
 ObjectPool* ObjectPool::instance = 0;
 int main()
 {
+    setlocale(LC_ALL, "RUS");
+    ifstream fin("data.txt");
     ObjectPool* pool = ObjectPool::getInstance();
-    Resource* one;
-    Resource* two;
+    
+    while(fin) {
+        Artist* one;
+        one = pool->getResource();
+        one->InputDataRowFromFileTxt(fin);
+        one->PrintData();
+        pool->returnResource(one);
+    }
     /* Resources will be created. */
-    one = pool->getResource();
-    one->setValue(10);
-    std::cout << "one = " << one->getValue() << " [" << one << "]" << std::endl;
-    two = pool->getResource();
-    two->setValue(20);
-    std::cout << "two = " << two->getValue() << " [" << two << "]" << std::endl;
-    pool->returnResource(one);
-    pool->returnResource(two);
+    
+
+    fin.close();
+    
+
     /* Resources will be reused.
      * Notice that the value of both resources were reset back to zero.
      */
-    one = pool->getResource();
-    std::cout << "one = " << one->getValue() << " [" << one << "]" << std::endl;
-    two = pool->getResource();
-    std::cout << "two = " << two->getValue() << " [" << two << "]" << std::endl;
-
+    cout << endl;
+    while (pool->GetPoolCount()) {
+        Artist* one;
+        
+        one = pool->getResource();
+        one->PrintData();
+    }
+    
+    cout << endl;
+    system("pause");
     return 0;
 }

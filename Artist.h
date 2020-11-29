@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <fstream>
 using namespace std;
 class Artist
 {
@@ -14,8 +15,15 @@ public:
 	bool operator>(const Artist& d);
 	Artist(const string artist, const string dateFrom, const string dateTo);
 	Artist() {};
-	Artist& operator=(const Artist& d);
+	Artist& operator=(Artist* d);
 	void PrintData();
 	string GetArtist();
+	int* GetBirthDate();
+	int* GetDeathDate();
+	void SetAtrist(string artist);
+	void SetBirthDate(int date[3]);
+	void SetDeathDate(int date[3]);
+	void InputDataRowFromFileTxt(ifstream& fin);
+	void ResetValues();
 };
 

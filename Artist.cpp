@@ -45,12 +45,12 @@ bool Artist :: operator>(const Artist& d) {
 	return life1 > life2;
 }
 
-Artist& Artist ::operator=(const Artist& d)
+Artist& Artist ::operator=(Artist* d)
 {
-	this->_artist = d._artist;
+	this->_artist = d->_artist;
 	for (int i = 0; i < 3; i++) {
-		this->_dateOfBirth[i] = d._dateOfBirth[i];
-		this->_dateOfDeath[i] = d._dateOfDeath[i];
+		this->_dateOfBirth[i] = d->_dateOfBirth[i];
+		this->_dateOfDeath[i] = d->_dateOfDeath[i];
 	}
 	return *this;
 }
@@ -72,3 +72,131 @@ string Artist :: GetArtist() {
 	string art = this->_artist;
 	return art;
 }
+
+int* Artist::GetBirthDate()
+{
+	int* date = new int[3];
+	for (int i = 0; i < 3; i++)
+	{
+		date[i] = this->_dateOfBirth[i];
+	}
+	return date;
+}
+
+int* Artist::GetDeathDate()
+{
+	int* date = new int[3];
+	for (int i = 0; i < 3; i++)
+	{
+		date[i] = this->_dateOfDeath[i];
+	}
+	return date;
+}
+
+void Artist::SetAtrist(string artist)
+{
+	this->_artist = artist;
+}
+
+void Artist::SetBirthDate(int date[3])
+{
+	for (int i = 0; i < 3; i++)
+	{
+		this->_dateOfBirth[i] = date[i];
+	}
+}
+
+void Artist::SetDeathDate(int date[3])
+{
+	for (int i = 0; i < 3; i++)
+	{
+		this->_dateOfDeath[i] = date[i];
+	}
+}
+
+void Artist::ResetValues()
+{
+	this->_artist = '\0';
+	for (int i = 0; i < 3; i++)
+	{
+		_dateOfBirth[i] = 0;
+		_dateOfDeath[i] = 0;
+	}
+}
+
+void Artist::InputDataRowFromFileTxt(ifstream& fin)
+{
+	char b;
+	string artist, dateFrom, dateTo, s = "";
+	fin.get(b);
+	//Start read Artsit
+	while (b != ' ')
+	{
+		s += b;
+		fin.get(b);
+	}
+	artist = s;
+
+	fin.get(b);
+	while (b == ' ')
+	{
+		fin.get(b);
+	}
+
+	s = "";
+	s += b;
+	fin.get(b);
+	while (b != ' ')
+	{
+		s += b;
+		fin.get(b);
+	}
+	artist += ' ' + s;
+	//Finish read Artist
+
+	//Start read Date of Birth
+	fin.get(b);
+	while (b == ' ')
+	{
+		fin.get(b);
+	}
+
+	s = "";
+	s += b;
+	fin.get(b);
+	while (b != ' ')
+	{
+		s += b;
+		fin.get(b);
+	}
+	dateFrom = s;
+	//Finish read Date of Birth
+
+	//Start read Datd of Death
+	fin.get(b);
+	while (b == ' ')
+	{
+		fin.get(b);
+	}
+
+	s = "";
+	s += b;
+	fin.get(b);
+	while ((b != ' ') && (b != '\n') && !fin.eof())
+	{
+		s += b;
+		fin.get(b);
+	}
+	dateTo = s;
+	//Finish read Date of Death
+	this->_artist = artist;
+	string* s1 = ParseToThree(dateFrom, '.');
+	string* s2 = ParseToThree(dateTo, '.');
+	for (int i = 0; i < 3; i++) {
+		this->_dateOfBirth[i] = ToInt(s1[i]);
+		this->_dateOfDeath[i] = ToInt(s2[i]);
+	}
+	delete[] s1;
+	delete[] s2;
+}
+

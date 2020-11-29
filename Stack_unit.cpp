@@ -7,6 +7,14 @@ Stack_unit::Stack_unit(const Artist& a)
 	this->_count = 1;
 }
 
+Stack_unit::Stack_unit(int n)
+{
+	this->_ptr = NULL;
+	for (int i = 0; i < n; i++) {
+		this->push(new Artist);
+	}
+}
+
 Stack_unit::Stack_unit()
 {
 	this->_ptr = NULL;
@@ -28,7 +36,7 @@ Stack_unit operator+(const Stack_unit& s, const Artist& d)
 
 Stack_unit& Stack_unit ::operator+=(const Artist& d)
 {
-	this->push(d);
+	this->push((Artist*)&d);
 	return *this;
 }
 
@@ -48,7 +56,7 @@ Stack_unit& Stack_unit ::operator-=(const Artist& d)
 	return *this;
 }
 
-void Stack_unit::push(const Artist& d)
+void Stack_unit::push(Artist* d)
 {
 	if (this->_count > 0) {
 		Stack_unit* p = new Stack_unit(this->_data);
@@ -64,9 +72,9 @@ void Stack_unit::push(const Artist& d)
 	}
 }
 
-Artist Stack_unit::pop()
+Artist* Stack_unit::pop()
 {
-	Artist a = this->_data;
+	Artist* a = &this->_data;
 	if (this->_count > 1) {
 		Stack_unit* p = _ptr->_ptr;
 		Artist d = _ptr->_data;
@@ -108,7 +116,7 @@ void Stack_unit::Print()
 {
 	while (this->_count)
 	{
-		this->pop().PrintData();
+		this->pop()->PrintData();
 	}
 }
 

@@ -10,6 +10,7 @@ private:
 	
 public:
 	Stack_unit(const Artist &a);
+	Stack_unit(int n);
 	Stack_unit();
 	~Stack_unit();
 	Stack_unit& operator=(const Stack_unit& s);
@@ -21,8 +22,8 @@ public:
 	Stack_unit& operator--(int);
 	void RemoveAll();
 	void Print();
-	void push(const Artist& d);
-	Artist pop();
+	void push(Artist* d);
+	Artist* pop();
 	int GetCount();
 };
 
