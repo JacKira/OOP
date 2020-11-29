@@ -37,7 +37,7 @@ class ObjectPool
         Artist* getResource()
         {
 
-            if (_using < 6) {
+            if (_using < max) {
                 std::cout << "\nReusing existing." << std::endl;
                 Artist* resource = resources.pop();
                 _using++;
@@ -91,6 +91,9 @@ int main()
         one->PrintData();
         pool->returnResource(one);
     }
+
+    Artist* one = new Artist;
+    pool->returnResource(one);
     /* Resources will be created. */
     
 
