@@ -57,15 +57,18 @@ Artist& Artist ::operator=(Artist* d)
 
 void Artist::PrintData()
 {
-	const int size = 98;
-	int n = this->_artist.size();
-	string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
-		+ '.' + to_string(this->_dateOfBirth[2]) + " - " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
-		+ '.' + to_string(this->_dateOfDeath[2]);
-	int m = dateStr.size();
-	string s1(size, '=');
-	
-	cout << "#" + s1 + "#\n# " + this->_artist + string(size - n - m - 4, ' ') + "| " + dateStr + " #\n#" + s1 + "#";
+	if (this != nullptr) {
+		const int size = 98;
+		int n = this->_artist.size();
+		string dateStr = to_string(this->_dateOfBirth[0]) + '.' + to_string(this->_dateOfBirth[1])
+			+ '.' + to_string(this->_dateOfBirth[2]) + " - " + to_string(this->_dateOfDeath[0]) + '.' + to_string(this->_dateOfDeath[1])
+			+ '.' + to_string(this->_dateOfDeath[2]);
+		int m = dateStr.size();
+		string s1(size, '=');
+
+		cout << "#" + s1 + "#\n# " + this->_artist + string(size - n - m - 4, ' ') + "| " + dateStr + " #\n#" + s1 + "#";
+	}
+
 }
 
 string Artist :: GetArtist() {

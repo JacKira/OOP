@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Stack_unit.h"
 
-/* Note, that this class is a singleton. */
+
 class ObjectPool
 {
     private:
@@ -12,12 +12,7 @@ class ObjectPool
         static ObjectPool* instance;
         ObjectPool() {}
     public:
-        /**
-         * Static method for accessing class instance.
-         * Part of Singleton design pattern.
-         *
-         * @return ObjectPool instance.
-         */
+   
         static ObjectPool* getInstance()
         {
             if (instance == NULL)
@@ -26,14 +21,7 @@ class ObjectPool
             }
             return instance;
         }
-        /**
-         * Returns instance of Resource.
-         *
-         * New resource will be created if all the resources
-         * were used at the time of the request.
-         *
-         * @return Resource instance.
-         */
+      
         Artist* getResource()
         {
 
@@ -43,19 +31,11 @@ class ObjectPool
                 _using++;
                 return resource;
             }
+            cout << "\n\nNo reusable objetcs\n";
             return nullptr;
                 
         }
-        /**
-         * Return resource back to the pool.
-         *
-         * The resource must be initialized back to
-         * the default settings before someone else
-         * attempts to use it.
-         *
-         * @param object Resource instance.
-         * @return void
-         */
+       
         void returnResource(Artist* object)
         {
             if (resources.GetCount() < max) {
@@ -91,26 +71,21 @@ int main()
         one->PrintData();
         pool->returnResource(one);
     }
-
-    Artist* one = new Artist;
-    pool->returnResource(one);
-    /* Resources will be created. */
-    
-
     fin.close();
-    
 
-    /* Resources will be reused.
-     * Notice that the value of both resources were reset back to zero.
-     */
+    Artist* disturber = new Artist;
+    pool->returnResource(disturber);
+ 
     cout << endl;
     while (pool->GetPoolCount()) {
         Artist* one;
-        
         one = pool->getResource();
         one->PrintData();
     }
-    
+
+    disturber = pool->getResource();
+    disturber->PrintData();
+
     cout << endl;
     system("pause");
     return 0;
