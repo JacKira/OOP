@@ -26,11 +26,7 @@ public:
 	void RemoveAll();
 	void Print();
 	void OutputToFileTxt(char filename[]);
-	void OutputToFileBin(char filename[]);
 	void InputFormFileTxt(char filename[]);
-	void InputFormFileBin(char filename[]);
-	void DeleteMaxFromBin(char filename[]);
-	void ModificationDataFromBin(char filename[], string artsit, string date1, string date2);
 	void push(const Artist& d);
 	Artist pop();
 	int GetCount();

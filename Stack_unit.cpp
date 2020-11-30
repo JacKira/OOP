@@ -146,20 +146,6 @@ void Stack_unit::OutputToFileTxt(char filename[])
 	fout.close();
 }
 
-void Stack_unit::OutputToFileBin(char filename[])
-{
-	ofstream fout(filename, ios::binary);
-	if (!fout) {
-		cout << "Error open output file\n";
-		return;
-	}
-	while (this->_count)
-	{
-		this->pop().PrintDataRowToFileBin(fout);
-	}
-	fout.close();
-}
-
 void Stack_unit::InputFormFileTxt(char filename[])
 {
 	ifstream fin(filename);
@@ -195,139 +181,7 @@ void Stack_unit::InputFormFileTxt(char filename[])
 	fin.close();
 }
 
-void Stack_unit::InputFormFileBin(char filename[])
-{
-	ifstream fin(filename, ios::binary);
-	if (!fin) {
-		cout << "Error open txt file\n";
-		return;
-	}
-	long pos;
-	char b;
-	while (!fin.eof()) {
-		pos = fin.tellg();
-		fin.read((char*)&b, sizeof(b));
-		if (fin.eof()) {
-			break;
-		}
-		else {
-			if (b == '\n')
-			{
-				while (fin.read((char*)&b, sizeof(b)))
-				{
-					if (b == '\n')
-					{
-						fin.read((char*)&b, sizeof(b));;
-						break;
-					}
-				}
-				break;
-			}
-			fin.seekg(pos, ios::beg);
-		}
-		this->push(Artist(fin));
-	}
-	fin.close();
-}
 
-void Stack_unit::DeleteMaxFromBin(char filename[])
-{
-	fstream fstr(filename, ios::in | ios::out | ios::binary);
-	if (!fstr) {
-		cout << "Error open txt file\n";
-		return;
-	}
-	long pos = 0, prwPos = 0, nxtPos = 0, delPos = 0;
-	char b;
-	bool flag = false;
-	Artist max, new_dt;
-	while (!fstr.eof()) {
-		pos = fstr.tellg();
-		fstr.read((char*)&b, sizeof(b));
-		if (fstr.eof()) {
-			break;
-		}
-		else {
-			fstr.seekg(pos, ios::beg);
-		}
-		pos = fstr.tellg();
-		new_dt.InputDataRowFromFileBin(*(ifstream*)&fstr);
-		if (new_dt > max) {
-			max = new_dt;
-			delPos = pos;
-			nxtPos = fstr.tellg();
-		}
-	}
-	fstr.close();
-	fstr.open(filename, ios::in | ios::out | ios::binary);
-	if (pos == nxtPos) {
-		fstr.seekp(delPos, ios::beg);
-		b = '\n';
-		fstr.write((char*)&b, sizeof(b));
-	}
-	else {
-		while (!fstr.eof()) {
-			fstr.seekg(nxtPos, ios::beg);
-			new_dt.InputDataRowFromFileBin(*(ifstream*)&fstr);
-			nxtPos = fstr.tellg();
-			fstr.seekp(delPos, ios::beg);
-			new_dt.PrintDataRowToFileBin(*(ofstream*)&fstr);
-			delPos = fstr.tellp();
-			fstr.seekg(nxtPos, ios::beg);
-			fstr.read((char*)&b, sizeof(b));
-		}
-
-	}
-	fstr.close();
-	fstr.open(filename, ios::in | ios::out | ios::binary);
-	fstr.seekp(delPos, ios::beg);
-	b = '\n';
-	fstr.write((char*)&b, sizeof(b));
-	fstr.close();
-	cout << "\nДолгожитель:\n";
-	max.PrintDataRow();
-	cout << "\nДолжен быть удален\n";
-}
-
-void Stack_unit::ModificationDataFromBin(char filename[], string artist, string date1, string date2)
-{
-	fstream fstr(filename, ios::in | ios::out | ios::binary);
-	if (!fstr) {
-		cout << "Error open txt file\n";
-		return;
-	}
-	long pos = 0, prwPos = 0, nxtPos = 0, delPos = 0;
-	char b;
-	bool flag = false;
-	Artist max, new_dt;
-	while (!fstr.eof()) {
-		pos = fstr.tellg();
-		fstr.read((char*)&b, sizeof(b));
-		if (fstr.eof()) {
-			break;
-		}
-		else {
-			fstr.seekg(pos, ios::beg);
-		}
-		pos = fstr.tellg();
-		new_dt.InputDataRowFromFileBin(*(ifstream*)&fstr);
-		if (IsInStr(new_dt.GetArtist(), artist)) {
-			flag = true;
-			delPos = pos;
-			break;
-
-		}
-	}
-	fstr.close();
-	if (!flag) {
-		return;
-	}
-	fstr.open(filename, ios::in | ios::out | ios::binary);
-	Artist mod_art(new_dt.GetArtist(), date1, date2);
-	fstr.seekp(delPos, ios::beg);
-	mod_art.PrintDataRowToFileBin(*(ofstream*)&fstr);
-	fstr.close();
-}
 
 int Stack_unit::GetCount()
 {
@@ -337,11 +191,6 @@ int Stack_unit::GetCount()
 
 void Stack_unit::  operator>>(string filename)
 {
-	if (IsInStr(filename, ".bin")) {
-		char* c = &filename[0];
-		this->OutputToFileBin(c);
-	}
-
 	if (IsInStr(filename, ".txt")) {
 		char* c = &filename[0];
 		this->OutputToFileTxt(c);
@@ -350,11 +199,6 @@ void Stack_unit::  operator>>(string filename)
 
 void Stack_unit::operator<<(string filename)
 {
-	if (IsInStr(filename, ".bin")) {
-		char* c = &filename[0];
-		this->InputFormFileBin(c);
-	}
-
 	if (IsInStr(filename, ".txt")) {
 		char* c = &filename[0];
 		this->InputFormFileTxt(c);

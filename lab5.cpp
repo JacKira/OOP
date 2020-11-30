@@ -48,17 +48,6 @@ int main(int argc, char* argv[])
 	filename = "output.txt\0";
 	arr.OutputArrToFileTxt(filename);
 
-	filename = "binoutput.bin\0";
-	arr.OutputArrToFileBin(filename);
-	arr.InputArrFromBin(filename);
-	cout << "Чтение из бинарного\n";
-	arr.OutputArr();
-	arr.EditElementInBinFile(filename, 42, 1, 1);
-	
-	arr.InputArrFromBin(filename);
-	cout << "\n\nЧтение из бинарного c изменением строки " << 1 << " и столбца " << 1 << "на значение "<< 42 << endl;
-	arr.OutputArr();
-
 	filename = "data.txt\0";
 	Stack_unit new_stack(filename);
 	cout << "\nВывод данных, считанных из файла txt в файл txt\n";
@@ -70,15 +59,6 @@ int main(int argc, char* argv[])
 	new_stack.Print();
 	cout << endl;
 
-	filename = "data.txt\0";
-	new_stack << filename;
-	filename = "newData.bin\0";
-	new_stack >> filename;
-	
-	new_stack.DeleteMaxFromBin(filename);
-	new_stack.ModificationDataFromBin(filename, "Икэно", "0.0.0", "1.1.1");
-	new_stack << filename;
-	new_stack.Print();
 	cout << endl;
 
 	
