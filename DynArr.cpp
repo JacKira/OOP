@@ -24,15 +24,36 @@ double* DynArr::GetArr(int m, int n)
 	return new_arr;
 }
 
-DynArr::DynArr(int m, int n)
+DynArr::DynArr(int _m, int _n)
 {
-	this->m = m;
-	this->n = n;
+	try {
+		if ((_m * _n) > 24)
+		{
+			throw -1;
+		}
+	}
+	catch (int s) {
+		throw -1;
+	}
+
+	this->m = _m;
+	this->n = _n;
 	arr = GetArr(m, n);
+
 }
 
 DynArr::DynArr(double* arr, int m, int n)
 {
+
+	try {
+		if ((m * n) > 24)
+		{
+			throw - 1;
+		}
+	}
+	catch (int s) {
+		throw - 1;
+	}
 	SetArr(arr, m, n);
 }
 
@@ -57,12 +78,22 @@ void DynArr::InputArrFromTxt(char filename[])
 		cout << "Error!" << endl;
 	else
 	{
-		for (int i = 0; i < m; i++)
+		try 
 		{
-			for (int j = 0; j < n; j++)
+			for (int i = 0; i < m; i++)
 			{
-				fin >> arr[i * n + j];
+				for (int j = 0; j < n; j++)
+				{
+					if (fin.eof()) {
+						throw - 1;
+					}
+					fin >> arr[i * n + j];
+				}
 			}
+		}
+		catch (int i) {
+			fin.close();
+			throw - 1;
 		}
 	}
 	fin.close();
@@ -79,7 +110,7 @@ void DynArr::InputArrFromBin(char filename[])
 		{
 			for (int j = 0; j < n; j++)
 			{
-				fin.read((char*)& arr[i * n + j], sizeof(arr[i * n + j]));
+				fin.read((char*)&arr[i * n + j], sizeof(arr[i * n + j]));
 			}
 		}
 	}
@@ -138,7 +169,7 @@ void DynArr::EditElementInBinFile(char filename[], double new_el, int k, int l)
 	{
 		int index = (k - 1) * (l - 1) + (l - 1);
 		fout.seekp(index, ios::beg);
-		fout.write((char*)& new_el, sizeof(new_el));
+		fout.write((char*)&new_el, sizeof(new_el));
 	}
 	fout.close();
 
@@ -146,6 +177,15 @@ void DynArr::EditElementInBinFile(char filename[], double new_el, int k, int l)
 
 void DynArr::SetArr(double* arr, int m, int n)
 {
+	try {
+		if ((m * n) > 24)
+		{
+			throw - 1;
+		}
+	}
+	catch (int s) {
+		throw - 1;
+	}
 	if (this->arr != NULL)
 	{
 		delete[] this->arr;
