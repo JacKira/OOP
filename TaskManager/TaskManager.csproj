@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug64|AnyCPU'">
+    <OutputPath>bin\Debug64\</OutputPath>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -66,6 +69,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -79,6 +83,24 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\frog.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\5bbc3c8801944-thumb.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\IOsa0zp1jI8.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\frog2.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\kaban.bmp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Icons\kaban2.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -46,14 +46,14 @@ namespace TaskManager
             //#3 Заполняем доску тестовыми записями
             for (int i = 0; i < 20; i++)
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                "Me", "Active");
+                "Me", "Done");
 
 
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
         private System.Windows.Forms.TableLayoutPanel InitNote(string title = "\0", string description = "\0",
-                                                               string employer = "\0", string status = "\0", long ID = 0)
+                                                               string employer = "\0", string status = "To Do", long ID = 0)
         {
             var NewNote = new Note() { Margin = new Padding(10) };
             NewNote.BackColor = System.Drawing.SystemColors.Window;
@@ -111,17 +111,35 @@ namespace TaskManager
             textbox = new System.Windows.Forms.TextBox()
             {
                 BackColor = Color.White,
-
                 Text = status,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20)
             };
+
+          
+
             HideCaret(textbox.Handle);
             NewNote.Controls.Add(textbox);
 
+            System.Drawing.Color color;
+            switch (status)
+            {
+                case "Doing":
+                    color = System.Drawing.Color.Orange;
+                    break;
+                case "To Do":
+                    color = System.Drawing.Color.Silver;
+                    break;
+                case "Done":
+                    color = System.Drawing.Color.ForestGreen;
+                    break;
+                default: color = System.Drawing.Color.Red;
+                    break;
+            }
+
             NewNote.Controls.Add(new System.Windows.Forms.TextBox()
             {
-                BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0))))),
+                BackColor = color,
                 Dock = System.Windows.Forms.DockStyle.Fill,
                 Location = new System.Drawing.Point(4, 286),
                 Multiline = true,
@@ -140,14 +158,15 @@ namespace TaskManager
         }
 
         private void AddNote(string title = "\0", string description = "\0",
-                             string employer = "\0", string status = "\0")
+                             string employer = "\0", string status = "To Do")
         {
             int row = last_note_cords[0];
             int col = last_note_cords[1];
             //#4 Добавляем запись, возвращаемую методом InitNote в число элементов доски
             if ((row == 0) && (col == 0))
             {
-                TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                TaskTable.Controls.Add(InitNote(title, description, employer, status));
                 return;
             }
             if (col == 2)
@@ -156,14 +175,16 @@ namespace TaskManager
                 col = 0;
                 last_note_cords[0] = row;
                 last_note_cords[1] = col;
-                TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                TaskTable.Controls.Add(InitNote(title, description, employer, status));
             }
             else
             {
                 col++;
                 last_note_cords[0] = row;
                 last_note_cords[1] = col;
-                TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
+                TaskTable.Controls.Add(InitNote(title, description, employer, status));
             }
 
 
@@ -237,20 +258,11 @@ namespace TaskManager
             //TaskTable.RowCount = (int)(TaskTable.Height / 330);
             TaskTable.AutoScrollMargin = new Size(10, TaskTable.Height);
             //  TaskTable.AutoScroll = true;
-
-
         }
 
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-            for (int i = 0; i < 20 / 2; i++)
-            {
-                Note note = (Note)TaskTable.Controls[i];
-                NoteContextMenu menu = (NoteContextMenu)note.Controls[4].ContextMenuStrip;
-                removeNoteToolStripMenuItem_Click(menu.Items[0], new EventArgs());
-            }
-
+            TaskTable.Controls.Clear();
         }
         /* =========================================== CLASSES ===============================================*/
     }
