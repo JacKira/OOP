@@ -1,6 +1,6 @@
 ﻿namespace TaskManager
 {
-    partial class MainForm
+    partial class TaskTableForm
     {
         /// <summary>
         /// Обязательная переменная конструктора.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TaskTableForm));
             this.TaskTable = new System.Windows.Forms.TableLayoutPanel();
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -244,7 +244,7 @@
             this.comboBox1.Size = new System.Drawing.Size(259, 21);
             this.comboBox1.TabIndex = 3;
             // 
-            // MainForm
+            // TaskTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -253,7 +253,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.TaskTable);
             this.Controls.Add(this.FilterMenu);
-            this.Name = "MainForm";
+            this.Name = "TaskTableForm";
             this.Text = "Task Table";
             this.TransparencyKey = System.Drawing.SystemColors.Highlight;
             this.Load += new System.EventHandler(this.MainForm_Load);

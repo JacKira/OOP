@@ -8,6 +8,10 @@ using TaskManager;
 
 namespace TaskManager
 {
+    /// <summary>
+    /// Класс для хранения объектов задач и взаимодействия с ними,
+    /// а также для передачи данных интерфейсу для отображения
+    /// </summary>
     public class TaskTableData
     {
         private Dictionary<long, NoteData> _tableData = new Dictionary<long, NoteData>();

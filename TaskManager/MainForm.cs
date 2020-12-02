@@ -14,14 +14,14 @@ using System.Collections;
 
 namespace TaskManager
 {
-    public partial class MainForm : Form
+    public partial class TaskTableForm : Form
     {
         private int _w;
         private int _h;
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
         private int[] last_note_cords = { 0, 0 };
-        public MainForm()
+        public TaskTableForm()
         {
             InitializeComponent(); //#2 Инициалиизруем меню и доску для записей, но без самих записей.
             //Запоминаем размеры глафно для дальнейшего использования
@@ -44,9 +44,15 @@ namespace TaskManager
         private void MainForm_Load(object sender, EventArgs e)
         {
             //#3 Заполняем доску тестовыми записями
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 5; i++)
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Done");
+            for (int i = 0; i < 5; i++)
+                AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+                "Me", "To Do");
+            for (int i = 0; i < 5; i++)
+                AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+                "Me", "Doing");
 
 
         }
