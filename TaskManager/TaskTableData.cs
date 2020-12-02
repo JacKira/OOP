@@ -24,7 +24,7 @@ namespace TaskManager
 
         public void Add(NoteData note = null)
         {
-            if(note == null)
+            if (note == null)
             {
                 note = new NoteData();
             }
@@ -33,8 +33,6 @@ namespace TaskManager
             _tableData.Add(note.ID, note);
         }
     }
-
-    /*
     public class NoteData
     {
         private string _title;
@@ -51,8 +49,6 @@ namespace TaskManager
             _id = id;
         }
 
-
-        /*
         public NoteData()
         {
             _title = "\0";
@@ -61,8 +57,7 @@ namespace TaskManager
             _employer = "\0";
             _id = 0;
         }
-
-        /*public string GetTtile()
+        public string GetTtile()
         {
             return _title;
         }
@@ -71,17 +66,14 @@ namespace TaskManager
         {
             _title = title;
         }
-        
+
         public string Title
         {
             get { return _title; }
             set { _title = value; }
         }
-      //   NoteData.Title = "Task";
-      // string title = NoteData.Title;
 
-
-    }*/
+    }
 
 
 
@@ -110,5 +102,5 @@ namespace TaskManager
         public string Status { get; set; } = "\0";
         public long ID { get; set; } = 0;
     }
-    
+
 }
