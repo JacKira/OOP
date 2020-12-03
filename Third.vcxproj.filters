@@ -43,7 +43,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Fifth.rc">
+    <ResourceCompile Include="Sixth.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
