@@ -1,0 +1,2 @@
+D:\Repos\OOP\x64\Debug\Sixth.exe
+D:\Repos\OOP\x64\Debug\Sixth.pdb

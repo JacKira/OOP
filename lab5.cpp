@@ -1,9 +1,10 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
-#include "Artist.h"
+#include <stack>
 #include "Utils.h"
 #include "DynArr.h"
+
 
 
 using namespace std;
@@ -77,6 +78,14 @@ public:
 	void operator>>(string filename);
 };
 
+template<class T>
+void operator>>(stack<T> &stack, string filename);
+
+template<class T>
+void operator<<(stack<T> &stack, string filename);
+
+template<class T>
+void Print(stack<T> &stack);
 
 
 int main(int argc, char* argv[])
@@ -134,7 +143,31 @@ int main(int argc, char* argv[])
 	Stack_unit<int> new_stack_int(filename);
 	new_stack_int.Print();
 	cout << endl;
+	cout << endl;
 
+
+	// Стек с наследованием стека библиотеки STL
+	cout << "\nБЛОК РАБОТЫ С БИБЛИОТЕКОЙ STL\n";
+	filename = "data.txt\0";
+	stack<Artist> new_stackSTL;
+	new_stackSTL << filename;
+	cout << "\nВывод данных, считанных из файла txt в файл txt\n";
+	filename = "dataout.txt\0";
+	new_stackSTL >> filename;
+	cout << endl;
+	cout << "\nВывод данных, считанных из файла txt, который заполнили данными из файла txt\n";
+	new_stackSTL << filename;
+	Print(new_stackSTL);
+	cout << endl;
+
+	
+	filename = "nums.txt\0";
+	cout << endl;
+	cout << "\nВывод данных, считанных из файла для массива\n";
+	stack<int> new_stackSTL_int;
+	new_stackSTL_int << filename;
+	Print(new_stackSTL_int);
+	cout << endl;
 	cout << endl;
 
 	
@@ -649,4 +682,49 @@ template<class T>
 Stack_unit<T>& Stack_unit<T> :: operator--(int) {
 	this->pop();
 	return *this;
+}
+
+
+
+template<class T>
+void operator<<(stack<T> &stack, string filename) {
+	ifstream fin(filename);
+	if (!fin) {
+		cout << "Error open txt file\n";
+		return;
+	}
+	T var;
+	char b;
+	while (!fin.eof()) {
+		fin >> var;
+		stack.push(var);
+	}
+	fin.close();
+}
+
+template<class T>
+void  operator>>(stack<T> &stack, string filename) {
+	ofstream fout(filename);
+	if (!fout) {
+		cout << "Error open txt file\n";
+		return;
+	}
+	T var;
+	while (stack.size()) {
+		var = stack.top();
+		stack.pop();
+		fout << endl;
+		fout << var;
+	}
+	fout.close();
+}
+
+template<class T>
+void Print(stack<T> &stack) {
+	T var;
+	while (stack.size()) {
+		var = stack.top();
+		stack.pop();
+		cout << var << endl;;
+	}
 }
