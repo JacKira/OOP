@@ -32,9 +32,9 @@ D:\Repos\OOP\TaskManager\bin\Debug\TaskManager.exe.config
 D:\Repos\OOP\TaskManager\bin\Debug\TaskManager.exe
 D:\Repos\OOP\TaskManager\bin\Debug\TaskManager.pdb
 D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csprojAssemblyReference.cache
-D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.MainForm.resources
 D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.Properties.Resources.resources
 D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csproj.GenerateResource.cache
 D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.csproj.CoreCompileInputs.cache
 D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.exe
 D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.pdb
+D:\Repos\OOP\TaskManager\obj\Debug\TaskManager.TaskTableForm.resources

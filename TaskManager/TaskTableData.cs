@@ -43,4 +43,8 @@ namespace TaskManager
         public long ID { get; set; } = 0;
     }
 
+    class Employer
+    { }
+
+
 }
