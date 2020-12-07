@@ -45,8 +45,8 @@ namespace TaskManager
 
     class Employer
     {
-        public long ID { get; set; };
-        public string Name { get; set; };
+        public long ID { get; set; } = 0;
+        public string Name { get; set; } = "\0";
         
     }
 
