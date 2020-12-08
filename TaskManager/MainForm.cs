@@ -53,8 +53,9 @@ namespace TaskManager
             for (int i = 0; i < 5; i++)
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Doing");
-
-
+            var DB = new TaskDB(@"D:\Repos\OOP\Database2.accdb");
+            DB.OpenDbConnection();
+            DB.CloseDbConnection();
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
