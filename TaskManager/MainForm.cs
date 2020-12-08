@@ -11,6 +11,8 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Collections;
+using System.Data;
+using System.Data.OleDb;
 
 namespace TaskManager
 {
@@ -270,6 +272,18 @@ namespace TaskManager
         private void testToolStripMenuItem_Click(object sender, EventArgs e)
         {
             TaskTable.Controls.Clear();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            var DB = new TaskDB(@"D:\Repos\OOP\Database2.accdb");
+            DB.OpenDbConnection();
+            // текст запроса
+            string query = "SELECT Описание FROM Записи WHERE Код = 4";
+            OleDbCommand command = new OleDbCommand(query, DB.GetDbConnection());
+            textBox1.Text = command.ExecuteScalar().ToString();
+            DB.CloseDbConnection();
         }
         /* =========================================== CLASSES ===============================================*/
     }

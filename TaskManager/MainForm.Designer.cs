@@ -48,12 +48,14 @@
             this.StatusButton1 = new System.Windows.Forms.RadioButton();
             this.EmployersLabel = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.FilterMenu.SuspendLayout();
             this.StatusMenu.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // TaskTable
@@ -69,7 +71,7 @@
             this.TaskTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TaskTable.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
             this.TaskTable.Location = new System.Drawing.Point(385, 78);
-            this.TaskTable.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.TaskTable.Margin = new System.Windows.Forms.Padding(4);
             this.TaskTable.Name = "TaskTable";
             this.TaskTable.RowCount = 1;
             this.TaskTable.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -154,16 +156,19 @@
             // 
             this.FilterMenu.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.FilterMenu.BackgroundImage = global::TaskManager.Properties.Resources.kaban2;
-            this.FilterMenu.Controls.Add(this.dataGridView1);
+            this.FilterMenu.Controls.Add(this.button2);
+            this.FilterMenu.Controls.Add(this.button1);
+            this.FilterMenu.Controls.Add(this.textBox2);
+            this.FilterMenu.Controls.Add(this.listBox1);
             this.FilterMenu.Controls.Add(this.SearchLabel);
             this.FilterMenu.Controls.Add(this.SearchTextBox);
             this.FilterMenu.Controls.Add(this.StatusMenu);
             this.FilterMenu.Controls.Add(this.EmployersLabel);
             this.FilterMenu.Controls.Add(this.comboBox1);
             this.FilterMenu.Location = new System.Drawing.Point(16, 78);
-            this.FilterMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FilterMenu.Margin = new System.Windows.Forms.Padding(4);
             this.FilterMenu.Name = "FilterMenu";
-            this.FilterMenu.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.FilterMenu.Padding = new System.Windows.Forms.Padding(4);
             this.FilterMenu.Size = new System.Drawing.Size(361, 921);
             this.FilterMenu.TabIndex = 0;
             this.FilterMenu.TabStop = false;
@@ -184,7 +189,7 @@
             // SearchTextBox
             // 
             this.SearchTextBox.Location = new System.Drawing.Point(4, 69);
-            this.SearchTextBox.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.SearchTextBox.Margin = new System.Windows.Forms.Padding(4);
             this.SearchTextBox.Name = "SearchTextBox";
             this.SearchTextBox.Size = new System.Drawing.Size(348, 22);
             this.SearchTextBox.TabIndex = 6;
@@ -197,9 +202,9 @@
             this.StatusMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.StatusMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.StatusMenu.Location = new System.Drawing.Point(8, 203);
-            this.StatusMenu.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusMenu.Margin = new System.Windows.Forms.Padding(4);
             this.StatusMenu.Name = "StatusMenu";
-            this.StatusMenu.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusMenu.Padding = new System.Windows.Forms.Padding(4);
             this.StatusMenu.Size = new System.Drawing.Size(345, 123);
             this.StatusMenu.TabIndex = 5;
             this.StatusMenu.TabStop = false;
@@ -209,7 +214,7 @@
             // 
             this.StatusButton3.AutoSize = true;
             this.StatusButton3.Location = new System.Drawing.Point(15, 90);
-            this.StatusButton3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusButton3.Margin = new System.Windows.Forms.Padding(4);
             this.StatusButton3.Name = "StatusButton3";
             this.StatusButton3.Size = new System.Drawing.Size(124, 24);
             this.StatusButton3.TabIndex = 2;
@@ -221,7 +226,7 @@
             // 
             this.StatusButton2.AutoSize = true;
             this.StatusButton2.Location = new System.Drawing.Point(15, 57);
-            this.StatusButton2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusButton2.Margin = new System.Windows.Forms.Padding(4);
             this.StatusButton2.Name = "StatusButton2";
             this.StatusButton2.Size = new System.Drawing.Size(107, 24);
             this.StatusButton2.TabIndex = 1;
@@ -233,7 +238,7 @@
             // 
             this.StatusButton1.AutoSize = true;
             this.StatusButton1.Location = new System.Drawing.Point(15, 23);
-            this.StatusButton1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.StatusButton1.Margin = new System.Windows.Forms.Padding(4);
             this.StatusButton1.Name = "StatusButton1";
             this.StatusButton1.Size = new System.Drawing.Size(159, 24);
             this.StatusButton1.TabIndex = 0;
@@ -256,20 +261,45 @@
             // 
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(8, 140);
-            this.comboBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(4);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(344, 24);
             this.comboBox1.TabIndex = 3;
             // 
-            // dataGridView1
+            // listBox1
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(92, 726);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 51;
-            this.dataGridView1.RowTemplate.Height = 24;
-            this.dataGridView1.Size = new System.Drawing.Size(240, 150);
-            this.dataGridView1.TabIndex = 8;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 16;
+            this.listBox1.Location = new System.Drawing.Point(41, 605);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(299, 212);
+            this.listBox1.TabIndex = 0;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(41, 567);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(299, 22);
+            this.textBox2.TabIndex = 8;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(102, 353);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(166, 59);
+            this.button1.TabIndex = 9;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(102, 455);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(166, 59);
+            this.button2.TabIndex = 10;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
             // 
             // TaskTableForm
             // 
@@ -280,7 +310,7 @@
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.TaskTable);
             this.Controls.Add(this.FilterMenu);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "TaskTableForm";
             this.Text = "Task Table";
             this.TransparencyKey = System.Drawing.SystemColors.Highlight;
@@ -293,7 +323,6 @@
             this.FilterMenu.PerformLayout();
             this.StatusMenu.ResumeLayout(false);
             this.StatusMenu.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -320,7 +349,10 @@
         private System.Windows.Forms.RadioButton StatusButton1;
         private System.Windows.Forms.TextBox SearchTextBox;
         private System.Windows.Forms.Label SearchLabel;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

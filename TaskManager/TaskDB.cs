@@ -33,7 +33,7 @@ namespace TaskManager
             return _dbconnstring;
         }
 
-        public OleDbConnection GetDBConnection()
+        public OleDbConnection GetDbConnection()
         {
             return new OleDbConnection { ConnectionString = GetConnectionString() };
         }
