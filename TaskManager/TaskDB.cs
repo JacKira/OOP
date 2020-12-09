@@ -13,7 +13,6 @@ namespace TaskManager
     /// </summary>
     class TaskDB
     {
-        private OleDbConnection _dbConnection;
         private string _dbconnstring;
         private string _dbsource;
         public TaskDB(string path)
