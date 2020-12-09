@@ -15,6 +15,7 @@ namespace TaskManager
     {
         private string _dbconnstring;
         private string _dbsource;
+        private OleDbConnection _dbConnection;
         public TaskDB(string path)
         {
             _dbsource = path;
