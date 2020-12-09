@@ -19,7 +19,7 @@ namespace TaskManager
         public TaskDB(string path)
         {
             _dbsource = path;
-            _dbconnstring = "Provider=Microsoft.ACE.OLEDB.16.0; Data Source=" + path;
+                 _dbconnstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=" + path;
         }
         public OleDbConnection OpenDbConnection()
         {

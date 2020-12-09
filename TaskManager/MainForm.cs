@@ -55,7 +55,7 @@ namespace TaskManager
             for (int i = 0; i < 5; i++)
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Doing");
-            var DB = new TaskDB(@"D:\Repos\OOP\Database2.accdb");
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             DB.OpenDbConnection();
             DB.CloseDbConnection();
         }
@@ -277,11 +277,12 @@ namespace TaskManager
         private void button1_Click(object sender, EventArgs e)
         {
 
-            var DB = new TaskDB(@"D:\Repos\OOP\Database2.accdb");
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             DB.OpenDbConnection();
             // текст запроса
             string query = "SELECT Описание FROM Записи WHERE Код = 4";
             OleDbCommand command = new OleDbCommand(query, DB.GetDbConnection());
+            DB.GetDbConnection().Open();
             textBox1.Text = DB.GetDbConnection().CreateCommand().ExecuteScalar().ToString();//command.ExecuteScalar().ToString();
             DB.CloseDbConnection();
         }
