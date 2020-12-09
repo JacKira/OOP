@@ -277,15 +277,14 @@ namespace TaskManager
         private void button1_Click(object sender, EventArgs e)
         {
 
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            DB.OpenDbConnection();
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb"); 
             // текст запроса
             string query = "SELECT Описание FROM Записи WHERE Код = 4";
             var dbconnect = DB.GetDbConnection();
             dbconnect.Open();
             OleDbCommand command = new OleDbCommand(query, dbconnect);
             textBox2.Text = command.ExecuteScalar().ToString();
-            DB.CloseDbConnection();
+            dbconnect.Close();
         }
         /* =========================================== CLASSES ===============================================*/
     }

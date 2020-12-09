@@ -13,19 +13,12 @@ namespace TaskManager
     /// </summary>
     class TaskDB
     {
-        private OleDbConnection _dbConnection;
         private string _dbconnstring;
         private string _dbsource;
         public TaskDB(string path)
         {
             _dbsource = path;
                  _dbconnstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=" + path;
-        }
-        public OleDbConnection OpenDbConnection()
-        {
-            _dbconnstring = GetConnectionString();
-            _dbConnection = new OleDbConnection { ConnectionString = _dbconnstring };
-            return _dbConnection;
         }
 
         public string GetConnectionString()
@@ -36,10 +29,6 @@ namespace TaskManager
         public OleDbConnection GetDbConnection()
         {
             return new OleDbConnection { ConnectionString = GetConnectionString() };
-        }
-        public void CloseDbConnection()
-        {
-            _dbConnection.Close();
         }
 
     }
