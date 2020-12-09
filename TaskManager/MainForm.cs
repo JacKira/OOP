@@ -56,7 +56,7 @@ namespace TaskManager
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Doing");*/
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var note = DB.GetNoteData(8);
+            var note = DB.GetNoteData(5);
             AddNote(note.Title, note.Description, note.Employer, note.Status);
         }
 
@@ -292,8 +292,8 @@ namespace TaskManager
         private void button2_Click(object sender, EventArgs e)
         {
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            long ID = 10;
-            string query = string.Format("SELECT Заголовок, Статус, Описание FROM Записи Where Код = {0}", ID);
+            long ID = 8;
+            string query = string.Format("SELECT Заголовок, Статус, Описание FROM Записи WHERE Код = {0}", ID);
             var dbconnect = DB.GetDbConnection();
             dbconnect.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
@@ -310,6 +310,50 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
+            dbconnect.Close();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            string query = string.Format("INSERT INTO Записи (Код, Заголовок, Статус, Описание)" +
+                                         "VALUES (8, 'Отчеты', 'Done', 'Сделать отчеты')");
+            var dbconnect = DB.GetDbConnection();
+            dbconnect.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, dbconnect);
+            // выполняем запрос к MS Access
+            command.ExecuteNonQuery();
+            dbconnect.Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            long ID = 8;
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            string query = string.Format("UPDATE Записи " +
+                                         "SET Заголовок = 'AAAAAAAAAAAAAAAAAA'" +
+                                         "WHERE Код = {0}", ID);
+            var dbconnect = DB.GetDbConnection();
+            dbconnect.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, dbconnect);
+            // выполняем запрос к MS Access
+            command.ExecuteNonQuery();
+            dbconnect.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            long ID = 8;
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            string query = string.Format("DELETE FROM Записи WHERE Код = {0}", ID);
+            var dbconnect = DB.GetDbConnection();
+            dbconnect.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, dbconnect);
+            // выполняем запрос к MS Access
+            command.ExecuteNonQuery();
             dbconnect.Close();
         }
         /* =========================================== CLASSES ===============================================*/
