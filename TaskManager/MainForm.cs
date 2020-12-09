@@ -46,7 +46,7 @@ namespace TaskManager
         private void MainForm_Load(object sender, EventArgs e)
         {
             //#3 Заполняем доску тестовыми записями
-            for (int i = 0; i < 5; i++)
+           /* for (int i = 0; i < 5; i++)
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Done");
             for (int i = 0; i < 5; i++)
@@ -54,10 +54,10 @@ namespace TaskManager
                 "Me", "To Do");
             for (int i = 0; i < 5; i++)
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                "Me", "Doing");
+                "Me", "Doing");*/
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            DB.OpenDbConnection();
-            DB.CloseDbConnection();
+            var note = DB.GetNoteData(8);
+            AddNote(note.Title, note.Description, note.Employer, note.Status);
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
@@ -278,14 +278,39 @@ namespace TaskManager
         {
 
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            DB.OpenDbConnection();
             // текст запроса
-            string query = "SELECT Описание FROM Записи WHERE Код = 4";
+            long ID = 8;
+            string query = string.Format("SELECT Описание FROM Записи WHERE Код = {0}", ID);
             var dbconnect = DB.GetDbConnection();
             dbconnect.Open();
             OleDbCommand command = new OleDbCommand(query, dbconnect);
             textBox2.Text = command.ExecuteScalar().ToString();
-            DB.CloseDbConnection();
+            dbconnect.Close();
+            //DB.CloseDbConnection();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            long ID = 10;
+            string query = string.Format("SELECT Заголовок, Статус, Описание FROM Записи Where Код = {0}", ID);
+            var dbconnect = DB.GetDbConnection();
+            dbconnect.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, dbconnect);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            // очищаем listBox1
+            listBox1.Items.Clear();
+            // в цикле построчно читаем ответ от БД
+            while (reader.Read())
+            {
+                // выводим данные столбцов текущей строки в listBox1
+                listBox1.Items.Add(reader[0].ToString() + " " + reader[1].ToString() + " " + reader[2].ToString() + " ");
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            dbconnect.Close();
         }
         /* =========================================== CLASSES ===============================================*/
     }

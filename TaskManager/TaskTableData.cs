@@ -33,7 +33,7 @@ namespace TaskManager
             _tableData.Add(note.ID, note);
         }
     }
-   
+
     public class NoteData
     {
         public string Title { get; set; } = "\0";
