@@ -282,7 +282,7 @@ namespace TaskManager
             // текст запроса
             string query = "SELECT Описание FROM Записи WHERE Код = 4";
             OleDbCommand command = new OleDbCommand(query, DB.GetDbConnection());
-            textBox1.Text = command.ExecuteScalar().ToString();
+            textBox1.Text = DB.GetDbConnection().CreateCommand().ExecuteScalar().ToString();//command.ExecuteScalar().ToString();
             DB.CloseDbConnection();
         }
         /* =========================================== CLASSES ===============================================*/
