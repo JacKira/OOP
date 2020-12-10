@@ -127,11 +127,11 @@ int main(int argc, char* argv[])
 	char* filename = "data.txt\0";
 	//char* filename = "nums.txt\0";
 	Stack_unit<Artist> new_stack(filename);
-	cout << "\nВывод данных в файл txt, считанных из файла txt\n";
+	cout << "\nВывод данных, считанных из файла txt в файл txt\n";
 	filename = "dataout.txt\0";
 	new_stack >> filename;
 	cout << endl;
-	cout << "\nВывод данных, считанных из файла txt, который заполнили данными из другого файла txt\n";
+	cout << "\nВывод данных, считанных из файла txt, который заполнили данными из файла txt\n";
 	new_stack << filename;
 	new_stack.Print();
 	cout << endl;
