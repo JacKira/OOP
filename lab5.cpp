@@ -125,7 +125,6 @@ int main(int argc, char* argv[])
 	
 
 	char* filename = "data.txt\0";
-	//char* filename = "nums.txt\0";
 	Stack_unit<Artist> new_stack(filename);
 	cout << "\nВывод данных в файл txt, считанных из файла txt\n";
 	filename = "dataout.txt\0";
@@ -176,10 +175,6 @@ int main(int argc, char* argv[])
 }
 
 
-#include "Artist.h"
-#include <iostream>
-#include "Utils.h"
-using namespace std;
 
 
 Artist::Artist(const string artist, const string dateFrom, const string dateTo)
