@@ -112,6 +112,7 @@ namespace TaskManager
             _dbConnection.Close();
             return list;
         }
+
         // Получить список ID задач по проекту по заданному ID проекта
         public List<long> GetTasksId(long ID_proj)
         {
@@ -135,6 +136,7 @@ namespace TaskManager
             _dbConnection.Close();
             return list; // возвращаем список ID
         }
+
         // Получить список ID задач по проекту в соответствии с заданным статусом задачи
         public List<long> GetTasksIdByStatus(string status, long ID_proj)
         {
@@ -158,6 +160,7 @@ namespace TaskManager
             _dbConnection.Close();
             return list; // возвращаем список ID
         }
+
         // Получить список ID задач работника по проекту
         public List<long> GetTasksIdByEmployer(string name, long ID_proj)
         {
@@ -178,8 +181,70 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
+            // закрываем соединение с БД
             _dbConnection.Close();
             return list; // возвращаем список ID
+        }
+
+        // Получить фамилию работника по его ID
+        public string GetNameByEmployerId(long ID)
+        {
+            string query = string.Format("SELECT Фамилия FROM Сотрудники" +
+                                         "WHERE Код = {0}", ID);
+            string name;
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            { 
+                name = reader[0].ToString();
+                return name; // возвращаем фамилию работника
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            // закрываем соединение с БД
+            _dbConnection.Close();
+            return null; // если работника нет, вернем нулевой указатель 
+        }
+
+        // Получить ID работника по его фамилии
+        public long GetEmployerIdByName(string name)
+        {
+            string query = string.Format("SELECT Код FROM Сотрудники " +
+                                         "WHERE Фамилия = '{0}'", name);
+            long ID;
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            if (reader.Read())
+            {
+                ID = Convert.ToInt32(reader[0].ToString());
+                return ID; // возвращаем фамилию работника
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            // закрываем соединение с БД
+            _dbConnection.Close();
+            return -1; // если работника нет, вернем -1 
+        }
+
+        // Обновить данные записи
+        public void UpdateNote(NoteData note)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            long ID = DB.GetEmployerIdByName(note.Employer);
+            string query = string.Format("UPDATE Записи " +
+                                        "SET Заголовок = '{0}', Описание = '{1}', Статус = '{2}'  " +
+                                        "WHERE Код = {3}", note.Title, note.Description, note.Status, note.ID);
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            command.ExecuteNonQuery(); // вносим изменения в БД
+            _dbConnection.Close();
         }
     }
 }

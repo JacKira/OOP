@@ -1263,7 +1263,7 @@ namespace TaskManager {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public ЗаписиRow AddЗаписиRow(string Заголовок, int Статус, string Описание, СотрудникиRow parentСотрудникиRowByСотрудникиЗаписи, ЭтапыRow parentЭтапыRowByЭтапыЗаписи, System.DateTime Дата_начала, System.DateTime Дата_окончания, System.DateTime Дата_реального_окончания) {
+            public ЗаписиRow AddЗаписиRow(string Заголовок, string Статус, string Описание, СотрудникиRow parentСотрудникиRowByСотрудникиЗаписи, ЭтапыRow parentЭтапыRowByЭтапыЗаписи, System.DateTimeOffset Дата_начала, System.DateTime Дата_окончания, System.DateTime Дата_реального_окончания) {
                 ЗаписиRow rowЗаписиRow = ((ЗаписиRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
@@ -1328,7 +1328,7 @@ namespace TaskManager {
                 base.Columns.Add(this.columnКод);
                 this.columnЗаголовок = new global::System.Data.DataColumn("Заголовок", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnЗаголовок);
-                this.columnСтатус = new global::System.Data.DataColumn("Статус", typeof(int), null, global::System.Data.MappingType.Element);
+                this.columnСтатус = new global::System.Data.DataColumn("Статус", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnСтатус);
                 this.columnОписание = new global::System.Data.DataColumn("Описание", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnОписание);
@@ -1336,7 +1336,7 @@ namespace TaskManager {
                 base.Columns.Add(this.columnID_работника);
                 this.columnID_этапа = new global::System.Data.DataColumn("ID этапа", typeof(int), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnID_этапа);
-                this.columnДата_начала = new global::System.Data.DataColumn("Дата начала", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
+                this.columnДата_начала = new global::System.Data.DataColumn("Дата начала", typeof(global::System.DateTimeOffset), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnДата_начала);
                 this.columnДата_окончания = new global::System.Data.DataColumn("Дата окончания", typeof(global::System.DateTime), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnДата_окончания);
@@ -5463,10 +5463,10 @@ namespace TaskManager {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public int Статус {
+            public string Статус {
                 get {
                     try {
-                        return ((int)(this[this.tableЗаписи.СтатусColumn]));
+                        return ((string)(this[this.tableЗаписи.СтатусColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("Значение для столбца \'Статус\' в таблице \'Записи\' равно DBNull.", e);
@@ -5527,10 +5527,10 @@ namespace TaskManager {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "16.0.0.0")]
-            public System.DateTime Дата_начала {
+            public System.DateTimeOffset Дата_начала {
                 get {
                     try {
-                        return ((global::System.DateTime)(this[this.tableЗаписи.Дата_началаColumn]));
+                        return ((global::System.DateTimeOffset)(this[this.tableЗаписи.Дата_началаColumn]));
                     }
                     catch (global::System.InvalidCastException e) {
                         throw new global::System.Data.StrongTypingException("Значение для столбца \'Дата начала\' в таблице \'Записи\' равно DBNull.", e);
@@ -8248,6 +8248,8 @@ namespace TaskManager.Database3DataSetTableAdapters {
             tableMapping.ColumnMappings.Add("Дата начала", "Дата начала");
             tableMapping.ColumnMappings.Add("Дата окончания", "Дата окончания");
             tableMapping.ColumnMappings.Add("Дата реального окончания", "Дата реального окончания");
+            tableMapping.ColumnMappings.Add("ID_этапа", "ID этапа");
+            tableMapping.ColumnMappings.Add("ID_работника", "ID работника");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.OleDb.OleDbCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;

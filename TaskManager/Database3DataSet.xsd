@@ -148,6 +148,8 @@
               <Mapping SourceColumn="Дата начала" DataSetColumn="Дата начала" />
               <Mapping SourceColumn="Дата окончания" DataSetColumn="Дата окончания" />
               <Mapping SourceColumn="Дата реального окончания" DataSetColumn="Дата реального окончания" />
+              <Mapping SourceColumn="ID_этапа" DataSetColumn="ID этапа" />
+              <Mapping SourceColumn="ID_работника" DataSetColumn="ID работника" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -648,7 +650,7 @@
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
-              <xs:element name="Статус" msprop:Generator_ColumnVarNameInTable="columnСтатус" msprop:Generator_ColumnPropNameInRow="Статус" msprop:Generator_ColumnPropNameInTable="СтатусColumn" msprop:Generator_UserColumnName="Статус" type="xs:int" minOccurs="0" />
+              <xs:element name="Статус" msprop:Generator_ColumnVarNameInTable="columnСтатус" msprop:Generator_ColumnPropNameInRow="Статус" msprop:Generator_ColumnPropNameInTable="СтатусColumn" msprop:Generator_UserColumnName="Статус" type="xs:string" minOccurs="0" />
               <xs:element name="Описание" msprop:Generator_ColumnVarNameInTable="columnОписание" msprop:Generator_ColumnPropNameInRow="Описание" msprop:Generator_ColumnPropNameInTable="ОписаниеColumn" msprop:Generator_UserColumnName="Описание" minOccurs="0">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
@@ -658,7 +660,7 @@
               </xs:element>
               <xs:element name="ID_x0020_работника" msprop:Generator_ColumnVarNameInTable="columnID_работника" msprop:Generator_ColumnPropNameInRow="ID_работника" msprop:Generator_ColumnPropNameInTable="ID_работникаColumn" msprop:Generator_UserColumnName="ID работника" type="xs:int" minOccurs="0" />
               <xs:element name="ID_x0020_этапа" msprop:Generator_ColumnVarNameInTable="columnID_этапа" msprop:Generator_ColumnPropNameInRow="ID_этапа" msprop:Generator_ColumnPropNameInTable="ID_этапаColumn" msprop:Generator_UserColumnName="ID этапа" type="xs:int" minOccurs="0" />
-              <xs:element name="Дата_x0020_начала" msprop:Generator_ColumnVarNameInTable="columnДата_начала" msprop:Generator_ColumnPropNameInRow="Дата_начала" msprop:Generator_ColumnPropNameInTable="Дата_началаColumn" msprop:Generator_UserColumnName="Дата начала" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="Дата_x0020_начала" msdata:DataType="System.DateTimeOffset" msprop:Generator_ColumnVarNameInTable="columnДата_начала" msprop:Generator_ColumnPropNameInRow="Дата_начала" msprop:Generator_ColumnPropNameInTable="Дата_началаColumn" msprop:Generator_UserColumnName="Дата начала" type="xs:anyType" minOccurs="0" />
               <xs:element name="Дата_x0020_окончания" msprop:Generator_ColumnVarNameInTable="columnДата_окончания" msprop:Generator_ColumnPropNameInRow="Дата_окончания" msprop:Generator_ColumnPropNameInTable="Дата_окончанияColumn" msprop:Generator_UserColumnName="Дата окончания" type="xs:dateTime" minOccurs="0" />
               <xs:element name="Дата_x0020_реального_x0020_окончания" msprop:Generator_ColumnVarNameInTable="columnДата_реального_окончания" msprop:Generator_ColumnPropNameInRow="Дата_реального_окончания" msprop:Generator_ColumnPropNameInTable="Дата_реального_окончанияColumn" msprop:Generator_UserColumnName="Дата реального окончания" type="xs:dateTime" minOccurs="0" />
             </xs:sequence>

@@ -56,6 +56,9 @@ namespace TaskManager
                 "Me", "Doing");*/
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             var note = DB.GetNoteData(5);
+            note.Title = "Заголовок после update";
+            note.Description = "Описание после update";
+            DB.UpdateNote(note);
             AddNote(note.Title, note.Description, note.Employer, note.Status);
         }
 
