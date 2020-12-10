@@ -11,7 +11,6 @@ using System.Runtime.InteropServices;
 using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Collections;
-using System.Data;
 using System.Data.OleDb;
 
 namespace TaskManager
@@ -355,6 +354,27 @@ namespace TaskManager
             // выполняем запрос к MS Access
             command.ExecuteNonQuery();
             dbconnect.Close();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            var listEmployers = DB.GetEmployers(1);
+            for (int i = 0; i < listEmployers.Count(); i++)
+            {
+                listBox1.Items.Add(listEmployers[i].Name);
+            }
+            listBox1.Items.Add(listEmployers.Count());
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            var listId = DB.GetTasksId(1);
+            for (int i = 0; i < listId.Count(); i++)
+            {
+                listBox1.Items.Add(listId[i]);
+            }
         }
         /* =========================================== CLASSES ===============================================*/
     }

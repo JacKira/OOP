@@ -33,16 +33,17 @@ namespace TaskManager
         {
             return _dbconnstring;
         }
-
+        // Получить соединение с базой данных
         public OleDbConnection GetDbConnection()
         {
             return new OleDbConnection { ConnectionString = GetConnectionString() };
         }
+        // Закрыть соединение с базой данных
         public void CloseDbConnection()
         {
             _dbConnection.Close();
         }
-
+        // Получить записку по заданному ID записи
         public NoteData GetNoteData(long ID)
         {
             string query = string.Format("SELECT Заголовок, Описание, Статус FROM Записи Where Код = {0}", ID);
@@ -59,8 +60,6 @@ namespace TaskManager
             // в цикле построчно читаем ответ от БД
             if (reader.Read())
             {
-                // выводим данные столбцов текущей строки в listBox1
-                //listBox1.Items.Add(reader[0].ToString() + " " + reader[1].ToString() + " " + reader[2].ToString() + " ");
                 note.Title = reader[0].ToString();
                 note.Description = reader[1].ToString();
                 note.Status = reader[2].ToString().Replace(" ", "");
@@ -74,8 +73,6 @@ namespace TaskManager
             // в цикле построчно читаем ответ от БД
             if (reader.Read())
             {
-                // выводим данные столбцов текущей строки в listBox1
-                //listBox1.Items.Add(reader[0].ToString() + " " + reader[1].ToString() + " " + reader[2].ToString() + " ");
                 note.Employer = reader[0].ToString();
                 reader.Close();
                 _dbConnection.Close();
@@ -83,19 +80,59 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
+            // закрываем соединение с БД
             _dbConnection.Close();
-            return null;
+            return null; // если записи нет, вернем нулевой указатель
         }
 
+        // Получить список работников по заданному ID проекта
         public List<Employer> GetEmployers(long ID_proj)
         {
+            string query = string.Format("SELECT DISTINCT Сотрудники.Код, Сотрудники.Фамилия " +
+                                         "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
+                                         "INNER JOIN(Сотрудники INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) " +
+                                         "ON Этапы.Код = Записи.[ID этапа] " +
+                                         "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<Employer>();
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            // в цикле построчно читаем ответ от БД
+            while (reader.Read())
+            {
+                Employer employer = new Employer();
+                employer.ID = Convert.ToInt32(reader[0].ToString());
+                employer.Name = reader[1].ToString();
+                list.Add(employer);
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            _dbConnection.Close();
             return list;
         }
 
         public List<long> GetTasksId(long ID_proj)
         {
+            string query = string.Format("SELECT Записи.Код " +
+                                         "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
+                                         "INNER JOIN Записи ON Этапы.Код = Записи.[ID этапа] " +
+                                         "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<long>();
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            // в цикле построчно читаем ответ от БД
+            while (reader.Read())
+            {
+                list.Add(Convert.ToInt32(reader[0].ToString()));
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            _dbConnection.Close();
             return list;
         }
     }

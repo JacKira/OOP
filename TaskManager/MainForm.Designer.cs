@@ -40,6 +40,9 @@
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.FilterMenu = new System.Windows.Forms.GroupBox();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
@@ -52,9 +55,8 @@
             this.StatusButton1 = new System.Windows.Forms.RadioButton();
             this.EmployersLabel = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.FilterMenu.SuspendLayout();
@@ -180,6 +182,36 @@
             this.FilterMenu.TabStop = false;
             this.FilterMenu.Text = "Фильтры";
             this.FilterMenu.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(118, 504);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(154, 51);
+            this.button5.TabIndex = 13;
+            this.button5.Text = "Удалить данные";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(210, 448);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(142, 50);
+            this.button4.TabIndex = 12;
+            this.button4.Text = "Обновить данные";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(16, 448);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(180, 50);
+            this.button3.TabIndex = 11;
+            this.button3.Text = "добавить в бд";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // button2
             // 
@@ -308,35 +340,25 @@
             this.comboBox1.Size = new System.Drawing.Size(344, 24);
             this.comboBox1.TabIndex = 3;
             // 
-            // button3
+            // button6
             // 
-            this.button3.Location = new System.Drawing.Point(16, 448);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(180, 50);
-            this.button3.TabIndex = 11;
-            this.button3.Text = "добавить в бд";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button6.Location = new System.Drawing.Point(289, 0);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(195, 49);
+            this.button6.TabIndex = 3;
+            this.button6.Text = "Получить список работников в listbox";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
-            // button4
+            // button7
             // 
-            this.button4.Location = new System.Drawing.Point(210, 448);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(142, 50);
-            this.button4.TabIndex = 12;
-            this.button4.Text = "Обновить данные";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // button5
-            // 
-            this.button5.Location = new System.Drawing.Point(118, 504);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(154, 51);
-            this.button5.TabIndex = 13;
-            this.button5.Text = "Удалить данные";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.button5_Click);
+            this.button7.Location = new System.Drawing.Point(543, 0);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(195, 49);
+            this.button7.TabIndex = 4;
+            this.button7.Text = "Получить ID задач в listbox";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // TaskTableForm
             // 
@@ -344,6 +366,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
             this.ClientSize = new System.Drawing.Size(1809, 1054);
+            this.Controls.Add(this.button7);
+            this.Controls.Add(this.button6);
             this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.TaskTable);
             this.Controls.Add(this.FilterMenu);
@@ -393,6 +417,8 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.Button button7;
     }
 }
 
