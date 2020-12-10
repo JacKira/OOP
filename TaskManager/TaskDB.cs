@@ -238,8 +238,8 @@ namespace TaskManager
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             long ID = DB.GetEmployerIdByName(note.Employer);
             string query = string.Format("UPDATE Записи " +
-                                        "SET Заголовок = '{0}', Описание = '{1}', Статус = '{2}'  " +
-                                        "WHERE Код = {3}", note.Title, note.Description, note.Status, note.ID);
+                                        "SET Заголовок = '{0}', Описание = '{1}', [ID работника] = {2}, [ID этапа] = {3}, Статус = '{5}' " +
+                                        "WHERE Код = {3}", note.Title, note.Description, ID, 1, note.Status, note.ID);
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);

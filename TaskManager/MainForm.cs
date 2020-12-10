@@ -58,6 +58,8 @@ namespace TaskManager
             var note = DB.GetNoteData(5);
             note.Title = "Заголовок после update";
             note.Description = "Описание после update";
+            note.Employer = "Андреев";
+            note.Status = "Done";
             DB.UpdateNote(note);
             AddNote(note.Title, note.Description, note.Employer, note.Status);
         }
