@@ -112,13 +112,59 @@ namespace TaskManager
             _dbConnection.Close();
             return list;
         }
-
+        // Получить список ID задач по проекту по заданному ID проекта
         public List<long> GetTasksId(long ID_proj)
         {
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN Записи ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}))", ID_proj);
+            var list = new List<long>();
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            // в цикле построчно читаем ответ от БД
+            while (reader.Read())
+            {
+                list.Add(Convert.ToInt32(reader[0].ToString()));
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            _dbConnection.Close();
+            return list;
+        }
+
+        public List<long> GetTasksIdByStatus(string status, long ID_proj)
+        {
+            string query = string.Format("SELECT Записи.Код " +
+                                         "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
+                                         "INNER JOIN(Сотрудники INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
+                                         "WHERE(((Проекты.Код) = {0}) AND((Записи.Статус) = \"{1}\"))", ID_proj, status);
+            var list = new List<long>();
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            // в цикле построчно читаем ответ от БД
+            while (reader.Read())
+            {
+                list.Add(Convert.ToInt32(reader[0].ToString()));
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            _dbConnection.Close();
+            return list;
+        }
+
+        public List<long> GetTasksIdByEmployer(string name, long ID_proj)
+        {
+            string query = string.Format("SELECT Записи.Код " +
+                                         "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
+                                         "INNER JOIN(Сотрудники INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
+                                         "WHERE(((Сотрудники.Фамилия) = \"{0}\") AND ((Проекты.Код) = {1}))", name, ID_proj);
             var list = new List<long>();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access

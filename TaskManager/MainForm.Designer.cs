@@ -57,6 +57,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button6 = new System.Windows.Forms.Button();
             this.button7 = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.FilterMenu.SuspendLayout();
@@ -342,7 +344,7 @@
             // 
             // button6
             // 
-            this.button6.Location = new System.Drawing.Point(289, 0);
+            this.button6.Location = new System.Drawing.Point(161, 0);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(195, 49);
             this.button6.TabIndex = 3;
@@ -352,7 +354,7 @@
             // 
             // button7
             // 
-            this.button7.Location = new System.Drawing.Point(543, 0);
+            this.button7.Location = new System.Drawing.Point(362, 0);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(195, 49);
             this.button7.TabIndex = 4;
@@ -360,12 +362,34 @@
             this.button7.UseVisualStyleBackColor = true;
             this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
+            // button8
+            // 
+            this.button8.Location = new System.Drawing.Point(563, 0);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(195, 49);
+            this.button8.TabIndex = 5;
+            this.button8.Text = "Получить ID задач по статусу \"Doing\"";
+            this.button8.UseVisualStyleBackColor = true;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
+            // 
+            // button9
+            // 
+            this.button9.Location = new System.Drawing.Point(764, 0);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(195, 49);
+            this.button9.TabIndex = 6;
+            this.button9.Text = "Получить ID задач по работнику \"Андреев\"";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
+            // 
             // TaskTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.HighlightText;
             this.ClientSize = new System.Drawing.Size(1809, 1054);
+            this.Controls.Add(this.button9);
+            this.Controls.Add(this.button8);
             this.Controls.Add(this.button7);
             this.Controls.Add(this.button6);
             this.Controls.Add(this.toolStrip1);
@@ -419,6 +443,8 @@
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button6;
         private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button8;
+        private System.Windows.Forms.Button button9;
     }
 }
 

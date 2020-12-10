@@ -194,9 +194,6 @@ namespace TaskManager
                 //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
                 TaskTable.Controls.Add(InitNote(title, description, employer, status));
             }
-
-
-
         }
 
         private static void ChangeRowCount(object sender, EventArgs e)
@@ -371,6 +368,26 @@ namespace TaskManager
         {
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             var listId = DB.GetTasksId(1);
+            for (int i = 0; i < listId.Count(); i++)
+            {
+                listBox1.Items.Add(listId[i]);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            var listId = DB.GetTasksIdByStatus("Doing", 1);
+            for (int i = 0; i < listId.Count(); i++)
+            {
+                listBox1.Items.Add(listId[i]);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            var listId = DB.GetTasksIdByEmployer("Андреев", 1);
             for (int i = 0; i < listId.Count(); i++)
             {
                 listBox1.Items.Add(listId[i]);
