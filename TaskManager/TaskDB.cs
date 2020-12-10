@@ -133,9 +133,9 @@ namespace TaskManager
             // закрываем OleDbDataReader
             reader.Close();
             _dbConnection.Close();
-            return list;
+            return list; // возвращаем список ID
         }
-
+        // Получить список ID задач по проекту в соответствии с заданным статусом задачи
         public List<long> GetTasksIdByStatus(string status, long ID_proj)
         {
             string query = string.Format("SELECT Записи.Код " +
@@ -156,9 +156,9 @@ namespace TaskManager
             // закрываем OleDbDataReader
             reader.Close();
             _dbConnection.Close();
-            return list;
+            return list; // возвращаем список ID
         }
-
+        // Получить список ID задач работника по проекту
         public List<long> GetTasksIdByEmployer(string name, long ID_proj)
         {
             string query = string.Format("SELECT Записи.Код " +
@@ -179,7 +179,7 @@ namespace TaskManager
             // закрываем OleDbDataReader
             reader.Close();
             _dbConnection.Close();
-            return list;
+            return list; // возвращаем список ID
         }
     }
 }
