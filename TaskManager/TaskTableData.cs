@@ -28,8 +28,10 @@ namespace TaskManager
             {
                 note = new NoteData();
             }
-            maxid += 1;
-            note.ID = maxid;
+            if(note.ID > maxid)
+            {
+                maxid = note.ID;
+            }
             _tableData.Add(note.ID, note);
         }
     }
