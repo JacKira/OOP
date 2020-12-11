@@ -246,5 +246,18 @@ namespace TaskManager
             command.ExecuteNonQuery(); // вносим изменения в БД
             _dbConnection.Close();
         }
+
+        public void LogIn(string name, string login, string password)
+        {
+            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            string query = string.Format("INSERT INTO Сотрудники (Фамилия, Пароль, Логин)" +
+                                         "VALUES ('{0}', '{1}', '{2}')", name, password, login);
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // выполняем запрос к MS Access
+            command.ExecuteNonQuery();
+           _dbConnection.Close();
+        }
     }
 }
