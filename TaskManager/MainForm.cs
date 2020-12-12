@@ -63,6 +63,7 @@ namespace TaskManager
             DB.UpdateNote(note);
             AddNote(note.Title, note.Description, note.Employer, note.Status);
             // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
+            DB.SetAdmin(3, 3);
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия

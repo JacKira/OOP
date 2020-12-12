@@ -47,7 +47,7 @@ namespace TaskManager
         public NoteData GetNoteData(long ID)
         {
             string query = string.Format("SELECT Заголовок, Описание, Статус FROM Записи Where Код = {0}", ID);
-            string query2 = string.Format("SELECT Сотрудники.Фамилия, Записи.Код " +
+            string query2 = string.Format("SELECT Фамилия " +
                                           "FROM Сотрудники " +
                                           "INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника] " +
                                           "WHERE(((Записи.Код) = {0}))", ID);
@@ -200,6 +200,10 @@ namespace TaskManager
             if (reader.Read())
             { 
                 name = reader[0].ToString();
+                // закрываем OleDbDataReader
+                reader.Close();
+                // закрываем соединение с БД
+                _dbConnection.Close();
                 return name; // возвращаем фамилию работника
             }
             // закрываем OleDbDataReader
@@ -223,6 +227,10 @@ namespace TaskManager
             if (reader.Read())
             {
                 ID = Convert.ToInt32(reader[0].ToString());
+                // закрываем OleDbDataReader
+                reader.Close();
+                // закрываем соединение с БД
+                _dbConnection.Close();
                 return ID; // возвращаем фамилию работника
             }
             // закрываем OleDbDataReader
@@ -235,8 +243,7 @@ namespace TaskManager
         // Обновить данные записи
         public void UpdateNote(NoteData note)
         {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            long ID = DB.GetEmployerIdByName(note.Employer);
+            long ID = this.GetEmployerIdByName(note.Employer);
             string query = string.Format("UPDATE Записи " +
                                         "SET Заголовок = '{0}', Описание = '{1}', [ID работника] = {2}, [ID этапа] = {3}, Статус = '{5}' " +
                                         "WHERE Код = {3}", note.Title, note.Description, ID, 1, note.Status, note.ID);
@@ -244,12 +251,13 @@ namespace TaskManager
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             command.ExecuteNonQuery(); // вносим изменения в БД
+            // закрываем соединение с БД
             _dbConnection.Close();
         }
 
+        // Добавить сотрудника в БД
         public void LogIn(string name, string login, string password)
         {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             string query = string.Format("INSERT INTO Сотрудники (Фамилия, Пароль, Логин)" +
                                          "VALUES ('{0}', '{1}', '{2}')", name, password, login);
             _dbConnection.Open();
@@ -257,7 +265,41 @@ namespace TaskManager
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // выполняем запрос к MS Access
             command.ExecuteNonQuery();
-           _dbConnection.Close();
+            // закрываем соединение с БД
+            _dbConnection.Close();
         }
+
+        // Добавить администратора из числа работников
+        public void AddAdmin(long ID)
+        {
+            string query = string.Format("INSERT INTO Администраторы ([ID сотрудника]) " +
+                                         "VALUES ({0})", ID);
+            // открываем соединение с БД
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // выполняем запрос к MS Access
+            command.ExecuteNonQuery();
+            // закрываем соединение с БД
+            _dbConnection.Close();
+        }
+
+        // Назначить администратора на проект
+        public void SetAdmin(long ID_admin, long ID_proj)
+        {
+            string query = string.Format("UPDATE Проекты " +
+                                         "SET [ID администратора] = {0} " +
+                                         "WHERE Код = {1}", ID_admin, ID_proj);
+            // открываем соединение с БД
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // выполняем запрос к MS Access
+            command.ExecuteNonQuery();
+            // закрываем соединение с БД
+            _dbConnection.Close();
+        }
+
+
     }
 }
