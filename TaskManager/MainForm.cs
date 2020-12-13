@@ -55,7 +55,8 @@ namespace TaskManager
                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
                 "Me", "Doing");*/
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var note = DB.GetNoteData(5);
+            var note = DB.GetNoteData(4);
+            AddNote(note.Title, note.Description, note.Employer, note.Status);
             note.Title = "Заголовок после update";
             note.Description = "Описание после update";
             note.Employer = "Андреев";
@@ -63,12 +64,12 @@ namespace TaskManager
             DB.UpdateNote(note);
             AddNote(note.Title, note.Description, note.Employer, note.Status);
             // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
-            DB.SetAdmin(3, 3);
+            //DB.AddAdmin(3);
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
         private System.Windows.Forms.TableLayoutPanel InitNote(string title = "\0", string description = "\0",
-                                                               string employer = "\0", string status = "To Do", long ID = 0)
+                                                               string employer = "\0", string status = "To Do", int ID = 0)
         {
             var NewNote = new Note() { Margin = new Padding(10) };
             NewNote.BackColor = System.Drawing.SystemColors.Window;
@@ -255,7 +256,7 @@ namespace TaskManager
 
         private class Note : TableLayoutPanel
         {
-            public long ID = 0;
+            public int ID = 0;
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -282,7 +283,7 @@ namespace TaskManager
 
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             // текст запроса
-            long ID = 8;
+            int ID = 8;
             string query = string.Format("SELECT Описание FROM Записи WHERE Код = {0}", ID);
             var dbconnect = DB.GetDbConnection();
             dbconnect.Open();
@@ -295,7 +296,7 @@ namespace TaskManager
         private void button2_Click(object sender, EventArgs e)
         {
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            long ID = 8;
+            int ID = 8;
             string query = string.Format("SELECT Заголовок, Статус, Описание FROM Записи WHERE Код = {0}", ID);
             var dbconnect = DB.GetDbConnection();
             dbconnect.Open();
@@ -332,7 +333,7 @@ namespace TaskManager
 
         private void button4_Click(object sender, EventArgs e)
         {
-            long ID = 8;
+            int ID = 8;
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             string query = string.Format("UPDATE Записи " +
                                          "SET Заголовок = 'AAAAAAAAAAAAAAAAAA'" +
@@ -348,7 +349,7 @@ namespace TaskManager
 
         private void button5_Click(object sender, EventArgs e)
         {
-            long ID = 8;
+            int ID = 8;
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             string query = string.Format("DELETE FROM Записи WHERE Код = {0}", ID);
             var dbconnect = DB.GetDbConnection();

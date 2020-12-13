@@ -14,9 +14,9 @@ namespace TaskManager
     /// </summary>
     public class TaskTableData
     {
-        private Dictionary<long, NoteData> _tableData = new Dictionary<long, NoteData>();
-        public long maxid = 0;
-        public NoteData this[long id]
+        private Dictionary<int, NoteData> _tableData = new Dictionary<int, NoteData>();
+        public int maxid = 0;
+        public NoteData this[int id]
         {
             get { return _tableData[id]; }
             set { _tableData[id] = value; }
@@ -42,12 +42,12 @@ namespace TaskManager
         public string Description { get; set; } = "\0";
         public string Employer { get; set; } = "\0";
         public string Status { get; set; } = "\0";
-        public long ID { get; set; } = 0;
+        public int ID { get; set; } = 0;
     }
 
     class Employer
     {
-        public long ID { get; set; } = 0;
+        public int ID { get; set; } = 0;
         public string Name { get; set; } = "\0";
         
     }
