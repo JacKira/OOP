@@ -106,7 +106,8 @@ namespace TaskManager
         {
             string query = string.Format("SELECT DISTINCT Сотрудники.Код, Сотрудники.Фамилия " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
-                                         "INNER JOIN(Сотрудники INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) " +
+                                         "INNER JOIN(Сотрудники " +
+                                         "INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) " +
                                          "ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<Employer>();
@@ -170,7 +171,8 @@ namespace TaskManager
         {
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
-                                         "INNER JOIN(Сотрудники INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
+                                         "INNER JOIN(Сотрудники INNER JOIN Записи " +
+                                         "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}) AND ((Записи.Статус) = \"{1}\"))", ID_proj, status);
             var list = new List<int>();
             _dbConnection.Open();
@@ -198,7 +200,9 @@ namespace TaskManager
         {
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
-                                         "INNER JOIN(Сотрудники INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
+                                         "INNER JOIN(Сотрудники " +
+                                         "INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) " +
+                                         "ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}) AND ((Записи.Заголовок) = \"{1}\"))", ID_proj, title);
             var list = new List<int>();
             _dbConnection.Open();
@@ -226,7 +230,8 @@ namespace TaskManager
         {
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
-                                         "INNER JOIN(Сотрудники INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
+                                         "INNER JOIN(Сотрудники INNER JOIN Записи " +
+                                         "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Сотрудники.Фамилия) = \"{0}\") AND ((Проекты.Код) = {1}))", name, ID_proj);
             var list = new List<int>();
             _dbConnection.Open();
