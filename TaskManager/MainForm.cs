@@ -63,6 +63,11 @@ namespace TaskManager
             note.Status = "Done";
             DB.UpdateNote(note);
             AddNote(note.Title, note.Description, note.Employer, note.Status);
+            note.Title = "База данных";
+            note.Description = "Создать базу данных.";
+            note.Status = "Doing";
+            DB.UpdateNote(note);
+            DB.DeleteNoteData(12);
             // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
             //DB.AddAdmin(3);
         }
