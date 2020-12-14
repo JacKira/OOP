@@ -163,6 +163,7 @@ namespace TaskManager
 
         /// <summary>
         /// Получить список ID задач по проекту в соответствии с заданным статусом задачи
+        /// и ID проекта
         /// </summary>
         /// <param name="status"></param>
         /// <param name="ID_proj"></param>
@@ -193,6 +194,7 @@ namespace TaskManager
         }
         /// <summary>
         /// Получить список ID задач по проекту в соответствии с заданным заголовком задачи
+        /// и ID проекта
         /// </summary>
         /// <param name="title"></param>
         /// <param name="ID_proj"></param>
@@ -222,19 +224,52 @@ namespace TaskManager
             _dbConnection.Close();
             return list; // возвращаем список ID
         }
+        
         /// <summary>
-        /// Получить список ID задач работника по проекту
+        /// Получить список ID задач работника по фамилии работника и ID проекта
         /// </summary>
         /// <param name="name"></param>
         /// <param name="ID_proj"></param>
         /// <returns></returns>
-        public List<int> GetTasksIdByEmployer(string name, int ID_proj)
+        public List<int> GetTasksIdByEmployerName(string name, int ID_proj)
         {
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN(Сотрудники INNER JOIN Записи " +
                                          "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Сотрудники.Фамилия) = \"{0}\") AND ((Проекты.Код) = {1}))", name, ID_proj);
+            var list = new List<int>();
+            var _dbConnection = this.GetDbConnection();
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
+            OleDbDataReader reader = command.ExecuteReader();
+            // в цикле построчно читаем ответ от БД
+            while (reader.Read())
+            {
+                list.Add(Convert.ToInt32(reader[0].ToString()));
+            }
+            // закрываем OleDbDataReader
+            reader.Close();
+            // закрываем соединение с БД
+            _dbConnection.Close();
+            return list; // возвращаем список ID
+        }
+
+        /// <summary>
+        /// Получить список ID задач работника по ID работника и ID проекта
+        /// </summary>
+        /// <param name="ID_emp"></param>
+        /// <param name="ID_proj"></param>
+        /// <returns></returns>
+        public List<int> GetTasksIdByEmployerId(int ID_emp, int ID_proj)
+        {
+            string query = string.Format("SELECT Записи.Код " +
+                                         "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
+                                         "INNER JOIN(Сотрудники INNER JOIN Записи " +
+                                         "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
+                                         "WHERE(((Сотрудники.Код) = \"{0}\") AND ((Проекты.Код) = {1}))", ID_emp, ID_proj);
             var list = new List<int>();
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
@@ -376,7 +411,7 @@ namespace TaskManager
             // закрываем OleDbDataReader
             // закрываем соединение с БД
             _dbConnection.Close();
-            return false; // если работника нет, вернем -1 
+            return false; // если работника нет, вернем false
         }
 
         /// <summary>
@@ -430,6 +465,28 @@ namespace TaskManager
         /*================================= Добавление данных в БД =================================*/
 
         /// <summary>
+        /// Добавить пустую запись и вернуть ее ID
+        /// </summary>
+        public int AddEmptyNoteData()
+        {
+            int ID; // ID для добавляемой записи
+            string query = string.Format("INSERT INTO Записи (Заголовок)" +
+                                         "VALUES ('')");
+            var _dbConnection = this.GetDbConnection();
+            _dbConnection.Open();
+            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // выполняем запрос к MS Access
+            command.ExecuteNonQuery();
+            query = string.Format("SELECT Код FROM Записи WHERE Заголовок = ''");
+            command = new OleDbCommand(query, _dbConnection);
+            ID = Convert.ToInt32(command.ExecuteScalar());
+            // закрываем соединение с БД
+            _dbConnection.Close();
+            return ID;
+        }
+
+        /// <summary>
         /// Обновить данные записи в БД
         /// </summary>
         /// <param name="note"></param>
@@ -470,7 +527,7 @@ namespace TaskManager
         }
 
         /// <summary>
-        /// Добавить администратора из числа работников, если он не админ
+        /// Добавить администратора из числа работников по его ID, если он не админ
         /// </summary>
         /// <param name="ID"></param>
         public void AddAdmin(int ID)
@@ -492,7 +549,7 @@ namespace TaskManager
         }
 
         /// <summary>
-        ///  Назначить администратора на проект
+        ///  Назначить администратора на проект по ID админа и ID проекта
         /// </summary>
         /// <param name="ID_admin"></param>
         /// <param name="ID_proj"></param>
@@ -515,7 +572,8 @@ namespace TaskManager
         /*================================= Удаление данных из БД =================================*/
 
         /// <summary>
-        /// Удаление записи из БДparam name="ID"></param>
+        /// Удаление записи из БД по ее ID
+        /// </summary>
         public void DeleteNoteData(int ID)
         {
             string query = string.Format("DELETE FROM Записи WHERE Код = {0}", ID);
@@ -529,7 +587,7 @@ namespace TaskManager
         }
 
         /// <summary>
-        /// Удалить работника из БД, если он не является админом.
+        /// Удалить работника из БД по его ID, если он не является админом.
         /// В противном случае - ничего не делать
         /// </summary>
         /// <param name="ID"></param>
@@ -549,8 +607,8 @@ namespace TaskManager
         }
 
         /// <summary>
-        /// Удалить администратора из БД
-        /// <param name="ID"></param>
+        /// Удалить администратора из БД по его ID
+        /// </summary>
         public void DeleteAdmin(int ID)
         {
             string query = string.Format("DELETE FROM Администраторы WHERE Код = {0}", ID);

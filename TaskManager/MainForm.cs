@@ -84,7 +84,7 @@ namespace TaskManager
             // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
             //DB.AddAdmin(3);
 
-
+            DB.AddEmptyNoteData();
             //=========================== Sanya ===============================//
             //Получаем все задачи проекта
             _ids = DB.GetTasksId(1);
@@ -453,7 +453,7 @@ namespace TaskManager
         private void button9_Click(object sender, EventArgs e)
         {
             var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var listId = DB.GetTasksIdByEmployer("Андреев", 1);
+            var listId = DB.GetTasksIdByEmployerName("Андреев", 1);
             for (int i = 0; i < listId.Count(); i++)
             {
                 listBox1.Items.Add(listId[i]);
@@ -490,7 +490,7 @@ namespace TaskManager
         private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //=========================== Sanya ===============================//
-            _forPrint = DB.GetTasksIdByEmployer(EmployersBox.SelectedItem.ToString(), 1);
+            _forPrint = DB.GetTasksIdByEmployerName(EmployersBox.SelectedItem.ToString(), 1);
             //================================================================//
             UpdateTable();
         }
