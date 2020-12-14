@@ -54,7 +54,6 @@ namespace TaskManager
         {
             return Name;
         }
-        
     }
 
 

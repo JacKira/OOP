@@ -139,7 +139,6 @@ namespace TaskManager
             {
                 BackColor = Color.White,
                 Multiline = true,
-
                 Text = note.Title,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 30)
