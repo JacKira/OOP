@@ -17,6 +17,19 @@ namespace TaskManager
 {
     public partial class TaskTableForm : Form
     {
+        //=========================== Sanya ===============================//
+        private Dictionary<int,NoteData> _notes = new Dictionary<int, NoteData>();
+        private List<int> _ids = new List<int>();
+        private List<int> _forPrint = new List<int>();
+        private List<Employer> _employers = new List<Employer>();
+        private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
+
+
+        //=================================================================//
+        private TaskDB DB = new TaskDB(@"D:\Repos\OOP\Database3_copy.mdb");
+        //=================================================================//
+
+
         private int _w;
         private int _h;
         [DllImport("user32.dll")]
@@ -44,17 +57,17 @@ namespace TaskManager
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //#3 Заполняем доску тестовыми записями
-           /* for (int i = 0; i < 5; i++)
-                AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                "Me", "Done");
-            for (int i = 0; i < 5; i++)
-                AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                "Me", "To Do");
-            for (int i = 0; i < 5; i++)
-                AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                "Me", "Doing");*/
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
+            /* //#3 Заполняем доску тестовыми записями
+            /* for (int i = 0; i < 5; i++)
+                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+                 "Me", "Done");
+             for (int i = 0; i < 5; i++)
+                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+                 "Me", "To Do");
+             for (int i = 0; i < 5; i++)
+                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
+                 "Me", "Doing");*/
+            /*var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
             var note = DB.GetNoteData(4);
             AddNote(note.Title, note.Description, note.Employer, note.Status);
             note.Title = "Заголовок после update";
@@ -67,14 +80,47 @@ namespace TaskManager
             note.Description = "Создать базу данных.";
             note.Status = "Doing";
             DB.UpdateNote(note);
-            DB.DeleteNoteData(12);
+            DB.DeleteNoteData(12); */
             // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
             //DB.AddAdmin(3);
+
+           
+
+            //Получаем все задачи проекта
+            _ids = DB.GetTasksId(1);
+            foreach(var id in _ids)
+            {
+                var note = DB.GetNoteData(id);
+                _notes.Add(note.ID, note);
+            }
+
+            //Получаем id по статусу
+            var stat1 = DB.GetTasksIdByStatus("To Do", 1);
+            var stat2= DB.GetTasksIdByStatus("Doing", 1);
+            var stat3 = DB.GetTasksIdByStatus("Done", 1);
+            _tasksByStatus.Add("To Do", stat1);
+            _tasksByStatus.Add("Doing", stat2);
+            _tasksByStatus.Add("Done", stat3);
+
+            //Получим работников
+            _employers = DB.GetEmployers(1);
+
+            foreach(var employer in _employers)
+            {
+                EmployersBox.Items.Add(employer);
+            }
+
+            //Заполняем доску задачами
+            _forPrint = _ids;
+            foreach(var id in _forPrint) 
+            {
+                AddNote(_notes[id]);
+            }
+
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
-        private System.Windows.Forms.TableLayoutPanel InitNote(string title = "\0", string description = "\0",
-                                                               string employer = "\0", string status = "To Do", int ID = 0)
+        private System.Windows.Forms.TableLayoutPanel InitNote(NoteData note)
         {
             var NewNote = new Note() { Margin = new Padding(10) };
             NewNote.BackColor = System.Drawing.SystemColors.Window;
@@ -98,7 +144,7 @@ namespace TaskManager
                 BackColor = Color.White,
                 Multiline = true,
 
-                Text = title,
+                Text = note.Title,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 30)
             };
@@ -110,7 +156,7 @@ namespace TaskManager
                 BackColor = Color.White,
                 Multiline = true,
 
-                Text = description,
+                Text = note.Description,
                 WordWrap = true,
                 ScrollBars = ScrollBars.Vertical,
                 Size = new System.Drawing.Size(330, 250)
@@ -122,7 +168,7 @@ namespace TaskManager
             {
                 BackColor = Color.White,
 
-                Text = employer,
+                Text = note.Employer.Name,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
             };
@@ -132,7 +178,7 @@ namespace TaskManager
             textbox = new System.Windows.Forms.TextBox()
             {
                 BackColor = Color.White,
-                Text = status,
+                Text = note.Status,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20)
             };
@@ -143,7 +189,7 @@ namespace TaskManager
             NewNote.Controls.Add(textbox);
 
             System.Drawing.Color color;
-            switch (status)
+            switch (note.Status)
             {
                 case "Doing":
                     color = System.Drawing.Color.Orange;
@@ -178,8 +224,7 @@ namespace TaskManager
             return NewNote;
         }
 
-        private void AddNote(string title = "\0", string description = "\0",
-                             string employer = "\0", string status = "To Do")
+        private void AddNote(NoteData note)
         {
             int row = last_note_cords[0];
             int col = last_note_cords[1];
@@ -187,7 +232,7 @@ namespace TaskManager
             if ((row == 0) && (col == 0))
             {
                 //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                TaskTable.Controls.Add(InitNote(title, description, employer, status));
+                TaskTable.Controls.Add(InitNote(note));
                 return;
             }
             if (col == 2)
@@ -197,7 +242,7 @@ namespace TaskManager
                 last_note_cords[0] = row;
                 last_note_cords[1] = col;
                 //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                TaskTable.Controls.Add(InitNote(title, description, employer, status));
+                TaskTable.Controls.Add(InitNote(note));
             }
             else
             {
@@ -205,7 +250,7 @@ namespace TaskManager
                 last_note_cords[0] = row;
                 last_note_cords[1] = col;
                 //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                TaskTable.Controls.Add(InitNote(title, description, employer, status));
+                TaskTable.Controls.Add(InitNote(note));
             }
         }
 
@@ -230,7 +275,7 @@ namespace TaskManager
         }
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddNote();
+            AddNote(new NoteData());
         }
         /* =========================================== CLASSES ===============================================*/
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
@@ -273,7 +318,7 @@ namespace TaskManager
             TaskTable.Width += d_w;
             TaskTable.ColumnCount = (int)(TaskTable.Width / 350);
             TaskTable.Height += d_h;
-            //TaskTable.RowCount = (int)(TaskTable.Height / 330);
+            TaskTable.RowCount = (int)(TaskTable.Height / 330);
             TaskTable.AutoScrollMargin = new Size(10, TaskTable.Height);
             //  TaskTable.AutoScroll = true;
         }
@@ -406,6 +451,62 @@ namespace TaskManager
                 listBox1.Items.Add(listId[i]);
             }
         }
+
+        private void StatusButton1_CheckedChanged(object sender, EventArgs e)
+        {
+            _forPrint = _tasksByStatus["To Do"];
+            UpdateTable();
+        }
+
+        private void StatusButton2_CheckedChanged(object sender, EventArgs e)
+        {
+            _forPrint = _tasksByStatus["Doing"];
+            UpdateTable();
+        }
+
+        private void StatusButton3_CheckedChanged(object sender, EventArgs e)
+        {
+            _forPrint = _tasksByStatus["Done"];
+            UpdateTable();
+        }
+
+        private void UpdateTable()
+        {
+            TaskTable.Controls.Clear();
+            foreach(var id in _forPrint)
+            {
+                AddNote(_notes[id]);
+            }
+        }
+
+        private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _forPrint = DB.GetTasksIdByEmployer(EmployersBox.SelectedItem.ToString(), 1);
+            UpdateTable();
+        }
+
+        private void ClearFilterButton_Click(object sender, EventArgs e)
+        {
+            StatusButton1.Checked = false;
+            StatusButton2.Checked = false;
+            StatusButton3.Checked = false;
+
+            _forPrint = _ids;
+            UpdateTable();
+        }
+
+        private void SearchButton_Click(object sender, EventArgs e)
+        {
+            _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
+            UpdateTable();
+        }
+
+        private void SearchTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
+            UpdateTable();
+        }
+
         /* =========================================== CLASSES ===============================================*/
     }
 }

@@ -22,7 +22,7 @@ namespace TaskManager
             _dbconnstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=" + path;
             _dbConnection = new OleDbConnection { ConnectionString = _dbconnstring };
         }
-       
+
         /// <summary>
         /// Получить соединение с БД в виде строки
         /// </summary>
@@ -85,7 +85,7 @@ namespace TaskManager
             // в цикле построчно читаем ответ от БД
             if (reader.Read())
             {
-                note.Employer = reader[0].ToString();
+                note.Employer.Name = reader[0].ToString();
                 reader.Close();
                 _dbConnection.Close();
                 return note;
@@ -145,9 +145,10 @@ namespace TaskManager
                                          "INNER JOIN Записи ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<int>();
-            _dbConnection.Open();
+            var dbconn = new OleDbConnection() { ConnectionString = _dbconnstring };
+            dbconn.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            OleDbCommand command = new OleDbCommand(query, dbconn);
             // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
             OleDbDataReader reader = command.ExecuteReader();
             // в цикле построчно читаем ответ от БД
@@ -157,7 +158,7 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
-            _dbConnection.Close();
+            dbconn.Close();
             return list; // возвращаем список ID
         }
 
@@ -352,24 +353,24 @@ namespace TaskManager
         public bool IsAdmin(int ID)
         {
             string query = string.Format("SELECT Код FROM Администраторы " +
-                                         "WHERE [ID сотрудника] = '{0}'", ID);
-            _dbConnection.Open();
+                                         "WHERE [ID сотрудника] = {0}", ID);
+
+            var dbconn = new OleDbConnection() { ConnectionString = _dbconnstring };
+            dbconn.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            OleDbCommand command = new OleDbCommand(query, dbconn);
             // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
-            OleDbDataReader reader = command.ExecuteReader();
-            if (reader.Read())
+            var obj = command.ExecuteScalar();
+            if (obj != null)
             {
                 // закрываем OleDbDataReader
-                reader.Close();
                 // закрываем соединение с БД
-                _dbConnection.Close();
+                dbconn.Close();
                 return true; // возвращаем фамилию работника
             }
             // закрываем OleDbDataReader
-            reader.Close();
             // закрываем соединение с БД
-            _dbConnection.Close();
+            dbconn.Close();
             return false; // если работника нет, вернем -1 
         }
 
@@ -428,7 +429,7 @@ namespace TaskManager
         /// <param name="note"></param>
         public void UpdateNote(NoteData note)
         {
-            int ID = this.GetEmployerIdByName(note.Employer);
+            int ID = this.GetEmployerIdByName(note.Employer.Name);
             string query = string.Format("UPDATE Записи " +
                                         "SET Заголовок = '{0}', Описание = '{1}', " +
                                         "[ID работника] = {2}, [ID этапа] = {3}, Статус = '{4}' " +
