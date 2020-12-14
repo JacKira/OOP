@@ -529,6 +529,12 @@ namespace TaskManager
             _tasksByStatus.Add("To Do", stat1);
             _tasksByStatus.Add("Doing", stat2);
             _tasksByStatus.Add("Done", stat3);
+        
+        }
+
+        private void ReloadTableButton_Click(object sender, EventArgs e)
+        {
+            UpdateTable();
         }
 
         /* =========================================== CLASSES ===============================================*/

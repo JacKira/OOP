@@ -60,6 +60,7 @@
             this.button8 = new System.Windows.Forms.Button();
             this.button9 = new System.Windows.Forms.Button();
             this.ClearFilterButton = new System.Windows.Forms.Button();
+            this.ReloadTableButton = new System.Windows.Forms.Button();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.FilterMenu.SuspendLayout();
@@ -162,6 +163,7 @@
             // 
             this.FilterMenu.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.FilterMenu.BackgroundImage = global::TaskManager.Properties.Resources.kaban2;
+            this.FilterMenu.Controls.Add(this.ReloadTableButton);
             this.FilterMenu.Controls.Add(this.ClearFilterButton);
             this.FilterMenu.Controls.Add(this.button5);
             this.FilterMenu.Controls.Add(this.button4);
@@ -396,6 +398,16 @@
             this.ClearFilterButton.UseVisualStyleBackColor = true;
             this.ClearFilterButton.Click += new System.EventHandler(this.ClearFilterButton_Click);
             // 
+            // ReloadTableButton
+            // 
+            this.ReloadTableButton.Location = new System.Drawing.Point(20, 311);
+            this.ReloadTableButton.Name = "ReloadTableButton";
+            this.ReloadTableButton.Size = new System.Drawing.Size(225, 23);
+            this.ReloadTableButton.TabIndex = 7;
+            this.ReloadTableButton.Text = "Обновить доску";
+            this.ReloadTableButton.UseVisualStyleBackColor = true;
+            this.ReloadTableButton.Click += new System.EventHandler(this.ReloadTableButton_Click);
+            // 
             // TaskTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -459,6 +471,7 @@
         private System.Windows.Forms.Button button8;
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Button ClearFilterButton;
+        private System.Windows.Forms.Button ReloadTableButton;
     }
 }
 
