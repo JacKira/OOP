@@ -435,7 +435,7 @@ namespace TaskManager
         /// <param name="note"></param>
         public void UpdateNote(NoteData note)
         {
-            int ID = this.GetEmployerIdByName(note.Employer.Name);
+            int ID = note.Employer.ID;
             string query = string.Format("UPDATE Записи " +
                                         "SET Заголовок = '{0}', Описание = '{1}', " +
                                         "[ID работника] = {2}, [ID этапа] = {3}, Статус = '{4}' " +
