@@ -104,7 +104,6 @@ namespace TaskManager
 
             //Получим работников
             _employers = DB.GetEmployers(1);
-
             foreach(var employer in _employers)
             {
                 EmployersBox.Items.Add(employer);
@@ -112,10 +111,7 @@ namespace TaskManager
 
             //Заполняем доску задачами
             _forPrint = _ids;
-            foreach(var id in _forPrint) 
-            {
-                AddNote(_notes[id]);
-            }
+            UpdateTable();
 
         }
 

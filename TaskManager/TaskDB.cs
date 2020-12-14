@@ -15,12 +15,12 @@ namespace TaskManager
     {
         private string _dbconnstring;
         private string _dbsource;
-        private OleDbConnection _dbConnection;
+        
         public TaskDB(string path)
         {
             _dbsource = path;
             _dbconnstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=" + path;
-            _dbConnection = new OleDbConnection { ConnectionString = _dbconnstring };
+            
         }
 
         /// <summary>
@@ -44,10 +44,7 @@ namespace TaskManager
         /// <summary>
         /// Закрыть соединение с базой данных
         /// </summary>
-        public void CloseDbConnection()
-        {
-            _dbConnection.Close();
-        }
+    
 
         /*================================= Получение данных из БД =================================*/
 
@@ -63,6 +60,7 @@ namespace TaskManager
                                           "FROM Сотрудники " +
                                           "INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника] " +
                                           "WHERE(((Записи.Код) = {0}))", ID);
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -111,6 +109,7 @@ namespace TaskManager
                                          "ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<Employer>();
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -145,7 +144,7 @@ namespace TaskManager
                                          "INNER JOIN Записи ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<int>();
-            var dbconn = new OleDbConnection() { ConnectionString = _dbconnstring };
+            var dbconn = this.GetDbConnection();
             dbconn.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, dbconn);
@@ -176,6 +175,7 @@ namespace TaskManager
                                          "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}) AND ((Записи.Статус) = \"{1}\"))", ID_proj, status);
             var list = new List<int>();
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -206,6 +206,7 @@ namespace TaskManager
                                          "ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}) AND ((Записи.Заголовок) = \"{1}\"))", ID_proj, title);
             var list = new List<int>();
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -235,6 +236,7 @@ namespace TaskManager
                                          "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Сотрудники.Фамилия) = \"{0}\") AND ((Проекты.Код) = {1}))", name, ID_proj);
             var list = new List<int>();
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -262,6 +264,7 @@ namespace TaskManager
             string query = string.Format("SELECT Фамилия FROM Сотрудники" +
                                          "WHERE Код = {0}", ID);
             string name;
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -293,6 +296,7 @@ namespace TaskManager
             string query = string.Format("SELECT Код FROM Сотрудники " +
                                          "WHERE Фамилия = '{0}'", name);
             int ID;
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -324,6 +328,7 @@ namespace TaskManager
             string query = string.Format("SELECT Код FROM Сотрудники" +
                                          "WHERE Логин = {0}", login);
             int? ID;
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -355,22 +360,22 @@ namespace TaskManager
             string query = string.Format("SELECT Код FROM Администраторы " +
                                          "WHERE [ID сотрудника] = {0}", ID);
 
-            var dbconn = new OleDbConnection() { ConnectionString = _dbconnstring };
-            dbconn.Open();
+            var _dbConnection = this.GetDbConnection();
+            _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, dbconn);
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
             var obj = command.ExecuteScalar();
             if (obj != null)
             {
                 // закрываем OleDbDataReader
                 // закрываем соединение с БД
-                dbconn.Close();
+                _dbConnection.Close();
                 return true; // возвращаем фамилию работника
             }
             // закрываем OleDbDataReader
             // закрываем соединение с БД
-            dbconn.Close();
+            _dbConnection.Close();
             return false; // если работника нет, вернем -1 
         }
 
@@ -391,6 +396,7 @@ namespace TaskManager
             }
             string query = string.Format("SELECT Пароль FROM Сотрудники" +
                                          "WHERE Код = {0}", ID);
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -434,6 +440,7 @@ namespace TaskManager
                                         "SET Заголовок = '{0}', Описание = '{1}', " +
                                         "[ID работника] = {2}, [ID этапа] = {3}, Статус = '{4}' " +
                                         "WHERE Код = {5}", note.Title, note.Description, ID, 1, note.Status, note.ID);
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -452,6 +459,7 @@ namespace TaskManager
         {
             string query = string.Format("INSERT INTO Сотрудники (Фамилия, Пароль, Логин)" +
                                          "VALUES ('{0}', '{1}', '{2}')", name, password, login);
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -471,6 +479,7 @@ namespace TaskManager
             {
                 string query = string.Format("INSERT INTO Администраторы ([ID сотрудника]) " +
                                              "VALUES ({0})", ID);
+                var _dbConnection = this.GetDbConnection();
                 // открываем соединение с БД
                 _dbConnection.Open();
                 // создаем объект OleDbCommand для выполнения запроса к БД MS Access
@@ -492,6 +501,7 @@ namespace TaskManager
             string query = string.Format("UPDATE Проекты " +
                                          "SET [ID администратора] = {0} " +
                                          "WHERE Код = {1}", ID_admin, ID_proj);
+            var _dbConnection = this.GetDbConnection();
             // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
@@ -509,6 +519,7 @@ namespace TaskManager
         public void DeleteNoteData(int ID)
         {
             string query = string.Format("DELETE FROM Записи WHERE Код = {0}", ID);
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -527,6 +538,7 @@ namespace TaskManager
             if (!this.IsAdmin(ID))
             {
                 string query = string.Format("DELETE FROM Сотрудники WHERE Код = {0}", ID);
+                var _dbConnection = this.GetDbConnection();
                 _dbConnection.Open();
                 // создаем объект OleDbCommand для выполнения запроса к БД MS Access
                 OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -542,6 +554,7 @@ namespace TaskManager
         public void DeleteAdmin(int ID)
         {
             string query = string.Format("DELETE FROM Администраторы WHERE Код = {0}", ID);
+            var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
