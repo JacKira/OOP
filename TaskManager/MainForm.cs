@@ -85,7 +85,7 @@ namespace TaskManager
             //DB.AddAdmin(3);
 
 
-
+            //=========================== Sanya ===============================//
             //Получаем все задачи проекта
             _ids = DB.GetTasksId(1);
             foreach (var id in _ids)
@@ -111,6 +111,7 @@ namespace TaskManager
 
             //Заполняем доску задачами
             _forPrint = _ids;
+            //==============================================================//
             UpdateTable();
 
         }
@@ -488,7 +489,9 @@ namespace TaskManager
 
         private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //=========================== Sanya ===============================//
             _forPrint = DB.GetTasksIdByEmployer(EmployersBox.SelectedItem.ToString(), 1);
+            //================================================================//
             UpdateTable();
         }
 
@@ -504,34 +507,45 @@ namespace TaskManager
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            //=========================== Sanya ===============================//
             _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
+            //================================================================//
             UpdateTable();
         }
 
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
+            //=========================== Sanya ===============================//
             _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
+            //================================================================//
             UpdateTable();
         }
 
         private void ChangeTitle(int id, string newStr)
         {
+            //=========================== Sanya ===============================//
             _notes[id].Title = newStr;
             DB.UpdateNote(_notes[id]);
+            //================================================================//
         }
 
         private void ChangeDescription(int id, string newStr)
         {
+            //=========================== Sanya ===============================//
             _notes[id].Description = newStr;
             DB.UpdateNote(_notes[id]);
+            //================================================================//
         }
         private void ChangeEmployer(int id, object new_employer)
         {
+            //=========================== Sanya ===============================//
             _notes[id].Employer = new_employer as Employer;
             DB.UpdateNote(_notes[id]);
+            //================================================================//
         }
         private void ChangeStatus(int id, string newStr)
         {
+            //=========================== Sanya ===============================//
             _notes[id].Status = newStr;
             DB.UpdateNote(_notes[id]);
 
@@ -542,6 +556,7 @@ namespace TaskManager
             _tasksByStatus.Add("To Do", stat1);
             _tasksByStatus.Add("Doing", stat2);
             _tasksByStatus.Add("Done", stat3);
+            //================================================================//
 
         }
 
