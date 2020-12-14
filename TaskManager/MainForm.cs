@@ -142,7 +142,9 @@ namespace TaskManager
                 Text = note.Title,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 30)
+               
             };
+            textbox.TextChanged += (sender, args) => ChangeTitle(note.ID, (sender as TextBox).Text);
             HideCaret(textbox.Handle);
             NewNote.Controls.Add(textbox);
 
@@ -156,6 +158,7 @@ namespace TaskManager
                 ScrollBars = ScrollBars.Vertical,
                 Size = new System.Drawing.Size(330, 250)
             };
+            textbox.TextChanged += (sender, args) => ChangeDescription(note.ID, (sender as TextBox).Text);
             HideCaret(textbox.Handle);
             NewNote.Controls.Add(textbox);
 
@@ -177,8 +180,8 @@ namespace TaskManager
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20)
             };
+            textbox.TextChanged += (sender, args) => ChangeStatus(note.ID, (sender as TextBox).Text);
 
-          
 
             HideCaret(textbox.Handle);
             NewNote.Controls.Add(textbox);
@@ -270,7 +273,9 @@ namespace TaskManager
         }
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            AddNote(new NoteData());
+            var note = new NoteData();
+            //Добавление записки в базу
+            AddNote(note);
         }
         /* =========================================== CLASSES ===============================================*/
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
@@ -500,6 +505,22 @@ namespace TaskManager
         {
             _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
             UpdateTable();
+        }
+
+        private void ChangeTitle(int id, string newStr)
+        {
+            _notes[id].Title = newStr;
+            DB.UpdateNote(_notes[id]);
+        }
+        
+        private void ChangeDescription(int id, string newStr)
+        {
+            _notes[id].Description = newStr;
+            DB.UpdateNote(_notes[id]);
+        }private void ChangeStatus(int id, string newStr)
+        {
+            _notes[id].Status = newStr;
+            DB.UpdateNote(_notes[id]);
         }
 
         /* =========================================== CLASSES ===============================================*/
