@@ -18,7 +18,7 @@ namespace TaskManager
     public partial class TaskTableForm : Form
     {
         //=========================== Sanya ===============================//
-        private Dictionary<int,NoteData> _notes = new Dictionary<int, NoteData>();
+        private Dictionary<int, NoteData> _notes = new Dictionary<int, NoteData>();
         private List<int> _ids = new List<int>();
         private List<int> _forPrint = new List<int>();
         private List<Employer> _employers = new List<Employer>();
@@ -84,11 +84,11 @@ namespace TaskManager
             // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
             //DB.AddAdmin(3);
 
-           
+
 
             //Получаем все задачи проекта
             _ids = DB.GetTasksId(1);
-            foreach(var id in _ids)
+            foreach (var id in _ids)
             {
                 var note = DB.GetNoteData(id);
                 _notes.Add(note.ID, note);
@@ -96,7 +96,7 @@ namespace TaskManager
 
             //Получаем id по статусу
             var stat1 = DB.GetTasksIdByStatus("To Do", 1);
-            var stat2= DB.GetTasksIdByStatus("Doing", 1);
+            var stat2 = DB.GetTasksIdByStatus("Doing", 1);
             var stat3 = DB.GetTasksIdByStatus("Done", 1);
             _tasksByStatus.Add("To Do", stat1);
             _tasksByStatus.Add("Doing", stat2);
@@ -104,7 +104,7 @@ namespace TaskManager
 
             //Получим работников
             _employers = DB.GetEmployers(1);
-            foreach(var employer in _employers)
+            foreach (var employer in _employers)
             {
                 EmployersBox.Items.Add(employer);
             }
@@ -142,7 +142,7 @@ namespace TaskManager
                 Text = note.Title,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 30)
-               
+
             };
             textbox.TextChanged += (sender, args) => ChangeTitle(note.ID, (sender as TextBox).Text);
             HideCaret(textbox.Handle);
@@ -162,29 +162,35 @@ namespace TaskManager
             HideCaret(textbox.Handle);
             NewNote.Controls.Add(textbox);
 
-            textbox = new System.Windows.Forms.TextBox()
+            var box = new System.Windows.Forms.ComboBox()
             {
                 BackColor = Color.White,
-
                 Text = note.Employer.Name,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
             };
+            foreach(var employer in _employers)
+            {
+                box.Items.Add(employer);
+            }
             HideCaret(textbox.Handle);
-            NewNote.Controls.Add(textbox);
+            NewNote.Controls.Add(box);
 
-            textbox = new System.Windows.Forms.TextBox()
+            box.TextChanged += (sender, args) => ChangeEmployer(note.ID, (sender as ComboBox).SelectedItem);
+
+            box = new System.Windows.Forms.ComboBox()
             {
                 BackColor = Color.White,
                 Text = note.Status,
                 Width = 260,
-                Size = new System.Drawing.Size(330, 20)
+                Size = new System.Drawing.Size(330, 20),
+                Items = { "To Do", "Doing", "Done" }
             };
-            textbox.TextChanged += (sender, args) => ChangeStatus(note.ID, (sender as TextBox).Text);
+            box.TextChanged += (sender, args) => ChangeStatus(note.ID, (sender as ComboBox).Text);
 
 
             HideCaret(textbox.Handle);
-            NewNote.Controls.Add(textbox);
+            NewNote.Controls.Add(box);
 
             System.Drawing.Color color;
             switch (note.Status)
@@ -198,7 +204,8 @@ namespace TaskManager
                 case "Done":
                     color = System.Drawing.Color.ForestGreen;
                     break;
-                default: color = System.Drawing.Color.Red;
+                default:
+                    color = System.Drawing.Color.Red;
                     break;
             }
 
@@ -473,7 +480,7 @@ namespace TaskManager
         private void UpdateTable()
         {
             TaskTable.Controls.Clear();
-            foreach(var id in _forPrint)
+            foreach (var id in _forPrint)
             {
                 AddNote(_notes[id]);
             }
@@ -512,16 +519,22 @@ namespace TaskManager
             _notes[id].Title = newStr;
             DB.UpdateNote(_notes[id]);
         }
-        
+
         private void ChangeDescription(int id, string newStr)
         {
             _notes[id].Description = newStr;
             DB.UpdateNote(_notes[id]);
-        }private void ChangeStatus(int id, string newStr)
+        }
+        private void ChangeEmployer(int id, object new_employer)
+        {
+            _notes[id].Employer = new_employer as Employer;
+            DB.UpdateNote(_notes[id]);
+        }
+        private void ChangeStatus(int id, string newStr)
         {
             _notes[id].Status = newStr;
             DB.UpdateNote(_notes[id]);
-            
+
             var stat1 = DB.GetTasksIdByStatus("To Do", 1);
             var stat2 = DB.GetTasksIdByStatus("Doing", 1);
             var stat3 = DB.GetTasksIdByStatus("Done", 1);
@@ -529,7 +542,7 @@ namespace TaskManager
             _tasksByStatus.Add("To Do", stat1);
             _tasksByStatus.Add("Doing", stat2);
             _tasksByStatus.Add("Done", stat3);
-        
+
         }
 
         private void ReloadTableButton_Click(object sender, EventArgs e)
