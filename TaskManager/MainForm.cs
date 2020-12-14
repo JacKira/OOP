@@ -521,6 +521,14 @@ namespace TaskManager
         {
             _notes[id].Status = newStr;
             DB.UpdateNote(_notes[id]);
+            
+            var stat1 = DB.GetTasksIdByStatus("To Do", 1);
+            var stat2 = DB.GetTasksIdByStatus("Doing", 1);
+            var stat3 = DB.GetTasksIdByStatus("Done", 1);
+            _tasksByStatus.Clear();
+            _tasksByStatus.Add("To Do", stat1);
+            _tasksByStatus.Add("Doing", stat2);
+            _tasksByStatus.Add("Done", stat3);
         }
 
         /* =========================================== CLASSES ===============================================*/
