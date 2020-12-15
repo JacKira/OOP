@@ -129,6 +129,8 @@
     <Content Include="Database3.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Icons\kaban4.bmp" />
+    <None Include="Icons\kaban3.bmp" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -79,7 +79,7 @@
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.addNoteToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(181, 48);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(124, 26);
             // 
             // addNoteToolStripMenuItem
             // 
@@ -142,7 +142,7 @@
             // FilterMenu
             // 
             this.FilterMenu.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.FilterMenu.BackgroundImage = global::TaskManager.Properties.Resources.kaban2;
+            this.FilterMenu.BackgroundImage = global::TaskManager.Properties.Resources.kaban4;
             this.FilterMenu.Controls.Add(this.ReloadTableButton);
             this.FilterMenu.Controls.Add(this.ClearFilterButton);
             this.FilterMenu.Controls.Add(this.SearchLabel);
@@ -160,9 +160,10 @@
             // 
             // ReloadTableButton
             // 
-            this.ReloadTableButton.Location = new System.Drawing.Point(20, 311);
+            this.ReloadTableButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ReloadTableButton.Location = new System.Drawing.Point(14, 664);
             this.ReloadTableButton.Name = "ReloadTableButton";
-            this.ReloadTableButton.Size = new System.Drawing.Size(225, 23);
+            this.ReloadTableButton.Size = new System.Drawing.Size(248, 59);
             this.ReloadTableButton.TabIndex = 7;
             this.ReloadTableButton.Text = "Обновить доску";
             this.ReloadTableButton.UseVisualStyleBackColor = true;
@@ -170,9 +171,10 @@
             // 
             // ClearFilterButton
             // 
-            this.ClearFilterButton.Location = new System.Drawing.Point(20, 264);
+            this.ClearFilterButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ClearFilterButton.Location = new System.Drawing.Point(14, 588);
             this.ClearFilterButton.Name = "ClearFilterButton";
-            this.ClearFilterButton.Size = new System.Drawing.Size(225, 23);
+            this.ClearFilterButton.Size = new System.Drawing.Size(248, 56);
             this.ClearFilterButton.TabIndex = 14;
             this.ClearFilterButton.Text = "Очистить фильтр";
             this.ClearFilterButton.UseVisualStyleBackColor = true;
