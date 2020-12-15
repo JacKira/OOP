@@ -97,35 +97,6 @@ namespace TaskManager
         }
 
         /// <summary>
-        /// Получить список всех работников по всем проектам
-        /// </summary>
-        public List<Employer> GetEmployers()
-        {
-            string query = string.Format("SELECT DISTINCT Сотрудники.Код, Сотрудники.Фамилия");
-            var list = new List<Employer>();
-            var _dbConnection = this.GetDbConnection();
-            _dbConnection.Open();
-            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, _dbConnection);
-            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
-            OleDbDataReader reader = command.ExecuteReader();
-            // в цикле построчно читаем ответ от БД
-            while (reader.Read())
-            {
-                if (!IsAdmin(Convert.ToInt32(reader[0].ToString())))
-                {
-                    Employer employer = new Employer();
-                    employer.ID = Convert.ToInt32(reader[0].ToString());
-                    employer.Name = reader[1].ToString();
-                }
-            }
-            // закрываем OleDbDataReader
-            reader.Close();
-            _dbConnection.Close();
-            return list;
-        }
-
-        /// <summary>
         /// Получить список работников по заданному ID проекта
         /// </summary>
         /// <param name="ID_proj"></param>
