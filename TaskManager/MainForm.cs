@@ -22,6 +22,7 @@ namespace TaskManager
         private List<int> _ids = new List<int>();
         private List<int> _forPrint = new List<int>();
         private List<Employer> _employers = new List<Employer>();
+        private List<Employer> _allEmployers = new List<Employer>();
         private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
 
 
@@ -84,7 +85,6 @@ namespace TaskManager
             // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
             //DB.AddAdmin(3);
 
-            DB.AddEmptyNoteData();
             //=========================== Sanya ===============================//
             //Получаем все задачи проекта
             _ids = DB.GetTasksId(1);
@@ -103,11 +103,9 @@ namespace TaskManager
             _tasksByStatus.Add("Done", stat3);
 
             //Получим работников
-            _employers = DB.GetEmployers(1);
-            foreach (var employer in _employers)
-            {
-                EmployersBox.Items.Add(employer);
-            }
+            UpdateEmployers();
+
+            _allEmployers = DB.GetEmployers();
 
             //Заполняем доску задачами
             _forPrint = _ids;
@@ -119,7 +117,7 @@ namespace TaskManager
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
         private System.Windows.Forms.TableLayoutPanel InitNote(NoteData note)
         {
-            var NewNote = new Note() { Margin = new Padding(10) };
+            var NewNote = new Note() { Margin = new Padding(10), ID = note.ID };
             NewNote.BackColor = System.Drawing.SystemColors.Window;
             NewNote.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             NewNote.ColumnCount = 1;
@@ -170,7 +168,7 @@ namespace TaskManager
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
             };
-            foreach(var employer in _employers)
+            foreach(var employer in _allEmployers)
             {
                 box.Items.Add(employer);
             }
@@ -224,7 +222,7 @@ namespace TaskManager
                 Cursor = System.Windows.Forms.Cursors.Hand
             });
             //#7 Здесь добавляем функциональное меню для элемента записи
-            NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote);
+            NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote, DB, _ids, _notes, this);
             NewNote.Controls[4].Click += new System.EventHandler(ShowNoteToolStripMenu);
 
             return NewNote;
@@ -267,10 +265,12 @@ namespace TaskManager
         }
 
 
-        public static void removeNoteToolStripMenuItem_Click(object sender, EventArgs e)
+        private static void removeNoteToolStripMenuItem_Click(object sender, EventArgs args, TaskDB DB, List<int> _ids, Dictionary<int, NoteData> _notes)
         {
             var menu = (MenuItem)sender;
-            menu.Note.Dispose();
+            DB.DeleteNoteData(menu.Note.ID);
+            _ids = DB.GetTasksId(1);
+            _notes.Remove(menu.Note.ID);
         }
 
         private static void ShowNoteToolStripMenu(object sender, EventArgs e)
@@ -281,7 +281,9 @@ namespace TaskManager
         }
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var note = new NoteData();
+            var note = new NoteData() { Status = "To Do", ID = DB.AddEmptyNoteData()};
+            _notes.Add(note.ID, note);
+            _ids = DB.GetTasksId(1);
             //Добавление записки в базу
             AddNote(note);
         }
@@ -289,10 +291,10 @@ namespace TaskManager
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
         {
             //#8 Инициализируем унаследованный системный компонент с добавлением в него наших элементов меню
-            public NoteContextMenu(System.Windows.Forms.TableLayoutPanel note)
+            public NoteContextMenu(Note note, TaskDB DB, List<int> _ids, Dictionary<int, NoteData> _notes, TaskTableForm form)
             {
 
-                this.Items.Add(new MenuItem(note));
+                this.Items.Add(new MenuItem(note, DB, _ids, _notes, form));
                 this.Items[0].Text = "Remove Note";
                 this.Items.Add(new ToolStripMenuItem("NOT Remove Note"));
                 this.Size = new System.Drawing.Size(180, 22);
@@ -302,14 +304,18 @@ namespace TaskManager
         private class MenuItem : ToolStripMenuItem
         {
             //#9 Инициализируем наш элемент меню, унаследованный системный компонент
-            public MenuItem(System.Windows.Forms.TableLayoutPanel note)
+            public MenuItem(Note note, TaskDB DB, List<int> _ids, Dictionary<int, NoteData> _notes, TaskTableForm form)
             {
                 //Добавляем в него событие удаления записи
-                this.Click += new System.EventHandler(removeNoteToolStripMenuItem_Click);
+                this.Click += (sender, args) =>
+                {
+                    removeNoteToolStripMenuItem_Click(sender, args, DB, _ids, _notes);
+                    form.UpdateTable();
+                };
                 //Сохраняем саму запись для удаления
                 Note = note;
             }
-            public System.Windows.Forms.TableLayoutPanel Note;
+            public Note Note;
         }
 
         private class Note : TableLayoutPanel
@@ -481,6 +487,8 @@ namespace TaskManager
         private void UpdateTable()
         {
             TaskTable.Controls.Clear();
+            _ids = DB.GetTasksId(1);
+            _forPrint = _ids;
             foreach (var id in _forPrint)
             {
                 AddNote(_notes[id]);
@@ -542,8 +550,20 @@ namespace TaskManager
             _notes[id].Employer = new_employer as Employer;
             DB.UpdateNote(_notes[id]);
             //================================================================//
+            UpdateEmployers();
             UpdateTable();
         }
+
+        private void UpdateEmployers()
+        {
+            _employers = DB.GetEmployers(1);
+            EmployersBox.Items.Clear();
+            foreach (var employer in _employers)
+            {
+                EmployersBox.Items.Add(employer);
+            }
+        }
+
         private void ChangeStatus(int id, string newStr)
         {
             //=========================== Sanya ===============================//

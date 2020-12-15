@@ -15,12 +15,12 @@ namespace TaskManager
     {
         private string _dbconnstring;
         private string _dbsource;
-        
+
         public TaskDB(string path)
         {
             _dbsource = path;
             _dbconnstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=" + path;
-            
+
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace TaskManager
         /// <summary>
         /// Закрыть соединение с базой данных
         /// </summary>
-    
+
 
         /*================================= Получение данных из БД =================================*/
 
@@ -72,7 +72,7 @@ namespace TaskManager
             {
                 note.Title = reader[0].ToString();
                 note.Description = reader[1].ToString();
-                note.Status = reader[2].ToString().Replace(" ", "");
+                note.Status = reader[2].ToString();
                 note.Employer.ID = Convert.ToInt32(reader[3].ToString());
             }
             // закрываем OleDbDataReader
@@ -87,13 +87,12 @@ namespace TaskManager
                 note.Employer.Name = reader[0].ToString();
                 reader.Close();
                 _dbConnection.Close();
-                return note;
             }
             // закрываем OleDbDataReader
             reader.Close();
             // закрываем соединение с БД
             _dbConnection.Close();
-            return null; // если записи нет, вернем нулевой указатель
+            return note; // если записи нет, вернем нулевой указатель
         }
 
         /// <summary>
@@ -101,7 +100,7 @@ namespace TaskManager
         /// </summary>
         public List<Employer> GetEmployers()
         {
-            string query = string.Format("SELECT DISTINCT Сотрудники.Код, Сотрудники.Фамилия");
+            string query = string.Format("SELECT Код, Фамилия FROM Сотрудники");
             var list = new List<Employer>();
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
@@ -117,6 +116,7 @@ namespace TaskManager
                     Employer employer = new Employer();
                     employer.ID = Convert.ToInt32(reader[0].ToString());
                     employer.Name = reader[1].ToString();
+                    list.Add(employer);
                 }
             }
             // закрываем OleDbDataReader
@@ -254,7 +254,7 @@ namespace TaskManager
             _dbConnection.Close();
             return list; // возвращаем список ID
         }
-        
+
         /// <summary>
         /// Получить список ID задач работника по фамилии работника и ID проекта
         /// </summary>
@@ -500,15 +500,15 @@ namespace TaskManager
         public int AddEmptyNoteData()
         {
             int ID; // ID для добавляемой записи
-            string query = string.Format("INSERT INTO Записи (Заголовок)" +
-                                         "VALUES ('')");
+            string query = string.Format("INSERT INTO Записи (Заголовок, [ID этапа])" +
+                                         "VALUES ('', 1)");
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // выполняем запрос к MS Access
             command.ExecuteNonQuery();
-            query = string.Format("SELECT Код FROM Записи WHERE Заголовок = ''");
+            query = string.Format("SELECT MAX(Код) FROM Записи");
             command = new OleDbCommand(query, _dbConnection);
             ID = Convert.ToInt32(command.ExecuteScalar());
             // закрываем соединение с БД
@@ -526,7 +526,7 @@ namespace TaskManager
             string query = string.Format("UPDATE Записи " +
                                         "SET Заголовок = '{0}', Описание = '{1}', " +
                                         "[ID работника] = {2}, [ID этапа] = {3}, Статус = '{4}' " +
-                                        "WHERE Код = {5}", note.Title, note.Description, ID, 1, note.Status, note.ID);
+                                        " WHERE Код = {5}", note.Title, note.Description, ID, 1, note.Status, note.ID);
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
