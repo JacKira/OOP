@@ -310,6 +310,7 @@ namespace TaskManager
                 this.Click += (sender, args) =>
                 {
                     removeNoteToolStripMenuItem_Click(sender, args, DB, _ids, _notes);
+                    form._forPrint.Remove(((MenuItem)sender).Note.ID);
                     form.UpdateTable();
                 };
                 //Сохраняем саму запись для удаления

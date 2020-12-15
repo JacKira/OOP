@@ -142,7 +142,7 @@
             // FilterMenu
             // 
             this.FilterMenu.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.FilterMenu.BackgroundImage = global::TaskManager.Properties.Resources.kaban4;
+            this.FilterMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("FilterMenu.BackgroundImage")));
             this.FilterMenu.Controls.Add(this.ReloadTableButton);
             this.FilterMenu.Controls.Add(this.ClearFilterButton);
             this.FilterMenu.Controls.Add(this.SearchLabel);
