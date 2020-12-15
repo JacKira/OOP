@@ -36,7 +36,6 @@ namespace TaskManager
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
         private int[] last_note_cords = { 0, 0 };
-        private string _path = "";
         public TaskTableForm()
         {
             InitializeComponent(); //#2 Инициалиизруем меню и доску для записей, но без самих записей.
