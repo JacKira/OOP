@@ -152,7 +152,7 @@
             this.FilterMenu.Controls.Add(this.EmployersBox);
             this.FilterMenu.Location = new System.Drawing.Point(12, 63);
             this.FilterMenu.Name = "FilterMenu";
-            this.FilterMenu.Size = new System.Drawing.Size(257, 748);
+            this.FilterMenu.Size = new System.Drawing.Size(271, 748);
             this.FilterMenu.TabIndex = 0;
             this.FilterMenu.TabStop = false;
             this.FilterMenu.Text = "Фильтры";
@@ -161,7 +161,7 @@
             // ReloadTableButton
             // 
             this.ReloadTableButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ReloadTableButton.Location = new System.Drawing.Point(6, 653);
+            this.ReloadTableButton.Location = new System.Drawing.Point(14, 664);
             this.ReloadTableButton.Name = "ReloadTableButton";
             this.ReloadTableButton.Size = new System.Drawing.Size(248, 59);
             this.ReloadTableButton.TabIndex = 7;
@@ -172,7 +172,7 @@
             // ClearFilterButton
             // 
             this.ClearFilterButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ClearFilterButton.Location = new System.Drawing.Point(6, 591);
+            this.ClearFilterButton.Location = new System.Drawing.Point(14, 588);
             this.ClearFilterButton.Name = "ClearFilterButton";
             this.ClearFilterButton.Size = new System.Drawing.Size(248, 56);
             this.ClearFilterButton.TabIndex = 14;
@@ -184,7 +184,7 @@
             // 
             this.SearchLabel.AutoSize = true;
             this.SearchLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.SearchLabel.Location = new System.Drawing.Point(16, 16);
+            this.SearchLabel.Location = new System.Drawing.Point(6, 36);
             this.SearchLabel.Name = "SearchLabel";
             this.SearchLabel.Size = new System.Drawing.Size(141, 17);
             this.SearchLabel.TabIndex = 7;
@@ -192,7 +192,7 @@
             // 
             // SearchTextBox
             // 
-            this.SearchTextBox.Location = new System.Drawing.Point(13, 36);
+            this.SearchTextBox.Location = new System.Drawing.Point(3, 56);
             this.SearchTextBox.Name = "SearchTextBox";
             this.SearchTextBox.Size = new System.Drawing.Size(233, 20);
             this.SearchTextBox.TabIndex = 6;
@@ -205,9 +205,9 @@
             this.StatusMenu.Controls.Add(this.StatusButton1);
             this.StatusMenu.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.StatusMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.StatusMenu.Location = new System.Drawing.Point(13, 138);
+            this.StatusMenu.Location = new System.Drawing.Point(3, 158);
             this.StatusMenu.Name = "StatusMenu";
-            this.StatusMenu.Size = new System.Drawing.Size(233, 100);
+            this.StatusMenu.Size = new System.Drawing.Size(259, 100);
             this.StatusMenu.TabIndex = 5;
             this.StatusMenu.TabStop = false;
             this.StatusMenu.Text = "Статус задачи";
@@ -252,7 +252,7 @@
             // 
             this.EmployersLabel.AutoSize = true;
             this.EmployersLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.EmployersLabel.Location = new System.Drawing.Point(13, 79);
+            this.EmployersLabel.Location = new System.Drawing.Point(3, 99);
             this.EmployersLabel.Name = "EmployersLabel";
             this.EmployersLabel.Size = new System.Drawing.Size(82, 17);
             this.EmployersLabel.TabIndex = 4;
@@ -261,9 +261,9 @@
             // EmployersBox
             // 
             this.EmployersBox.FormattingEnabled = true;
-            this.EmployersBox.Location = new System.Drawing.Point(13, 99);
+            this.EmployersBox.Location = new System.Drawing.Point(3, 119);
             this.EmployersBox.Name = "EmployersBox";
-            this.EmployersBox.Size = new System.Drawing.Size(233, 21);
+            this.EmployersBox.Size = new System.Drawing.Size(259, 21);
             this.EmployersBox.TabIndex = 3;
             this.EmployersBox.SelectedIndexChanged += new System.EventHandler(this.EmployersBox_SelectedIndexChanged);
             // 
