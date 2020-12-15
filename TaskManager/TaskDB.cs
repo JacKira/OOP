@@ -55,7 +55,7 @@ namespace TaskManager
         /// <returns></returns>
         public NoteData GetNoteData(int ID)
         {
-            string query = string.Format("SELECT Заголовок, Описание, Статус FROM Записи Where Код = {0}", ID);
+            string query = string.Format("SELECT Заголовок, Описание, Статус, [ID работника] FROM Записи Where Код = {0}", ID);
             string query2 = string.Format("SELECT Фамилия " +
                                           "FROM Сотрудники " +
                                           "INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника] " +
@@ -73,6 +73,7 @@ namespace TaskManager
                 note.Title = reader[0].ToString();
                 note.Description = reader[1].ToString();
                 note.Status = reader[2].ToString().Replace(" ", "");
+                note.Employer.ID = Convert.ToInt32(reader[3].ToString());
             }
             // закрываем OleDbDataReader
             reader.Close();
