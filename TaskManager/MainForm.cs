@@ -542,6 +542,7 @@ namespace TaskManager
             _notes[id].Employer = new_employer as Employer;
             DB.UpdateNote(_notes[id]);
             //================================================================//
+            UpdateTable();
         }
         private void ChangeStatus(int id, string newStr)
         {
@@ -557,7 +558,7 @@ namespace TaskManager
             _tasksByStatus.Add("Doing", stat2);
             _tasksByStatus.Add("Done", stat3);
             //================================================================//
-
+            UpdateTable();
         }
 
         private void ReloadTableButton_Click(object sender, EventArgs e)
