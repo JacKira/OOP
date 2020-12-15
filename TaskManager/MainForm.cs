@@ -337,134 +337,7 @@ namespace TaskManager
             //  TaskTable.AutoScroll = true;
         }
 
-        private void testToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            TaskTable.Controls.Clear();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            // текст запроса
-            int ID = 8;
-            string query = string.Format("SELECT Описание FROM Записи WHERE Код = {0}", ID);
-            var dbconnect = DB.GetDbConnection();
-            dbconnect.Open();
-            OleDbCommand command = new OleDbCommand(query, dbconnect);
-            textBox2.Text = command.ExecuteScalar().ToString();
-            dbconnect.Close();
-            //DB.CloseDbConnection();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            int ID = 8;
-            string query = string.Format("SELECT Заголовок, Статус, Описание FROM Записи WHERE Код = {0}", ID);
-            var dbconnect = DB.GetDbConnection();
-            dbconnect.Open();
-            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, dbconnect);
-            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
-            OleDbDataReader reader = command.ExecuteReader();
-            // очищаем listBox1
-            listBox1.Items.Clear();
-            // в цикле построчно читаем ответ от БД
-            while (reader.Read())
-            {
-                // выводим данные столбцов текущей строки в listBox1
-                listBox1.Items.Add(reader[0].ToString() + " " + reader[1].ToString() + " " + reader[2].ToString() + " ");
-            }
-            // закрываем OleDbDataReader
-            reader.Close();
-            dbconnect.Close();
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            string query = string.Format("INSERT INTO Записи (Код, Заголовок, Статус, Описание)" +
-                                         "VALUES (8, 'Отчеты', 'Done', 'Сделать отчеты')");
-            var dbconnect = DB.GetDbConnection();
-            dbconnect.Open();
-            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, dbconnect);
-            // выполняем запрос к MS Access
-            command.ExecuteNonQuery();
-            dbconnect.Close();
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            int ID = 8;
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            string query = string.Format("UPDATE Записи " +
-                                         "SET Заголовок = 'AAAAAAAAAAAAAAAAAA'" +
-                                         "WHERE Код = {0}", ID);
-            var dbconnect = DB.GetDbConnection();
-            dbconnect.Open();
-            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, dbconnect);
-            // выполняем запрос к MS Access
-            command.ExecuteNonQuery();
-            dbconnect.Close();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            int ID = 8;
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            string query = string.Format("DELETE FROM Записи WHERE Код = {0}", ID);
-            var dbconnect = DB.GetDbConnection();
-            dbconnect.Open();
-            // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, dbconnect);
-            // выполняем запрос к MS Access
-            command.ExecuteNonQuery();
-            dbconnect.Close();
-        }
-
-        private void button6_Click(object sender, EventArgs e)
-        {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var listEmployers = DB.GetEmployers(1);
-            for (int i = 0; i < listEmployers.Count(); i++)
-            {
-                listBox1.Items.Add(listEmployers[i].Name);
-            }
-            listBox1.Items.Add(listEmployers.Count());
-        }
-
-        private void button7_Click(object sender, EventArgs e)
-        {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var listId = DB.GetTasksId(1);
-            for (int i = 0; i < listId.Count(); i++)
-            {
-                listBox1.Items.Add(listId[i]);
-            }
-        }
-
-        private void button8_Click(object sender, EventArgs e)
-        {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var listId = DB.GetTasksIdByStatus("Doing", 1);
-            for (int i = 0; i < listId.Count(); i++)
-            {
-                listBox1.Items.Add(listId[i]);
-            }
-        }
-
-        private void button9_Click(object sender, EventArgs e)
-        {
-            var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var listId = DB.GetTasksIdByEmployerName("Андреев", 1);
-            for (int i = 0; i < listId.Count(); i++)
-            {
-                listBox1.Items.Add(listId[i]);
-            }
-        }
+        
 
         private void StatusButton1_CheckedChanged(object sender, EventArgs e)
         {
@@ -487,8 +360,6 @@ namespace TaskManager
         private void UpdateTable()
         {
             TaskTable.Controls.Clear();
-            _ids = DB.GetTasksId(1);
-            _forPrint = _ids;
             foreach (var id in _forPrint)
             {
                 AddNote(_notes[id]);
@@ -498,7 +369,7 @@ namespace TaskManager
         private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             //=========================== Sanya ===============================//
-            _forPrint = DB.GetTasksIdByEmployerName(EmployersBox.SelectedItem.ToString(), 1);
+            _forPrint = DB.GetTasksIdByEmployerId((EmployersBox.SelectedItem as Employer).ID, 1);
             //================================================================//
             UpdateTable();
         }
@@ -508,6 +379,7 @@ namespace TaskManager
             StatusButton1.Checked = false;
             StatusButton2.Checked = false;
             StatusButton3.Checked = false;
+            EmployersBox.Text = "";
 
             _forPrint = _ids;
             UpdateTable();

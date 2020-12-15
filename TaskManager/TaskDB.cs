@@ -299,7 +299,7 @@ namespace TaskManager
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN(Сотрудники INNER JOIN Записи " +
                                          "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
-                                         "WHERE(((Сотрудники.Код) = \"{0}\") AND ((Проекты.Код) = {1}))", ID_emp, ID_proj);
+                                         "WHERE(((Сотрудники.Код) = {0}) AND ((Проекты.Код) = {1}))", ID_emp, ID_proj);
             var list = new List<int>();
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
