@@ -138,6 +138,7 @@
     <Content Include="Database3.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Icons\logout.bmp" />
     <None Include="Icons\EditUser.bmp" />
     <None Include="Icons\adduser.bmp" />
     <None Include="Icons\save_save.bmp" />

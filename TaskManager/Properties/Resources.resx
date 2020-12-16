@@ -151,6 +151,9 @@
   <data name="frog2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\frog2.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="EditUser2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\EditUser.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="frog" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\frog.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -163,7 +166,7 @@
   <data name="EditUser1" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\EditUser.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="EditUser2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Icons\EditUser.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="logout" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\logout.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

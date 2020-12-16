@@ -518,6 +518,20 @@ namespace TaskManager
             authform.Show();
         }
 
+        public void Updateprivilege()
+        {
+            AddUsertoolStripButton.Enabled = Properties.Settings.Default.Admin;
+            EditUsertoolStripButton.Enabled = Properties.Settings.Default.Admin;
+            LogOuttoolStripButton.Enabled = Properties.Settings.Default.Admin || Properties.Settings.Default.User;
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            Properties.Settings.Default.Admin = false;
+            Properties.Settings.Default.User = false;
+            UpdateTable();
+            Updateprivilege();
+        }
         /* =========================================== CLASSES ===============================================*/
     }
 }

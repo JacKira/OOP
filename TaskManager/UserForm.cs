@@ -63,6 +63,7 @@ namespace TaskManager
                 {
                     Properties.Settings.Default.Admin = (bool)res;
                     Properties.Settings.Default.User = true;
+                    parent.Updateprivilege();
                 }
                 parent.UpdateTable();
             }

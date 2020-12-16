@@ -34,12 +34,13 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.openDBDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveDBtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.LoadBasetoolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.AuthtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.AddUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.EditUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
-            this.openDBDialog = new System.Windows.Forms.OpenFileDialog();
+            this.LogOuttoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.FilterMenu = new System.Windows.Forms.GroupBox();
             this.ReloadTableButton = new System.Windows.Forms.Button();
             this.ClearFilterButton = new System.Windows.Forms.Button();
@@ -98,7 +99,8 @@
             this.LoadBasetoolStripButton2,
             this.AuthtoolStripButton,
             this.AddUsertoolStripButton,
-            this.EditUsertoolStripButton});
+            this.EditUsertoolStripButton,
+            this.LogOuttoolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.MinimumSize = new System.Drawing.Size(0, 50);
             this.toolStrip1.Name = "toolStrip1";
@@ -138,6 +140,7 @@
             // AddUsertoolStripButton
             // 
             this.AddUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddUsertoolStripButton.Enabled = false;
             this.AddUsertoolStripButton.Image = global::TaskManager.Properties.Resources.adduser;
             this.AddUsertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddUsertoolStripButton.Name = "AddUsertoolStripButton";
@@ -148,12 +151,24 @@
             // EditUsertoolStripButton
             // 
             this.EditUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.EditUsertoolStripButton.Enabled = false;
             this.EditUsertoolStripButton.Image = global::TaskManager.Properties.Resources.EditUser;
             this.EditUsertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.EditUsertoolStripButton.Name = "EditUsertoolStripButton";
             this.EditUsertoolStripButton.Size = new System.Drawing.Size(24, 47);
             this.EditUsertoolStripButton.Text = "Редактировать пользователя";
             this.EditUsertoolStripButton.Click += new System.EventHandler(this.EditUsertoolStripButton_Click);
+            // 
+            // LogOuttoolStripButton
+            // 
+            this.LogOuttoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.LogOuttoolStripButton.Enabled = false;
+            this.LogOuttoolStripButton.Image = global::TaskManager.Properties.Resources.logout;
+            this.LogOuttoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LogOuttoolStripButton.Name = "LogOuttoolStripButton";
+            this.LogOuttoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.LogOuttoolStripButton.Text = "Выйти из учетной записи";
+            this.LogOuttoolStripButton.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
             // FilterMenu
             // 
@@ -334,6 +349,7 @@
         private System.Windows.Forms.Button ReloadTableButton;
         private System.Windows.Forms.OpenFileDialog openDBDialog;
         private System.Windows.Forms.ToolStripButton EditUsertoolStripButton;
+        private System.Windows.Forms.ToolStripButton LogOuttoolStripButton;
     }
 }
 
