@@ -392,15 +392,15 @@ namespace TaskManager
         /// <returns></returns>
         public int? GetIdByLogin(string login)
         {
-            string query = string.Format("SELECT Код FROM Сотрудники" +
-                                         "WHERE Логин = {0}", login);
+            string query = string.Format("SELECT Код FROM Сотрудники " +
+                                         "WHERE Логин = '{0}'", login);
             int? ID;
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
-            OleDbDataReader reader = command.ExecuteReader();
+            var reader = command.ExecuteReader();
             if (reader.Read())
             {
                 ID = Convert.ToInt32(reader[0].ToString());
@@ -461,7 +461,7 @@ namespace TaskManager
             {
                 return null;
             }
-            string query = string.Format("SELECT Пароль FROM Сотрудники" +
+            string query = string.Format("SELECT Пароль FROM Сотрудники " +
                                          "WHERE Код = {0}", ID);
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();

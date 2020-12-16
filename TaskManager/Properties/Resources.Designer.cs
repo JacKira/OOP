@@ -73,9 +73,9 @@ namespace TaskManager.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap authorization {
+        internal static System.Drawing.Bitmap adduser {
             get {
-                object obj = ResourceManager.GetObject("authorization", resourceCulture);
+                object obj = ResourceManager.GetObject("adduser", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -86,6 +86,36 @@ namespace TaskManager.Properties {
         internal static System.Drawing.Bitmap authorization_LOGIN {
             get {
                 object obj = ResourceManager.GetObject("authorization_LOGIN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EditUser {
+            get {
+                object obj = ResourceManager.GetObject("EditUser", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EditUser1 {
+            get {
+                object obj = ResourceManager.GetObject("EditUser1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap EditUser2 {
+            get {
+                object obj = ResourceManager.GetObject("EditUser2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

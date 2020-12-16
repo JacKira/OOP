@@ -34,11 +34,12 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.SaveDBtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.LoadBasetoolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.AuthtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.AddUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.EditUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openDBDialog = new System.Windows.Forms.OpenFileDialog();
-            this.SaveDBtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.FilterMenu = new System.Windows.Forms.GroupBox();
             this.ReloadTableButton = new System.Windows.Forms.Button();
             this.ClearFilterButton = new System.Windows.Forms.Button();
@@ -96,13 +97,23 @@
             this.SaveDBtoolStripButton,
             this.LoadBasetoolStripButton2,
             this.AuthtoolStripButton,
-            this.AddUsertoolStripButton});
+            this.AddUsertoolStripButton,
+            this.EditUsertoolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.MinimumSize = new System.Drawing.Size(0, 50);
             this.toolStrip1.Name = "toolStrip1";
             this.toolStrip1.Size = new System.Drawing.Size(1357, 50);
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
+            // 
+            // SaveDBtoolStripButton
+            // 
+            this.SaveDBtoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SaveDBtoolStripButton.Image = global::TaskManager.Properties.Resources.save_save;
+            this.SaveDBtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveDBtoolStripButton.Name = "SaveDBtoolStripButton";
+            this.SaveDBtoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.SaveDBtoolStripButton.Text = "Сохранить  или создать базу данных";
             // 
             // LoadBasetoolStripButton2
             // 
@@ -122,24 +133,27 @@
             this.AuthtoolStripButton.Name = "AuthtoolStripButton";
             this.AuthtoolStripButton.Size = new System.Drawing.Size(24, 47);
             this.AuthtoolStripButton.Text = "Авторизоваться";
+            this.AuthtoolStripButton.Click += new System.EventHandler(this.AuthtoolStripButton_Click);
             // 
             // AddUsertoolStripButton
             // 
             this.AddUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.AddUsertoolStripButton.Image = global::TaskManager.Properties.Resources.authorization;
+            this.AddUsertoolStripButton.Image = global::TaskManager.Properties.Resources.adduser;
             this.AddUsertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddUsertoolStripButton.Name = "AddUsertoolStripButton";
             this.AddUsertoolStripButton.Size = new System.Drawing.Size(24, 47);
             this.AddUsertoolStripButton.Text = "Добавить работника";
+            this.AddUsertoolStripButton.Click += new System.EventHandler(this.AddUsertoolStripButton_Click);
             // 
-            // SaveDBtoolStripButton
+            // EditUsertoolStripButton
             // 
-            this.SaveDBtoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.SaveDBtoolStripButton.Image = global::TaskManager.Properties.Resources.save_save1;
-            this.SaveDBtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.SaveDBtoolStripButton.Name = "SaveDBtoolStripButton";
-            this.SaveDBtoolStripButton.Size = new System.Drawing.Size(24, 47);
-            this.SaveDBtoolStripButton.Text = "Сохранить  или создать базу данных";
+            this.EditUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.EditUsertoolStripButton.Image = global::TaskManager.Properties.Resources.EditUser;
+            this.EditUsertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.EditUsertoolStripButton.Name = "EditUsertoolStripButton";
+            this.EditUsertoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.EditUsertoolStripButton.Text = "Редактировать пользователя";
+            this.EditUsertoolStripButton.Click += new System.EventHandler(this.EditUsertoolStripButton_Click);
             // 
             // FilterMenu
             // 
@@ -319,6 +333,7 @@
         private System.Windows.Forms.Button ClearFilterButton;
         private System.Windows.Forms.Button ReloadTableButton;
         private System.Windows.Forms.OpenFileDialog openDBDialog;
+        private System.Windows.Forms.ToolStripButton EditUsertoolStripButton;
     }
 }
 

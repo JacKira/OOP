@@ -59,8 +59,8 @@ namespace TaskManager
         }
 
         private void MainForm_Load(object sender, EventArgs e)
-        {            
-            Properties.Settings.Default.Reload();
+        {
+            LoadProperties();
             if (!File.Exists(Properties.Settings.Default.PathToDB))
             {
                 MessageBox.Show("Заданной базы данных не существует");
@@ -69,6 +69,14 @@ namespace TaskManager
             {
                 InitTable();
             }
+        }
+
+
+        private void LoadProperties()
+        {
+            Properties.Settings.Default.Reload();
+            Properties.Settings.Default.Admin = false;
+            Properties.Settings.Default.User = false;
         }
 
         private void InitTable()
@@ -122,7 +130,8 @@ namespace TaskManager
                 Multiline = true,
                 Text = note.Title,
                 Width = 260,
-                Size = new System.Drawing.Size(330, 30)
+                Size = new System.Drawing.Size(330, 30),
+                ReadOnly = !Properties.Settings.Default.Admin
 
             };
             textbox.TextChanged += (sender, args) => ChangeTitle(note.ID, (sender as TextBox).Text);
@@ -133,11 +142,11 @@ namespace TaskManager
             {
                 BackColor = Color.White,
                 Multiline = true,
-
                 Text = note.Description,
                 WordWrap = true,
                 ScrollBars = ScrollBars.Vertical,
-                Size = new System.Drawing.Size(330, 250)
+                Size = new System.Drawing.Size(330, 250),
+                ReadOnly = !Properties.Settings.Default.Admin
             };
             textbox.TextChanged += (sender, args) => ChangeDescription(note.ID, (sender as TextBox).Text);
             HideCaret(textbox.Handle);
@@ -149,6 +158,7 @@ namespace TaskManager
                 Text = note.Employer.Name,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
+                Enabled = Properties.Settings.Default.Admin
             };
             foreach(var employer in _allEmployers)
             {
@@ -165,7 +175,8 @@ namespace TaskManager
                 Text = note.Status,
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
-                Items = { "To Do", "Doing", "Done" }
+                Items = { "To Do", "Doing", "Done" },
+                Enabled = Properties.Settings.Default.User
             };
             box.TextChanged += (sender, args) => ChangeStatus(note.ID, (sender as ComboBox).Text);
 
@@ -201,7 +212,8 @@ namespace TaskManager
                 Text = "---",
                 TextAlign = HorizontalAlignment.Center,
                 TabIndex = 5,
-                Cursor = System.Windows.Forms.Cursors.Hand
+                Cursor = System.Windows.Forms.Cursors.Hand,
+                Enabled = Properties.Settings.Default.Admin
             });
             //#7 Здесь добавляем функциональное меню для элемента записи
             NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote, DB, _ids, _notes, this);
@@ -351,7 +363,7 @@ namespace TaskManager
             UpdateTable();
         }
 
-        private void UpdateTable()
+        public void UpdateTable()
         {
             TaskTable.Controls.Clear();
             foreach (var id in _forPrint)
@@ -420,7 +432,7 @@ namespace TaskManager
             UpdateTable();
         }
 
-        private void UpdateEmployers()
+        public void UpdateEmployers()
         {
             _employers = DB.GetEmployers(1);
             EmployersBox.Items.Clear();
@@ -428,6 +440,11 @@ namespace TaskManager
             {
                 EmployersBox.Items.Add(employer);
             }
+        }
+
+        public void UpdateAllEmployer()
+        {
+            _allEmployers = DB.GetEmployers();
         }
 
         private void ChangeStatus(int id, string newStr)
@@ -480,6 +497,25 @@ namespace TaskManager
         private void TaskTableForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Properties.Settings.Default.Save();
+        }
+
+        private void AuthtoolStripButton_Click(object sender, EventArgs e)
+        {
+            var authform = new UserForm(this);
+            authform.Show();
+        }
+
+        private void AddUsertoolStripButton_Click(object sender, EventArgs e)
+        {
+            var authform = new UserForm(this, true);
+            authform.Show();
+
+        }
+
+        private void EditUsertoolStripButton_Click(object sender, EventArgs e)
+        {
+            var authform = new UserForm(this, false, true);
+            authform.Show();
         }
 
         /* =========================================== CLASSES ===============================================*/

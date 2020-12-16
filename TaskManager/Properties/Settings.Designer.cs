@@ -44,5 +44,29 @@ namespace TaskManager.Properties {
                 this["PathToDB"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool User {
+            get {
+                return ((bool)(this["User"]));
+            }
+            set {
+                this["User"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Admin {
+            get {
+                return ((bool)(this["Admin"]));
+            }
+            set {
+                this["Admin"] = value;
+            }
+        }
     }
 }
