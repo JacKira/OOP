@@ -18,6 +18,7 @@ namespace TaskManager
 {
     public partial class TaskTableForm : Form
     {
+        //00000000000000000000000000000000000000000000000000000000000000//
         //=========================== Sanya ===============================//
         private Dictionary<int, NoteData> _notes = new Dictionary<int, NoteData>();
         private List<int> _ids = new List<int>();
@@ -25,10 +26,11 @@ namespace TaskManager
         private List<Employer> _employers = new List<Employer>();
         private List<Employer> _allEmployers = new List<Employer>();
         private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
-
+        //=========================== Sanya ===============================//
+        //00000000000000000000000000000000000000000000000000000000000000//
 
         //=================================================================//
-        private TaskDB DB = new TaskDB(@"D:\Repos\OOP\Database3_copy.mdb");
+        private TaskDB DB = new TaskDB();
         //=================================================================//
 
 
@@ -82,6 +84,7 @@ namespace TaskManager
         private void InitTable()
         {
             DB.ChangeDB();
+            //00000000000000000000000000000000000000000000000000000000000000//
             //=========================== Sanya ===============================//
             //Получаем все задачи проекта
             _ids = DB.GetTasksId(1);
@@ -101,6 +104,7 @@ namespace TaskManager
             //Заполняем доску задачами
             _forPrint = _ids;
             //==============================================================//
+            //00000000000000000000000000000000000000000000000000000000000000//
             UpdateTable();
         }
 
@@ -273,6 +277,7 @@ namespace TaskManager
         }
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            //00000000000000000000000000000000000000000000000000000000000000//
             var note = new NoteData() { Status = "To Do", ID = DB.AddEmptyNoteData()};
             _notes.Add(note.ID, note);
             DB.UpdateNote(note);
@@ -282,6 +287,7 @@ namespace TaskManager
             UpdateStatusList();
             UpdateEmployers();
             //Добавление записки в базу
+            //00000000000000000000000000000000000000000000000000000000000000//
         }
         /* =========================================== CLASSES ===============================================*/
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
@@ -316,6 +322,7 @@ namespace TaskManager
             public Note Note;
         }
 
+        //00000000000000000000000000000000000000000000000000000000000000//
         private void DeleteNote(int id)
         {
             DB.DeleteNoteData(id);
@@ -323,7 +330,7 @@ namespace TaskManager
             _notes.Remove(id);
             _forPrint.Remove(id);
         }
-
+        //00000000000000000000000000000000000000000000000000000000000000//
         private class Note : TableLayoutPanel
         {
             public int ID = 0;
@@ -374,9 +381,11 @@ namespace TaskManager
 
         private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //00000000000000000000000000000000000000000000000000000000000000//
             //=========================== Sanya ===============================//
             _forPrint = DB.GetTasksIdByEmployerId((EmployersBox.SelectedItem as Employer).ID, 1);
             //================================================================//
+            //00000000000000000000000000000000000000000000000000000000000000//
             UpdateTable();
         }
 
@@ -393,22 +402,28 @@ namespace TaskManager
 
         private void SearchButton_Click(object sender, EventArgs e)
         {
+            //00000000000000000000000000000000000000000000000000000000000000//
             //=========================== Sanya ===============================//
             _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
             //================================================================//
+            //00000000000000000000000000000000000000000000000000000000000000//
             UpdateTable();
         }
 
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
+            //00000000000000000000000000000000000000000000000000000000000000//
             //=========================== Sanya ===============================//
             _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
             //================================================================//
+            //00000000000000000000000000000000000000000000000000000000000000//
             UpdateTable();
         }
 
+        //00000000000000000000000000000000000000000000000000000000000000 начало//
         private void ChangeTitle(int id, string newStr)
         {
+
             //=========================== Sanya ===============================//
             _notes[id].Title = newStr;
             DB.UpdateNote(_notes[id]);
@@ -431,10 +446,10 @@ namespace TaskManager
             UpdateEmployers();
             UpdateTable();
         }
-
+        //00000000000000000000000000000000000000000000000000000000000000 конец//
         public void UpdateEmployers()
         {
-            _employers = DB.GetEmployers(1);
+            //  _employers = DB.GetEmployers(1);
             EmployersBox.Items.Clear();
             foreach (var employer in _employers)
             {
@@ -447,6 +462,9 @@ namespace TaskManager
             _allEmployers = DB.GetEmployers();
         }
 
+
+
+        //00000000000000000000000000000000000000000000000000000000000000//
         private void ChangeStatus(int id, string newStr)
         {
             //=========================== Sanya ===============================//
@@ -457,7 +475,11 @@ namespace TaskManager
             //================================================================//
             UpdateTable();
         }
+        //00000000000000000000000000000000000000000000000000000000000000//
 
+
+
+        //00000000000000000000000000000000000000000000000000000000000000//
         private void UpdateStatusList()
         {
             var stat1 = DB.GetTasksIdByStatus("To Do", 1);
@@ -468,6 +490,8 @@ namespace TaskManager
             _tasksByStatus.Add("Doing", stat2);
             _tasksByStatus.Add("Done", stat3);
         }
+        //00000000000000000000000000000000000000000000000000000000000000//
+
 
         private void ReloadTableButton_Click(object sender, EventArgs e)
         {

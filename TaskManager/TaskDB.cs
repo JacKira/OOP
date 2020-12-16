@@ -17,7 +17,7 @@ namespace TaskManager
         private string _dbsource;
         private string _template_connstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=";
 
-        public TaskDB(string path)
+        public TaskDB(string path = "")
         {
             _dbsource = path;
             _dbconnstring = _template_connstring + path;
