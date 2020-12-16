@@ -34,11 +34,11 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.LoadBasetoolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.AuthtoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.AddUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openDBDialog = new System.Windows.Forms.OpenFileDialog();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
+            this.SaveDBtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.FilterMenu = new System.Windows.Forms.GroupBox();
             this.ReloadTableButton = new System.Windows.Forms.Button();
             this.ClearFilterButton = new System.Windows.Forms.Button();
@@ -93,10 +93,10 @@
             // 
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton1,
-            this.toolStripButton2,
-            this.toolStripButton3,
-            this.toolStripButton4});
+            this.SaveDBtoolStripButton,
+            this.LoadBasetoolStripButton2,
+            this.AuthtoolStripButton,
+            this.AddUsertoolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.MinimumSize = new System.Drawing.Size(0, 50);
             this.toolStrip1.Name = "toolStrip1";
@@ -104,42 +104,42 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton2
+            // LoadBasetoolStripButton2
             // 
-            this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = global::TaskManager.Properties.Resources.load;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(24, 47);
-            this.toolStripButton2.Text = "toolStripButton2";
-            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.LoadBasetoolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.LoadBasetoolStripButton2.Image = global::TaskManager.Properties.Resources.load;
+            this.LoadBasetoolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.LoadBasetoolStripButton2.Name = "LoadBasetoolStripButton2";
+            this.LoadBasetoolStripButton2.Size = new System.Drawing.Size(24, 47);
+            this.LoadBasetoolStripButton2.Text = "Загрузить базу данных";
+            this.LoadBasetoolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
-            // toolStripButton3
+            // AuthtoolStripButton
             // 
-            this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = global::TaskManager.Properties.Resources.authorization_LOGIN;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(24, 47);
-            this.toolStripButton3.Text = "toolStripButton3";
+            this.AuthtoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AuthtoolStripButton.Image = global::TaskManager.Properties.Resources.authorization_LOGIN;
+            this.AuthtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AuthtoolStripButton.Name = "AuthtoolStripButton";
+            this.AuthtoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.AuthtoolStripButton.Text = "Авторизоваться";
             // 
-            // toolStripButton4
+            // AddUsertoolStripButton
             // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = global::TaskManager.Properties.Resources.authorization;
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(24, 47);
-            this.toolStripButton4.Text = "toolStripButton4";
+            this.AddUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.AddUsertoolStripButton.Image = global::TaskManager.Properties.Resources.authorization;
+            this.AddUsertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.AddUsertoolStripButton.Name = "AddUsertoolStripButton";
+            this.AddUsertoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.AddUsertoolStripButton.Text = "Добавить работника";
             // 
-            // toolStripButton1
+            // SaveDBtoolStripButton
             // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = global::TaskManager.Properties.Resources.save_save1;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 47);
-            this.toolStripButton1.Text = "toolStripButton1";
+            this.SaveDBtoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.SaveDBtoolStripButton.Image = global::TaskManager.Properties.Resources.save_save1;
+            this.SaveDBtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.SaveDBtoolStripButton.Name = "SaveDBtoolStripButton";
+            this.SaveDBtoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.SaveDBtoolStripButton.Text = "Сохранить  или создать базу данных";
             // 
             // FilterMenu
             // 
@@ -304,10 +304,10 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem addNoteToolStripMenuItem;
         private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
+        private System.Windows.Forms.ToolStripButton SaveDBtoolStripButton;
+        private System.Windows.Forms.ToolStripButton LoadBasetoolStripButton2;
+        private System.Windows.Forms.ToolStripButton AuthtoolStripButton;
+        private System.Windows.Forms.ToolStripButton AddUsertoolStripButton;
         private System.Windows.Forms.GroupBox StatusMenu;
         private System.Windows.Forms.Label EmployersLabel;
         private System.Windows.Forms.ComboBox EmployersBox;
