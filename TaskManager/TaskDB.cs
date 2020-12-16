@@ -201,10 +201,8 @@ namespace TaskManager
         public List<int> GetTasksIdByStatus(string status, int ID_proj)
         {
             string query = string.Format("SELECT Записи.Код " +
-                                         "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
-                                         "INNER JOIN(Сотрудники INNER JOIN Записи " +
-                                         "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
-                                         "WHERE(((Проекты.Код) = {0}) AND ((Записи.Статус) = \"{1}\"))", ID_proj, status);
+                                         "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) INNER JOIN Записи ON Этапы.Код = Записи.[ID этапа] " +
+                                         "WHERE(((Проекты.Код) = {0}) AND ((Записи.Статус) = '{1}'))", ID_proj, status);
             var list = new List<int>();
             var _dbConnection = this.GetDbConnection();
             _dbConnection.Open();

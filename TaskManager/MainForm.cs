@@ -95,13 +95,7 @@ namespace TaskManager
             }
 
             //Получаем id по статусу
-            var stat1 = DB.GetTasksIdByStatus("To Do", 1);
-            var stat2 = DB.GetTasksIdByStatus("Doing", 1);
-            var stat3 = DB.GetTasksIdByStatus("Done", 1);
-            _tasksByStatus.Add("To Do", stat1);
-            _tasksByStatus.Add("Doing", stat2);
-            _tasksByStatus.Add("Done", stat3);
-
+            UpdateStatusList();
             //Получим работников
             UpdateEmployers();
 
@@ -265,12 +259,10 @@ namespace TaskManager
         }
 
 
-        private static void removeNoteToolStripMenuItem_Click(object sender, EventArgs args, TaskDB DB, List<int> _ids, Dictionary<int, NoteData> _notes)
+        private static void removeNoteToolStripMenuItem_Click(object sender, EventArgs args, TaskTableForm form)
         {
             var menu = (MenuItem)sender;
-            DB.DeleteNoteData(menu.Note.ID);
-            _ids = DB.GetTasksId(1);
-            _notes.Remove(menu.Note.ID);
+            form.DeleteNote(menu.Note.ID);
         }
 
         private static void ShowNoteToolStripMenu(object sender, EventArgs e)
@@ -283,9 +275,13 @@ namespace TaskManager
         {
             var note = new NoteData() { Status = "To Do", ID = DB.AddEmptyNoteData()};
             _notes.Add(note.ID, note);
+            DB.UpdateNote(note);
             _ids = DB.GetTasksId(1);
+            _forPrint = _ids;
+            UpdateTable();
+            UpdateStatusList();
+            UpdateEmployers();
             //Добавление записки в базу
-            AddNote(note);
         }
         /* =========================================== CLASSES ===============================================*/
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
@@ -309,14 +305,23 @@ namespace TaskManager
                 //Добавляем в него событие удаления записи
                 this.Click += (sender, args) =>
                 {
-                    removeNoteToolStripMenuItem_Click(sender, args, DB, _ids, _notes);
-                    form._forPrint.Remove(((MenuItem)sender).Note.ID);
+                    removeNoteToolStripMenuItem_Click(sender, args, form);
                     form.UpdateTable();
+                    form.UpdateEmployers();
+                    form.UpdateStatusList();
                 };
                 //Сохраняем саму запись для удаления
                 Note = note;
             }
             public Note Note;
+        }
+
+        private void DeleteNote(int id)
+        {
+            DB.DeleteNoteData(id);
+            _ids = DB.GetTasksId(1);
+            _notes.Remove(id);
+            _forPrint.Remove(id);
         }
 
         private class Note : TableLayoutPanel
@@ -443,6 +448,13 @@ namespace TaskManager
             _notes[id].Status = newStr;
             DB.UpdateNote(_notes[id]);
 
+            UpdateStatusList();
+            //================================================================//
+            UpdateTable();
+        }
+
+        private void UpdateStatusList()
+        {
             var stat1 = DB.GetTasksIdByStatus("To Do", 1);
             var stat2 = DB.GetTasksIdByStatus("Doing", 1);
             var stat3 = DB.GetTasksIdByStatus("Done", 1);
@@ -450,8 +462,6 @@ namespace TaskManager
             _tasksByStatus.Add("To Do", stat1);
             _tasksByStatus.Add("Doing", stat2);
             _tasksByStatus.Add("Done", stat3);
-            //================================================================//
-            UpdateTable();
         }
 
         private void ReloadTableButton_Click(object sender, EventArgs e)
