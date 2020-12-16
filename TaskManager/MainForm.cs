@@ -12,6 +12,7 @@ using System.Runtime.CompilerServices;
 using System.Reflection;
 using System.Collections;
 using System.Data.OleDb;
+using System.IO;
 
 namespace TaskManager
 {
@@ -36,6 +37,7 @@ namespace TaskManager
         [DllImport("user32.dll")]
         static extern bool HideCaret(IntPtr hWnd);
         private int[] last_note_cords = { 0, 0 };
+        private string Path = Properties.Settings.Default.PathToDB;
         public TaskTableForm()
         {
             InitializeComponent(); //#2 Инициалиизруем меню и доску для записей, но без самих записей.
@@ -57,34 +59,21 @@ namespace TaskManager
         }
 
         private void MainForm_Load(object sender, EventArgs e)
-        {
-            /* //#3 Заполняем доску тестовыми записями
-            /* for (int i = 0; i < 5; i++)
-                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                 "Me", "Done");
-             for (int i = 0; i < 5; i++)
-                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                 "Me", "To Do");
-             for (int i = 0; i < 5; i++)
-                 AddNote("Test task", "Need execute some task forrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrкrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr",
-                 "Me", "Doing");*/
-            /*var DB = new TaskDB(@"D:\Repos\OOP\Database3.mdb");
-            var note = DB.GetNoteData(4);
-            AddNote(note.Title, note.Description, note.Employer, note.Status);
-            note.Title = "Заголовок после update";
-            note.Description = "Описание после update";
-            note.Employer = "Андреев";
-            note.Status = "Done";
-            DB.UpdateNote(note);
-            AddNote(note.Title, note.Description, note.Employer, note.Status);
-            note.Title = "База данных";
-            note.Description = "Создать базу данных.";
-            note.Status = "Doing";
-            DB.UpdateNote(note);
-            DB.DeleteNoteData(12); */
-            // DB.LogIn("Вася", "Vasya", "12345"); логиним Васю
-            //DB.AddAdmin(3);
+        {            
+            Properties.Settings.Default.Reload();
+            if (!File.Exists(Properties.Settings.Default.PathToDB))
+            {
+                MessageBox.Show("Заданной базы данных не существует");
+            }
+            else
+            {
+                InitTable();
+            }
+        }
 
+        private void InitTable()
+        {
+            DB.ChangeDB();
             //=========================== Sanya ===============================//
             //Получаем все задачи проекта
             _ids = DB.GetTasksId(1);
@@ -105,7 +94,6 @@ namespace TaskManager
             _forPrint = _ids;
             //==============================================================//
             UpdateTable();
-
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
@@ -467,6 +455,31 @@ namespace TaskManager
         private void ReloadTableButton_Click(object sender, EventArgs e)
         {
             UpdateTable();
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            openDBDialog.InitialDirectory = "c:\\";
+            openDBDialog.Filter = " access mdb files (*.mdb) | *.mdb";
+            openDBDialog.RestoreDirectory = true;
+
+            if (openDBDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                //Get the path of specified file
+                Properties.Settings.Default.PathToDB = openDBDialog.FileName;
+                if (!File.Exists(Properties.Settings.Default.PathToDB))
+                {
+                    MessageBox.Show("Заданной базы данных не существует");
+                    return;
+                }
+                InitTable();
+            }
+        }
+
+        private void TaskTableForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.Save();
         }
 
         /* =========================================== CLASSES ===============================================*/

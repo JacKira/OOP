@@ -73,6 +73,26 @@ namespace TaskManager.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap authorization {
+            get {
+                object obj = ResourceManager.GetObject("authorization", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap authorization_LOGIN {
+            get {
+                object obj = ResourceManager.GetObject("authorization_LOGIN", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap frog {
             get {
                 object obj = ResourceManager.GetObject("frog", resourceCulture);
@@ -136,6 +156,36 @@ namespace TaskManager.Properties {
         internal static System.Drawing.Bitmap kaban4 {
             get {
                 object obj = ResourceManager.GetObject("kaban4", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap load {
+            get {
+                object obj = ResourceManager.GetObject("load", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap save_save {
+            get {
+                object obj = ResourceManager.GetObject("save_save", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap save_save1 {
+            get {
+                object obj = ResourceManager.GetObject("save_save1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

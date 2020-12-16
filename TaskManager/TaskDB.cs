@@ -15,12 +15,19 @@ namespace TaskManager
     {
         private string _dbconnstring;
         private string _dbsource;
+        private string _template_connstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=";
 
         public TaskDB(string path)
         {
             _dbsource = path;
-            _dbconnstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=" + path;
+            _dbconnstring = _template_connstring + path;
 
+        }
+
+        public void ChangeDB()
+        {
+            _dbsource = Properties.Settings.Default.PathToDB;
+            _dbconnstring = _template_connstring + _dbsource;
         }
 
         /// <summary>
@@ -41,9 +48,6 @@ namespace TaskManager
             return new OleDbConnection { ConnectionString = GetConnectionString() };
         }
 
-        /// <summary>
-        /// Закрыть соединение с базой данных
-        /// </summary>
 
 
         /*================================= Получение данных из БД =================================*/

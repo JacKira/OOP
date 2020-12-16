@@ -32,5 +32,17 @@ namespace TaskManager.Properties {
                 return ((string)(this["Database3ConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string PathToDB {
+            get {
+                return ((string)(this["PathToDB"]));
+            }
+            set {
+                this["PathToDB"] = value;
+            }
+        }
     }
 }

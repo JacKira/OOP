@@ -10,5 +10,8 @@
 &lt;/SerializableConnectionString&gt;</DesignTimeValue>
       <Value Profile="(Default)">Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\Database3.mdb</Value>
     </Setting>
+    <Setting Name="PathToDB" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -34,10 +34,11 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            this.openDBDialog = new System.Windows.Forms.OpenFileDialog();
+            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.FilterMenu = new System.Windows.Forms.GroupBox();
             this.ReloadTableButton = new System.Windows.Forms.Button();
             this.ClearFilterButton = new System.Windows.Forms.Button();
@@ -103,28 +104,20 @@
             this.toolStrip1.TabIndex = 2;
             this.toolStrip1.Text = "toolStrip1";
             // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(24, 47);
-            this.toolStripButton1.Text = "toolStripButton1";
-            // 
             // toolStripButton2
             // 
             this.toolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.Image = global::TaskManager.Properties.Resources.load;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(24, 47);
             this.toolStripButton2.Text = "toolStripButton2";
+            this.toolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
             // toolStripButton3
             // 
             this.toolStripButton3.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.Image = global::TaskManager.Properties.Resources.authorization_LOGIN;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(24, 47);
@@ -133,11 +126,20 @@
             // toolStripButton4
             // 
             this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.Image = global::TaskManager.Properties.Resources.authorization;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(24, 47);
             this.toolStripButton4.Text = "toolStripButton4";
+            // 
+            // toolStripButton1
+            // 
+            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButton1.Image = global::TaskManager.Properties.Resources.save_save1;
+            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton1.Name = "toolStripButton1";
+            this.toolStripButton1.Size = new System.Drawing.Size(24, 47);
+            this.toolStripButton1.Text = "toolStripButton1";
             // 
             // FilterMenu
             // 
@@ -279,6 +281,7 @@
             this.Name = "TaskTableForm";
             this.Text = "Task Table";
             this.TransparencyKey = System.Drawing.SystemColors.Highlight;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskTableForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.contextMenuStrip1.ResumeLayout(false);
@@ -315,6 +318,7 @@
         private System.Windows.Forms.Label SearchLabel;
         private System.Windows.Forms.Button ClearFilterButton;
         private System.Windows.Forms.Button ReloadTableButton;
+        private System.Windows.Forms.OpenFileDialog openDBDialog;
     }
 }
 

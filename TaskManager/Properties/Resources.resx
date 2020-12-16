@@ -121,8 +121,23 @@
   <data name="kaban" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\kaban.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="load" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\load.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="kaban4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\kaban4.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="5bbc3c8801944-thumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\5bbc3c8801944-thumb.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="authorization" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\authorization.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="save_save" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\save_save.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="authorization_LOGIN" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\authorization_LOGIN.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="kaban3" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\kaban3.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -139,7 +154,7 @@
   <data name="frog2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Icons\frog2.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="kaban4" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Icons\kaban4.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="save_save1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Icons\save_save.bmp;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
