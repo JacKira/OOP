@@ -128,7 +128,7 @@ namespace TaskManager
             forPrint.Clear();
             foreach(var note in _notes) 
             {
-                if (note.Value.Title.Contains(str)) 
+                if (note.Value.Title.ToUpper().Contains(str.ToUpper())) 
                 {
                     forPrint.Add(note.Key);
                 }

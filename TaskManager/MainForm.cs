@@ -352,6 +352,8 @@ namespace TaskManager
         /// <param name="e"></param>
         private void StatusButton1_CheckedChanged(object sender, EventArgs e)
         {
+            EmployersBox.Text = "";
+            SearchTextBox.Text = "";
             _idsForPrint = tableData.TasksByStatus("To Do");
             UpdateTable();
         }
@@ -363,6 +365,8 @@ namespace TaskManager
         /// <param name="e"></param>
         private void StatusButton2_CheckedChanged(object sender, EventArgs e)
         {
+            EmployersBox.Text = "";
+            SearchTextBox.Text = "";
             _idsForPrint = tableData.TasksByStatus("Doing");
             UpdateTable();
         }
@@ -374,6 +378,8 @@ namespace TaskManager
         /// <param name="e"></param>
         private void StatusButton3_CheckedChanged(object sender, EventArgs e)
         {
+            EmployersBox.Text = "";
+            SearchTextBox.Text = "";
             _idsForPrint = tableData.TasksByStatus("Done");
             UpdateTable();
         }
@@ -397,6 +403,10 @@ namespace TaskManager
         /// <param name="e"></param>
         private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            StatusButton1.Checked = false;
+            StatusButton2.Checked = false;
+            StatusButton3.Checked = false;
+            SearchTextBox.Text = "";
             _idsForPrint = tableData.GetTasksIdByEmployerId((EmployersBox.SelectedItem as Employer).ID, 1);
             UpdateTable();
         }
@@ -412,7 +422,7 @@ namespace TaskManager
             StatusButton2.Checked = false;
             StatusButton3.Checked = false;
             EmployersBox.Text = "";
-
+            SearchTextBox.Text = "";
             _idsForPrint = tableData.GetAllIds();
             UpdateTable();
         }
@@ -425,6 +435,10 @@ namespace TaskManager
         /// <param name="e"></param>
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
+            StatusButton1.Checked = false;
+            StatusButton2.Checked = false;
+            StatusButton3.Checked = false;
+            EmployersBox.Text = "";
             _idsForPrint = tableData.GetTasksIdByTitle(SearchTextBox.Text, 1);
             UpdateTable();
         }
