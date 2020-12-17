@@ -17,10 +17,10 @@ namespace TaskManager
         private string constr;
         private Dictionary<int, NoteData> _notes = new Dictionary<int, NoteData>();
         private List<int> _ids = new List<int>();
+        private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
         public List<int> forPrint = new List<int>();
         public List<Employer> employers = new List<Employer>();
         public List<Employer> allEmployers = new List<Employer>();
-        private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
         public NoteData this[int id]
         {
             get { return _notes[id]; }
