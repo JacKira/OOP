@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
 using System.Data.OleDb;
 
 namespace TaskManager
@@ -17,13 +13,20 @@ namespace TaskManager
         private string _dbsource;
         private string _template_connstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=";
 
+        /// <summary>
+        /// Составить строку соединения с БД
+        /// </summary>
+        /// <param name="path"></param>
         public TaskDB(string path = "")
         {
-            _dbsource = path;
+            _dbsource = path; // путь к файлу с БД
             _dbconnstring = _template_connstring + path;
 
         }
 
+        /// <summary>
+        /// Заменить путь к файлу с БД
+        /// </summary>
         public void ChangeDB()
         {
             _dbsource = Properties.Settings.Default.PathToDB;
@@ -48,8 +51,6 @@ namespace TaskManager
             return new OleDbConnection { ConnectionString = GetConnectionString() };
         }
 
-
-
         /*================================= Получение данных из БД =================================*/
 
         /// <summary>
@@ -59,18 +60,21 @@ namespace TaskManager
         /// <returns></returns>
         public NoteData GetNoteData(int ID)
         {
+            // составляем запросы
             string query = string.Format("SELECT Заголовок, Описание, Статус, [ID работника] FROM Записи Where Код = {0}", ID);
             string query2 = string.Format("SELECT Фамилия " +
                                           "FROM Сотрудники " +
                                           "INNER JOIN Записи ON Сотрудники.Код = Записи.[ID работника] " +
                                           "WHERE(((Записи.Код) = {0}))", ID);
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
             OleDbDataReader reader = command.ExecuteReader();
-            var note = new NoteData() { ID = ID };
+            var note = new NoteData() { ID = ID }; // сразу заносим ID записи
             // в цикле построчно читаем ответ от БД
             if (reader.Read())
             {
@@ -104,9 +108,12 @@ namespace TaskManager
         /// </summary>
         public List<Employer> GetEmployers()
         {
+            // составляем запрос
             string query = string.Format("SELECT Код, Фамилия FROM Сотрудники");
             var list = new List<Employer>();
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -125,17 +132,19 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
+            // закрываем соединение с БД
             _dbConnection.Close();
-            return list;
+            return list; // возвращаем список всех работников 
         }
 
         /// <summary>
-        /// Получить список работников по заданному ID проекта
+        /// Получить список работников (не админов) по заданному ID проекта
         /// </summary>
         /// <param name="ID_proj"></param>
         /// <returns></returns>
         public List<Employer> GetEmployers(int ID_proj)
         {
+            // составляем запрос
             string query = string.Format("SELECT DISTINCT Сотрудники.Код, Сотрудники.Фамилия " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN(Сотрудники " +
@@ -143,7 +152,9 @@ namespace TaskManager
                                          "ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<Employer>();
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -162,8 +173,9 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
+            // закрываем соединение с БД
             _dbConnection.Close();
-            return list;
+            return list; // возвращаем список работников по проекту
         }
 
         /// <summary>
@@ -173,15 +185,18 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetTasksId(int ID_proj)
         {
+            // составляем запрос
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN Записи ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}))", ID_proj);
             var list = new List<int>();
-            var dbconn = this.GetDbConnection();
-            dbconn.Open();
+            // получаем соединение с БД
+            var _dbConnection = this.GetDbConnection();
+            // закрываем соединение с БД
+            _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
-            OleDbCommand command = new OleDbCommand(query, dbconn);
+            OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
             OleDbDataReader reader = command.ExecuteReader();
             // в цикле построчно читаем ответ от БД
@@ -191,7 +206,8 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
-            dbconn.Close();
+            // закрываем соединение с БД
+            _dbConnection.Close();
             return list; // возвращаем список ID
         }
 
@@ -204,11 +220,14 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetTasksIdByStatus(string status, int ID_proj)
         {
+            // составляем запрос
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) INNER JOIN Записи ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}) AND ((Записи.Статус) = '{1}'))", ID_proj, status);
             var list = new List<int>();
+            // закрываем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -221,9 +240,11 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
+            // закрываем соединение с БД
             _dbConnection.Close();
             return list; // возвращаем список ID
         }
+
         /// <summary>
         /// Получить список ID задач по проекту в соответствии с заданным заголовком задачи
         /// и ID проекта
@@ -233,6 +254,7 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetTasksIdByTitle(string title, int ID_proj)
         {
+            // составляем запрос
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN(Сотрудники " +
@@ -240,7 +262,9 @@ namespace TaskManager
                                          "ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Проекты.Код) = {0}) AND ((Записи.Заголовок) = \"{1}\"))", ID_proj, title);
             var list = new List<int>();
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -253,6 +277,7 @@ namespace TaskManager
             }
             // закрываем OleDbDataReader
             reader.Close();
+            // закрываем соединение с БД
             _dbConnection.Close();
             return list; // возвращаем список ID
         }
@@ -265,13 +290,16 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetTasksIdByEmployerName(string name, int ID_proj)
         {
+            // составляем запрос
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN(Сотрудники INNER JOIN Записи " +
                                          "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Сотрудники.Фамилия) = \"{0}\") AND ((Проекты.Код) = {1}))", name, ID_proj);
             var list = new List<int>();
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение 
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -297,13 +325,16 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetTasksIdByEmployerId(int ID_emp, int ID_proj)
         {
+            // составляем запрос
             string query = string.Format("SELECT Записи.Код " +
                                          "FROM(Проекты INNER JOIN Этапы ON Проекты.Код = Этапы.[ID проекта]) " +
                                          "INNER JOIN(Сотрудники INNER JOIN Записи " +
                                          "ON Сотрудники.Код = Записи.[ID работника]) ON Этапы.Код = Записи.[ID этапа] " +
                                          "WHERE(((Сотрудники.Код) = {0}) AND ((Проекты.Код) = {1}))", ID_emp, ID_proj);
             var list = new List<int>();
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -328,15 +359,19 @@ namespace TaskManager
         /// <returns></returns>
         public string GetNameByEmployerId(int ID)
         {
+            // составляем запрос 
             string query = string.Format("SELECT Фамилия FROM Сотрудники" +
                                          "WHERE Код = {0}", ID);
             string name;
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
             OleDbDataReader reader = command.ExecuteReader();
+            // в цикле построчно читаем ответ от БД
             if (reader.Read())
             {
                 name = reader[0].ToString();
@@ -358,12 +393,15 @@ namespace TaskManager
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public int GetEmployerIdByName(string name)
+        public int? GetEmployerIdByName(string name)
         {
+            // составляем запрос
             string query = string.Format("SELECT Код FROM Сотрудники " +
                                          "WHERE Фамилия = '{0}'", name);
-            int ID;
+            int? ID;
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -382,7 +420,7 @@ namespace TaskManager
             reader.Close();
             // закрываем соединение с БД
             _dbConnection.Close();
-            return -1; // если работника нет, вернем -1 
+            return null; // если работника нет, вернем null
         }
 
         /// <summary>
@@ -392,10 +430,13 @@ namespace TaskManager
         /// <returns></returns>
         public int? GetIdByLogin(string login)
         {
+            // составляем запрос
             string query = string.Format("SELECT Код FROM Сотрудники " +
                                          "WHERE Логин = '{0}'", login);
-            int? ID;
+            int? ID; // тип '?' позволяет записать в переменную null
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -424,23 +465,22 @@ namespace TaskManager
         /// <returns>bool</returns>
         public bool IsAdmin(int ID)
         {
+            // составляем запрос
             string query = string.Format("SELECT Код FROM Администраторы " +
                                          "WHERE [ID сотрудника] = {0}", ID);
-
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываме соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
-            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
             var obj = command.ExecuteScalar();
             if (obj != null)
             {
-                // закрываем OleDbDataReader
                 // закрываем соединение с БД
                 _dbConnection.Close();
                 return true; // возвращаем фамилию работника
             }
-            // закрываем OleDbDataReader
             // закрываем соединение с БД
             _dbConnection.Close();
             return false; // если работника нет, вернем false
@@ -456,18 +496,24 @@ namespace TaskManager
         /// <returns>bool?</returns>
         public bool? Verification(string login, string password_)
         {
+            // получаем ID работника по его логину
             int? ID = this.GetIdByLogin(login);
             if (ID == null)
             {
                 return null;
             }
+            // составляем запрос
             string query = string.Format("SELECT Пароль FROM Сотрудники " +
                                          "WHERE Код = {0}", ID);
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
+            // получаем объект OleDbDataReader для чтения табличного результата запроса SELECT
             OleDbDataReader reader = command.ExecuteReader();
+            // в цикле построчно читаем ответ от БД
             if (reader.Read())
             {
                 string password = reader[0].ToString();
@@ -502,9 +548,12 @@ namespace TaskManager
         public int AddEmptyNoteData()
         {
             int ID; // ID для добавляемой записи
+            // составляем запрос
             string query = string.Format("INSERT INTO Записи (Заголовок, [ID этапа])" +
                                          "VALUES ('', 1)");
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -524,12 +573,16 @@ namespace TaskManager
         /// <param name="note"></param>
         public void UpdateNote(NoteData note)
         {
-            int ID = note.Employer.ID;
+            // вытаскиваем ID работника
+            int ID_emp = note.Employer.ID;
+            // составляем запрос
             string query = string.Format("UPDATE Записи " +
                                         "SET Заголовок = '{0}', Описание = '{1}', " +
                                         "[ID работника] = {2}, [ID этапа] = {3}, Статус = '{4}' " +
-                                        " WHERE Код = {5}", note.Title, note.Description, ID, 1, note.Status, note.ID);
+                                        " WHERE Код = {5}", note.Title, note.Description, ID_emp, 1, note.Status, note.ID);
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -546,9 +599,12 @@ namespace TaskManager
         /// <param name="password"></param>
         public void LogIn(string name, string login, string password)
         {
+            // составляем запрос
             string query = string.Format("INSERT INTO Сотрудники (Фамилия, Пароль, Логин)" +
                                          "VALUES ('{0}', '{1}', '{2}')", name, password, login);
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
@@ -566,8 +622,10 @@ namespace TaskManager
         {
             if (!IsAdmin(ID))
             {
+                // составляем запрос
                 string query = string.Format("INSERT INTO Администраторы ([ID сотрудника]) " +
                                              "VALUES ({0})", ID);
+                // получаем соединение с БД
                 var _dbConnection = this.GetDbConnection();
                 // открываем соединение с БД
                 _dbConnection.Open();
@@ -587,9 +645,11 @@ namespace TaskManager
         /// <param name="ID_proj"></param>
         public void SetAdmin(int ID_admin, int ID_proj)
         {
+            // составляем запрос
             string query = string.Format("UPDATE Проекты " +
                                          "SET [ID администратора] = {0} " +
                                          "WHERE Код = {1}", ID_admin, ID_proj);
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
             // открываем соединение с БД
             _dbConnection.Open();
@@ -608,13 +668,17 @@ namespace TaskManager
         /// </summary>
         public void DeleteNoteData(int ID)
         {
+            // составляем запрос
             string query = string.Format("DELETE FROM Записи WHERE Код = {0}", ID);
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // выполняем запрос к MS Access
             command.ExecuteNonQuery();
+            // закрываем соединение с БД
             _dbConnection.Close();
         }
 
@@ -627,13 +691,17 @@ namespace TaskManager
         {
             if (!this.IsAdmin(ID))
             {
+                // составляем запрос
                 string query = string.Format("DELETE FROM Сотрудники WHERE Код = {0}", ID);
+                // получаем соединение с БД
                 var _dbConnection = this.GetDbConnection();
+                // открываем соединение с БД
                 _dbConnection.Open();
                 // создаем объект OleDbCommand для выполнения запроса к БД MS Access
                 OleDbCommand command = new OleDbCommand(query, _dbConnection);
                 // выполняем запрос к MS Access
                 command.ExecuteNonQuery();
+                // закрываем соединение с БД
                 _dbConnection.Close();
             }
         }
@@ -643,13 +711,17 @@ namespace TaskManager
         /// </summary>
         public void DeleteAdmin(int ID)
         {
+            // составляем запрос
             string query = string.Format("DELETE FROM Администраторы WHERE Код = {0}", ID);
+            // получаем соединение с БД
             var _dbConnection = this.GetDbConnection();
+            // открываем соединение с БД
             _dbConnection.Open();
             // создаем объект OleDbCommand для выполнения запроса к БД MS Access
             OleDbCommand command = new OleDbCommand(query, _dbConnection);
             // выполняем запрос к MS Access
             command.ExecuteNonQuery();
+            // закрываем соединение с БД
             _dbConnection.Close();
         }
     }
