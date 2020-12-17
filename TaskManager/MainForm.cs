@@ -71,7 +71,7 @@ namespace TaskManager
             Properties.Settings.Default.Reload();
             Properties.Settings.Default.Admin = false;
             Properties.Settings.Default.User = false;
-            Properties.Settings.Default.UserID = 0;
+            Properties.Settings.Default.UserID = -1;
         }
 
         /// <summary>
@@ -163,7 +163,7 @@ namespace TaskManager
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
                 Items = { "To Do", "Doing", "Done" },
-                Enabled = note.Employer.ID == Properties.Settings.Default.UserID
+                Enabled = (note.Employer.ID == Properties.Settings.Default.UserID) || Properties.Settings.Default.Admin
             };
             box.TextChanged += (sender, args) => ChangeStatus(note.ID, (sender as ComboBox).Text);
 
@@ -625,6 +625,7 @@ namespace TaskManager
         {
             Properties.Settings.Default.Admin = false;
             Properties.Settings.Default.User = false;
+            Properties.Settings.Default.UserID = -1;
             UpdateTable();
             Updateprivilege();
         }

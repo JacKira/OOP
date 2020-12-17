@@ -42,7 +42,7 @@ namespace TaskManager
             // LoginLabel
             // 
             this.LoginLabel.AutoSize = true;
-            this.LoginLabel.Location = new System.Drawing.Point(80, 36);
+            this.LoginLabel.Location = new System.Drawing.Point(140, 36);
             this.LoginLabel.MinimumSize = new System.Drawing.Size(40, 0);
             this.LoginLabel.Name = "LoginLabel";
             this.LoginLabel.Size = new System.Drawing.Size(40, 13);
@@ -52,7 +52,7 @@ namespace TaskManager
             // PasswordLabel
             // 
             this.PasswordLabel.AutoSize = true;
-            this.PasswordLabel.Location = new System.Drawing.Point(75, 85);
+            this.PasswordLabel.Location = new System.Drawing.Point(135, 85);
             this.PasswordLabel.MinimumSize = new System.Drawing.Size(40, 0);
             this.PasswordLabel.Name = "PasswordLabel";
             this.PasswordLabel.Size = new System.Drawing.Size(45, 13);
@@ -62,20 +62,22 @@ namespace TaskManager
             // LoginBox
             // 
             this.LoginBox.Location = new System.Drawing.Point(12, 52);
+            this.LoginBox.MinimumSize = new System.Drawing.Size(150, 0);
             this.LoginBox.Name = "LoginBox";
-            this.LoginBox.Size = new System.Drawing.Size(188, 20);
+            this.LoginBox.Size = new System.Drawing.Size(300, 20);
             this.LoginBox.TabIndex = 2;
             // 
             // PasswordBox
             // 
             this.PasswordBox.Location = new System.Drawing.Point(12, 101);
+            this.PasswordBox.MinimumSize = new System.Drawing.Size(150, 0);
             this.PasswordBox.Name = "PasswordBox";
-            this.PasswordBox.Size = new System.Drawing.Size(188, 20);
+            this.PasswordBox.Size = new System.Drawing.Size(300, 20);
             this.PasswordBox.TabIndex = 3;
             // 
             // GoButton
             // 
-            this.GoButton.Location = new System.Drawing.Point(24, 185);
+            this.GoButton.Location = new System.Drawing.Point(84, 183);
             this.GoButton.Name = "GoButton";
             this.GoButton.Size = new System.Drawing.Size(156, 38);
             this.GoButton.TabIndex = 4;
@@ -86,14 +88,15 @@ namespace TaskManager
             // NameBox
             // 
             this.NameBox.Location = new System.Drawing.Point(12, 145);
+            this.NameBox.MinimumSize = new System.Drawing.Size(150, 0);
             this.NameBox.Name = "NameBox";
-            this.NameBox.Size = new System.Drawing.Size(188, 20);
+            this.NameBox.Size = new System.Drawing.Size(300, 20);
             this.NameBox.TabIndex = 6;
             // 
             // NameLabel
             // 
             this.NameLabel.AutoSize = true;
-            this.NameLabel.Location = new System.Drawing.Point(80, 129);
+            this.NameLabel.Location = new System.Drawing.Point(140, 129);
             this.NameLabel.MinimumSize = new System.Drawing.Size(40, 0);
             this.NameLabel.Name = "NameLabel";
             this.NameLabel.Size = new System.Drawing.Size(40, 13);
@@ -104,15 +107,16 @@ namespace TaskManager
             // 
             this.UsersBox.FormattingEnabled = true;
             this.UsersBox.Location = new System.Drawing.Point(12, 1);
+            this.UsersBox.MinimumSize = new System.Drawing.Size(150, 0);
             this.UsersBox.Name = "UsersBox";
-            this.UsersBox.Size = new System.Drawing.Size(188, 21);
+            this.UsersBox.Size = new System.Drawing.Size(300, 21);
             this.UsersBox.TabIndex = 7;
             // 
             // UserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(212, 235);
+            this.ClientSize = new System.Drawing.Size(323, 242);
             this.Controls.Add(this.UsersBox);
             this.Controls.Add(this.NameBox);
             this.Controls.Add(this.NameLabel);
@@ -122,8 +126,12 @@ namespace TaskManager
             this.Controls.Add(this.PasswordLabel);
             this.Controls.Add(this.LoginLabel);
             this.Name = "UserForm";
-            this.Text = "UserForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Авторизация";
             this.Load += new System.EventHandler(this.UserForm_Load);
+            this.ResizeBegin += new System.EventHandler(this.UserForm_ResizeBegin);
+            this.ResizeEnd += new System.EventHandler(this.UserForm_ResizeEnd);
+            this.Resize += new System.EventHandler(this.UserForm_Resize);
             this.ResumeLayout(false);
             this.PerformLayout();
 

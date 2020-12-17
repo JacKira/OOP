@@ -20,6 +20,11 @@ namespace TaskManager
         private bool _editMember;
 
         private TaskTableForm parent;
+
+        private int _w;
+        private int _h;
+
+        
     
 
 
@@ -33,8 +38,8 @@ namespace TaskManager
 
         private void NewMember()
         {
-            GoButton.Text = "Добавить пользователя";
-
+            GoButton.Text = "Добавить работника";
+            this.Text = "Добавление работника";
         }
 
         private void GoButton_Click(object sender, EventArgs e)
@@ -82,9 +87,12 @@ namespace TaskManager
             UsersBox.Visible = _editMember;
             GoButton.Enabled = !_editMember;
             GoButton.Visible = !_editMember;
+            _w = this.Width;
+            _h = this.Height;
             if(_editMember)
             {
                 UpdateEmployers();
+                this.Text = "Редактирование профиля";
                 var btn = new Button { Location = GoButton.Location, Text = "Удалить", Size = GoButton.Size };
                 btn.Click += (_sender, args) =>
                 {
@@ -118,6 +126,24 @@ namespace TaskManager
                 UsersBox.Items.Add(employer);
             }
 
+        }
+
+        private void UserForm_Resize(object sender, EventArgs e)
+        {
+            this.Width = _w;
+            this.Height = _h;
+        }
+
+        private void UserForm_ResizeBegin(object sender, EventArgs e)
+        {
+            this.Width = _w;
+            this.Height = _h;
+        }
+
+        private void UserForm_ResizeEnd(object sender, EventArgs e)
+        {
+            this.Width = _w;
+            this.Height = _h;
         }
     }
 }
