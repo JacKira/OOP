@@ -196,7 +196,7 @@ namespace TaskManager
                 Multiline = true,
                 ReadOnly = true,
                 Size = new System.Drawing.Size(330, 30),
-                Text = "---",
+                Text = "* * *",
                 TextAlign = HorizontalAlignment.Center,
                 TabIndex = 5,
                 Cursor = System.Windows.Forms.Cursors.Hand,

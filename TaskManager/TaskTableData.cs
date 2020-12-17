@@ -5,7 +5,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using TaskManager;
-//=========================== Sanya ===============================//
+//=========================== Baranov ===============================//
 namespace TaskManager
 {
     /// <summary>
@@ -21,53 +21,12 @@ namespace TaskManager
         public List<int> forPrint = new List<int>();
         public List<Employer> employers = new List<Employer>();
         public List<Employer> allEmployers = new List<Employer>();
-        public NoteData this[int id]
-        {
-            get { return _notes[id]; }
-            set { _notes[id] = value; }
-        }
 
-        public List<int> GetAllIds()
-        {
-            forPrint = _ids;
-            return forPrint;
-        }
-
-        public void Dispose()
-        {
-            _notes.Clear();
-            _ids.Clear();
-            forPrint.Clear();
-            employers.Clear();
-            allEmployers.Clear();
-            _tasksByStatus.Clear();
-            constr = string.Empty;
-        }
-
-        public void Add()
-        {
-            var db = new TaskDB(constr);
-            var note = new NoteData() { Status = "To Do", ID = db.AddEmptyNoteData() };
-            _notes.Add(note.ID, note);
-            db.UpdateNote(note);
-            _ids = db.GetTasksId(1);
-            forPrint = _ids;
-            UpdateStatusList();
-            UpdateEmployers();
-        }
-
-        public void UpdateEmployers()
-        {
-            var db = new TaskDB(constr);
-            employers = db.GetEmployers(1);
-        }
-
-        public void UpdateAllEmployers()
-        {
-            var db = new TaskDB(constr);
-            allEmployers = db.GetEmployers();
-        }
-
+        
+        /// <summary>
+        /// Конструктор осуществляющий подключение и загрузку данных из базы данных из файла по заданому пути
+        /// </summary>
+        /// <param name="path"></param>
         public TaskTableData(string path = "")
         {
             constr = path;
@@ -89,6 +48,79 @@ namespace TaskManager
             //Заполняем доску задачами
             forPrint = _ids;
         }
+
+        /// <summary>
+        /// Перегрузка оператора индексации
+        /// возвращает задачу с заданым id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public NoteData this[int id]
+        {
+            get { return _notes[id]; }
+            set { _notes[id] = value; }
+        }
+
+        /// <summary>
+        /// Получаем id всех задач
+        /// </summary>
+        /// <returns></returns>
+        public List<int> GetAllIds()
+        {
+            forPrint = _ids;
+            return forPrint;
+        }
+
+        /// <summary>
+        /// Очищение выделеной памяти
+        /// </summary>
+        public void Dispose()
+        {
+            _notes.Clear();
+            _ids.Clear();
+            forPrint.Clear();
+            employers.Clear();
+            allEmployers.Clear();
+            _tasksByStatus.Clear();
+            constr = string.Empty;
+        }
+
+        /// <summary>
+        /// Добавление пустой задачи в базу
+        /// </summary>
+        public void Add()
+        {
+            var db = new TaskDB(constr);
+            var note = new NoteData() { Status = "To Do", ID = db.AddEmptyNoteData() };
+            _notes.Add(note.ID, note);
+            db.UpdateNote(note);
+            _ids = db.GetTasksId(1);
+            forPrint = _ids;
+            UpdateStatusList();
+            UpdateEmployers();
+        }
+
+        /// <summary>
+        /// Обновление списка работников на проект
+        /// </summary>
+        public void UpdateEmployers()
+        {
+            var db = new TaskDB(constr);
+            employers = db.GetEmployers(1);
+        }
+
+        /// <summary>
+        /// Обновление списка всех работников
+        /// </summary>
+        public void UpdateAllEmployers()
+        {
+            var db = new TaskDB(constr);
+            allEmployers = db.GetEmployers();
+        }
+
+        /// <summary>
+        /// Обновление списка задач по статусам
+        /// </summary>
         public void UpdateStatusList()
         {
             var db = new TaskDB(constr);
@@ -101,6 +133,11 @@ namespace TaskManager
             _tasksByStatus.Add("Done", stat3);
         }
 
+
+        /// <summary>
+        /// Удаление записи по id
+        /// </summary>
+        /// <param name="id"></param>
         public void DeleteNote(int id)
         {
             var db = new TaskDB(constr);
@@ -109,12 +146,24 @@ namespace TaskManager
             _notes.Remove(id);
             forPrint.Remove(id);
         }
+
+        /// <summary>
+        /// получение списка задач по статусу
+        /// </summary>
+        /// <param name="status"></param>
+        /// <returns></returns>
         public List<int> TasksByStatus(string status)
         {
             forPrint = _tasksByStatus[status];
             return forPrint;
         }
 
+        /// <summary>
+        /// Получение списка задач по id работника
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="id_proj"></param>
+        /// <returns></returns>
         public List<int> GetTasksIdByEmployerId(int id, int id_proj)
         {
             var db = new TaskDB(constr);
@@ -122,6 +171,12 @@ namespace TaskManager
             return forPrint;
         }
 
+        /// <summary>
+        /// Получение списка задач по заголовку
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="id_proj"></param>
+        /// <returns></returns>
         public List<int> GetTasksIdByTitle(string str, int id_proj)
         {
             var db = new TaskDB(constr);
@@ -137,6 +192,12 @@ namespace TaskManager
             return forPrint;
         }
 
+
+        /// <summary>
+        /// Изменение заголовка по id задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newStr"></param>
         public void ChangeTitle(int id, string newStr)
         {
             var db = new TaskDB(constr);
@@ -144,12 +205,23 @@ namespace TaskManager
             db.UpdateNote(_notes[id]);
         }
 
+        /// <summary>
+        /// Изменение описания по id задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newStr"></param>
         public void ChangeDescription(int id, string newStr)
         {
             var db = new TaskDB(constr);
             _notes[id].Description = newStr;
             db.UpdateNote(_notes[id]);
         }
+
+        /// <summary>
+        /// Изменение работника по id задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="new_employer"></param>
         public void ChangeEmployer(int id, object new_employer)
         {
             var db = new TaskDB(constr);
@@ -158,6 +230,11 @@ namespace TaskManager
             UpdateEmployers();
         }
 
+        /// <summary>
+        /// Изменение статуса по id задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newStr"></param>
         public void ChangeStatus(int id, string newStr)
         {
             var db = new TaskDB(constr);
@@ -166,13 +243,19 @@ namespace TaskManager
             UpdateStatusList();
         }
 
+        /// <summary>
+        /// обновление данных задачи по id в базе данных
+        /// </summary>
+        /// <param name="id"></param>
         public void UpdateNote(int id)
         {
             var db = new TaskDB(constr);
             db.UpdateNote(_notes[id]);
         }
     }
-
+    /// <summary>
+    /// объект для храния данных о задаче
+    /// </summary>
     public class NoteData
     {
         public string Title { get; set; } = "";
@@ -182,6 +265,9 @@ namespace TaskManager
         public int ID { get; set; } = 0;
     }
 
+    /// <summary>
+    /// объект для хранения данных о работнике
+    /// </summary>
     public class Employer
     {
         public int ID { get; set; } = 0;
@@ -202,9 +288,5 @@ namespace TaskManager
         {
             return employer1.ID != employer2.ID;
         }
-
-
     }
-
-
 }
