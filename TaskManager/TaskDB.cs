@@ -475,7 +475,7 @@ namespace TaskManager
                                      "WHERE [ID сотрудника] = {0}", ID);
         // получаем соединение с БД
         var _dbConnection = this.GetDbConnection();
-        // открываме соединение с БД
+        // открываем соединение с БД
         _dbConnection.Open();
         // создаем объект OleDbCommand для выполнения запроса к БД MS Access
         OleDbCommand command = new OleDbCommand(query, _dbConnection);
