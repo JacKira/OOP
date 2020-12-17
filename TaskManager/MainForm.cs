@@ -18,20 +18,6 @@ namespace TaskManager
 {
     public partial class TaskTableForm : Form
     {
-        //00000000000000000000000000000000000000000000000000000000000000//
-        //=========================== Sanya ===============================//
-        private Dictionary<int, NoteData> _notes = new Dictionary<int, NoteData>();
-        private List<int> _ids = new List<int>();
-        private List<int> _forPrint = new List<int>();
-        private List<Employer> _employers = new List<Employer>();
-        private List<Employer> _allEmployers = new List<Employer>();
-        private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
-        //=========================== Sanya ===============================//
-        //00000000000000000000000000000000000000000000000000000000000000//
-
-        //=================================================================//
-        private TaskDB DB = new TaskDB();
-        //=================================================================//
 
 
         private int _w;
@@ -40,6 +26,12 @@ namespace TaskManager
         static extern bool HideCaret(IntPtr hWnd);
         private int[] last_note_cords = { 0, 0 };
         private string Path = Properties.Settings.Default.PathToDB;
+        public TaskTableData tableData = null;
+        private List<int> _idsForPrint = new List<int>();
+
+        /// <summary>
+        /// Конструктор главной формы
+        /// </summary>
         public TaskTableForm()
         {
             InitializeComponent(); //#2 Инициалиизруем меню и доску для записей, но без самих записей.
@@ -50,19 +42,17 @@ namespace TaskManager
             TaskTable.ControlRemoved += new ControlEventHandler(ChangeRowCount);
         }
 
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Task_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
+        /// <summary>
+        /// Метод, вызываемый системой при показе главной формы, при вызове метода Show()
+        /// Вызываем загрузку свойств системы, свойств привелегий пользователя и загружаем даннык из базы,
+        /// если она указана верно
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
             LoadProperties();
+            Updateprivilege();
             if (!File.Exists(Properties.Settings.Default.PathToDB))
             {
                 MessageBox.Show("Заданной базы данных не существует");
@@ -73,42 +63,35 @@ namespace TaskManager
             }
         }
 
-
+        /// <summary>
+        /// Загружаем и устанавливаем настройки приложения
+        /// </summary>
         private void LoadProperties()
         {
             Properties.Settings.Default.Reload();
             Properties.Settings.Default.Admin = false;
             Properties.Settings.Default.User = false;
+            Properties.Settings.Default.UserID = 0;
         }
 
+        /// <summary>
+        /// Загрузка задач на доску и вызов обслуживающих методов
+        /// </summary>
         private void InitTable()
         {
-            DB.ChangeDB();
-            //00000000000000000000000000000000000000000000000000000000000000//
-            //=========================== Sanya ===============================//
-            //Получаем все задачи проекта
-            _ids = DB.GetTasksId(1);
-            foreach (var id in _ids)
-            {
-                var note = DB.GetNoteData(id);
-                _notes.Add(note.ID, note);
-            }
-
-            //Получаем id по статусу
-            UpdateStatusList();
-            //Получим работников
+            tableData = new TaskTableData(Properties.Settings.Default.PathToDB);
+            _idsForPrint = tableData.forPrint;
             UpdateEmployers();
-
-            _allEmployers = DB.GetEmployers();
-
-            //Заполняем доску задачами
-            _forPrint = _ids;
-            //==============================================================//
-            //00000000000000000000000000000000000000000000000000000000000000//
+            UpdateAllEmployer();
             UpdateTable();
         }
 
         //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
+        /// <summary>
+        /// Метод для создания листочка задачи, возвращает созданный листочек 
+        /// </summary>
+        /// <param name="note"></param>
+        /// <returns></returns>
         private System.Windows.Forms.TableLayoutPanel InitNote(NoteData note)
         {
             var NewNote = new Note() { Margin = new Padding(10), ID = note.ID };
@@ -164,7 +147,7 @@ namespace TaskManager
                 Size = new System.Drawing.Size(330, 20),
                 Enabled = Properties.Settings.Default.Admin
             };
-            foreach(var employer in _allEmployers)
+            foreach (var employer in tableData.allEmployers)
             {
                 box.Items.Add(employer);
             }
@@ -180,7 +163,7 @@ namespace TaskManager
                 Width = 260,
                 Size = new System.Drawing.Size(330, 20),
                 Items = { "To Do", "Doing", "Done" },
-                Enabled = Properties.Settings.Default.User
+                Enabled = note.Employer.ID == Properties.Settings.Default.UserID
             };
             box.TextChanged += (sender, args) => ChangeStatus(note.ID, (sender as ComboBox).Text);
 
@@ -220,101 +203,103 @@ namespace TaskManager
                 Enabled = Properties.Settings.Default.Admin
             });
             //#7 Здесь добавляем функциональное меню для элемента записи
-            NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote, DB, _ids, _notes, this);
+            NewNote.Controls[4].ContextMenuStrip = new NoteContextMenu(NewNote, tableData, this);
             NewNote.Controls[4].Click += new System.EventHandler(ShowNoteToolStripMenu);
-
             return NewNote;
         }
 
+        /// <summary>
+        /// Метод для добавления листочка на доску
+        /// </summary>
+        /// <param name="note"></param>
         private void AddNote(NoteData note)
         {
-            int row = last_note_cords[0];
-            int col = last_note_cords[1];
-            //#4 Добавляем запись, возвращаемую методом InitNote в число элементов доски
-            if ((row == 0) && (col == 0))
-            {
-                //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                TaskTable.Controls.Add(InitNote(note));
-                return;
-            }
-            if (col == 2)
-            {
-                row++;
-                col = 0;
-                last_note_cords[0] = row;
-                last_note_cords[1] = col;
-                //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                TaskTable.Controls.Add(InitNote(note));
-            }
-            else
-            {
-                col++;
-                last_note_cords[0] = row;
-                last_note_cords[1] = col;
-                //TaskTable.Controls.Add(InitNote(title, description, employer, status), col, row);
-                TaskTable.Controls.Add(InitNote(note));
-            }
+            TaskTable.Controls.Add(InitNote(note));
         }
 
+        /// <summary>
+        /// Метод для контроля размером доски с листочками
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void ChangeRowCount(object sender, EventArgs e)
         {
             System.Windows.Forms.TableLayoutPanel table = (System.Windows.Forms.TableLayoutPanel)sender;
             table.RowCount = (int)table.Controls.Count / 3;
         }
 
-
+        /// <summary>
+        /// Метод для вызова во время события удаления листочка с доски
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        /// <param name="form"></param>
         private static void removeNoteToolStripMenuItem_Click(object sender, EventArgs args, TaskTableForm form)
         {
-            var menu = (MenuItem)sender;
+            var menu = (MenuItemForDeleteNote)sender;
             form.DeleteNote(menu.Note.ID);
         }
 
+        /// <summary>
+        /// Вызов всплывающего меню на доске
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private static void ShowNoteToolStripMenu(object sender, EventArgs e)
         {
             System.Windows.Forms.TextBox box = (System.Windows.Forms.TextBox)sender;
             box.ContextMenuStrip.Show(Control.MousePosition);
 
         }
+
+        /// <summary>
+        /// Добавление листочка на доску и в базу
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            //00000000000000000000000000000000000000000000000000000000000000//
-            var note = new NoteData() { Status = "To Do", ID = DB.AddEmptyNoteData()};
-            _notes.Add(note.ID, note);
-            DB.UpdateNote(note);
-            _ids = DB.GetTasksId(1);
-            _forPrint = _ids;
+            //Добавление записки в базу
+            tableData.Add();
+            _idsForPrint = tableData.forPrint;
             UpdateTable();
             UpdateStatusList();
             UpdateEmployers();
-            //Добавление записки в базу
-            //00000000000000000000000000000000000000000000000000000000000000//
+
+
         }
         /* =========================================== CLASSES ===============================================*/
+       
+        /// <summary>
+        /// Меню для взаимодействия с листочком на доске
+        /// </summary>
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
         {
             //#8 Инициализируем унаследованный системный компонент с добавлением в него наших элементов меню
-            public NoteContextMenu(Note note, TaskDB DB, List<int> _ids, Dictionary<int, NoteData> _notes, TaskTableForm form)
+            public NoteContextMenu(Note note, TaskTableData tableData, TaskTableForm form)
             {
 
-                this.Items.Add(new MenuItem(note, DB, _ids, _notes, form));
+                this.Items.Add(new MenuItemForDeleteNote(note, tableData, form));
                 this.Items[0].Text = "Remove Note";
-                this.Items.Add(new ToolStripMenuItem("NOT Remove Note"));
                 this.Size = new System.Drawing.Size(180, 22);
             }
         }
 
-        private class MenuItem : ToolStripMenuItem
+        /// <summary>
+        /// Элемент меню для удаления листочка с доски
+        /// </summary>
+        private class MenuItemForDeleteNote : ToolStripMenuItem
         {
             //#9 Инициализируем наш элемент меню, унаследованный системный компонент
-            public MenuItem(Note note, TaskDB DB, List<int> _ids, Dictionary<int, NoteData> _notes, TaskTableForm form)
+            public MenuItemForDeleteNote(Note note, TaskTableData tableData, TaskTableForm form)
             {
                 //Добавляем в него событие удаления записи
                 this.Click += (sender, args) =>
                 {
                     removeNoteToolStripMenuItem_Click(sender, args, form);
                     form.UpdateTable();
-                    form.UpdateEmployers();
-                    form.UpdateStatusList();
+                    tableData.UpdateEmployers();
+                    tableData.UpdateStatusList();
                 };
                 //Сохраняем саму запись для удаления
                 Note = note;
@@ -322,20 +307,29 @@ namespace TaskManager
             public Note Note;
         }
 
-        //00000000000000000000000000000000000000000000000000000000000000//
+        /// <summary>
+        /// Метод для удаления листочка с доски по ID
+        /// </summary>
+        /// <param name="id">id листочка</param>
         private void DeleteNote(int id)
         {
-            DB.DeleteNoteData(id);
-            _ids = DB.GetTasksId(1);
-            _notes.Remove(id);
-            _forPrint.Remove(id);
+            tableData.DeleteNote(id);
+            _idsForPrint = tableData.forPrint;
         }
-        //00000000000000000000000000000000000000000000000000000000000000//
+  
+        /// <summary>
+        /// Модификация стандартного элемента для хранения ID записи
+        /// </summary>
         private class Note : TableLayoutPanel
         {
             public int ID = 0;
         }
 
+        /// <summary>
+        /// Метод для контроля расположения компонентов на форме при изменении ее размеров
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_Resize(object sender, EventArgs e)
         {
             int d_w = this.Width - _w;
@@ -350,45 +344,68 @@ namespace TaskManager
             //  TaskTable.AutoScroll = true;
         }
 
-        
 
+        /// <summary>
+        /// Метод события при нажании на вывод задач со статусом "Нужно сделать"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StatusButton1_CheckedChanged(object sender, EventArgs e)
         {
-            _forPrint = _tasksByStatus["To Do"];
+            _idsForPrint = tableData.TasksByStatus("To Do");
             UpdateTable();
         }
 
+        /// <summary>
+        /// Метод события при нажании на вывод задач со статусом "В работе"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StatusButton2_CheckedChanged(object sender, EventArgs e)
         {
-            _forPrint = _tasksByStatus["Doing"];
+            _idsForPrint = tableData.TasksByStatus("Doing");
             UpdateTable();
         }
 
+        /// <summary>
+        /// Метод события при нажании на вывод задач со статусом "Сделано"
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void StatusButton3_CheckedChanged(object sender, EventArgs e)
         {
-            _forPrint = _tasksByStatus["Done"];
+            _idsForPrint = tableData.TasksByStatus("Done");
             UpdateTable();
         }
 
+        /// <summary>
+        /// Обновление отображаемых задач на форме
+        /// </summary>
         public void UpdateTable()
         {
             TaskTable.Controls.Clear();
-            foreach (var id in _forPrint)
+            foreach (var id in _idsForPrint)
             {
-                AddNote(_notes[id]);
+                AddNote(tableData[id]);
             }
         }
 
+        /// <summary>
+        /// Метод, вызываемый при выборе работника, для которого нужно отобразить задачи
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //00000000000000000000000000000000000000000000000000000000000000//
-            //=========================== Sanya ===============================//
-            _forPrint = DB.GetTasksIdByEmployerId((EmployersBox.SelectedItem as Employer).ID, 1);
-            //================================================================//
-            //00000000000000000000000000000000000000000000000000000000000000//
+            _idsForPrint = tableData.GetTasksIdByEmployerId((EmployersBox.SelectedItem as Employer).ID, 1);
             UpdateTable();
         }
 
+        /// <summary>
+        /// Метод для очистки установок фильтра 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ClearFilterButton_Click(object sender, EventArgs e)
         {
             StatusButton1.Checked = false;
@@ -396,139 +413,166 @@ namespace TaskManager
             StatusButton3.Checked = false;
             EmployersBox.Text = "";
 
-            _forPrint = _ids;
+            _idsForPrint = tableData.GetAllIds();
             UpdateTable();
         }
 
-        private void SearchButton_Click(object sender, EventArgs e)
-        {
-            //00000000000000000000000000000000000000000000000000000000000000//
-            //=========================== Sanya ===============================//
-            _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
-            //================================================================//
-            //00000000000000000000000000000000000000000000000000000000000000//
-            UpdateTable();
-        }
 
+        /// <summary>
+        /// Метод вызываемый при использовании окна поиска
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            //00000000000000000000000000000000000000000000000000000000000000//
-            //=========================== Sanya ===============================//
-            _forPrint = DB.GetTasksIdByTitle(SearchTextBox.Text, 1);
-            //================================================================//
-            //00000000000000000000000000000000000000000000000000000000000000//
+            _idsForPrint = tableData.GetTasksIdByTitle(SearchTextBox.Text, 1);
             UpdateTable();
         }
 
-        //00000000000000000000000000000000000000000000000000000000000000 начало//
+        /// <summary>
+        /// Метод, вызываемый при изменении заголовка задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newStr"></param>
         private void ChangeTitle(int id, string newStr)
         {
-
-            //=========================== Sanya ===============================//
-            _notes[id].Title = newStr;
-            DB.UpdateNote(_notes[id]);
-            //================================================================//
+            tableData[id].Title = newStr;
+            tableData.UpdateNote(id);
         }
 
+        /// <summary>
+        /// Метод, вызываемый при изменении описания задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newStr"></param>
         private void ChangeDescription(int id, string newStr)
         {
-            //=========================== Sanya ===============================//
-            _notes[id].Description = newStr;
-            DB.UpdateNote(_notes[id]);
-            //================================================================//
+            tableData[id].Description = newStr;
+            tableData.UpdateNote(id);
         }
+
+        /// <summary>
+        /// Метод, вызываемый при изменении работника, за которым закреплена задача
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="new_employer"></param>
         private void ChangeEmployer(int id, object new_employer)
         {
-            //=========================== Sanya ===============================//
-            _notes[id].Employer = new_employer as Employer;
-            DB.UpdateNote(_notes[id]);
-            //================================================================//
+            tableData[id].Employer = new_employer as Employer;
+            tableData.UpdateNote(id);
             UpdateEmployers();
             UpdateTable();
         }
-        //00000000000000000000000000000000000000000000000000000000000000 конец//
+
+        /// <summary>
+        /// Метод, вызываемый при изменении статуса задачи
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="newStr"></param>
+        private void ChangeStatus(int id, string newStr)
+        {
+            tableData[id].Status = newStr;
+            tableData.UpdateNote(id);
+            UpdateStatusList();
+            UpdateTable();
+        }
+
+        /// <summary>
+        /// Метод для обновления списка работников для фильтра
+        /// </summary>
         public void UpdateEmployers()
         {
-            //  _employers = DB.GetEmployers(1);
+            tableData.UpdateEmployers();
             EmployersBox.Items.Clear();
-            foreach (var employer in _employers)
+            foreach (var employer in tableData.employers)
             {
                 EmployersBox.Items.Add(employer);
             }
         }
 
+        /// <summary>
+        /// Обновление списка всех работников
+        /// </summary>
         public void UpdateAllEmployer()
         {
-            _allEmployers = DB.GetEmployers();
+            tableData.UpdateAllEmployers();
         }
 
 
-
-        //00000000000000000000000000000000000000000000000000000000000000//
-        private void ChangeStatus(int id, string newStr)
-        {
-            //=========================== Sanya ===============================//
-            _notes[id].Status = newStr;
-            DB.UpdateNote(_notes[id]);
-
-            UpdateStatusList();
-            //================================================================//
-            UpdateTable();
-        }
-        //00000000000000000000000000000000000000000000000000000000000000//
-
-
-
-        //00000000000000000000000000000000000000000000000000000000000000//
+        /// <summary>
+        /// Обновление списков задач по статусу
+        /// </summary>
         private void UpdateStatusList()
         {
-            var stat1 = DB.GetTasksIdByStatus("To Do", 1);
-            var stat2 = DB.GetTasksIdByStatus("Doing", 1);
-            var stat3 = DB.GetTasksIdByStatus("Done", 1);
-            _tasksByStatus.Clear();
-            _tasksByStatus.Add("To Do", stat1);
-            _tasksByStatus.Add("Doing", stat2);
-            _tasksByStatus.Add("Done", stat3);
+            tableData.UpdateStatusList();
         }
-        //00000000000000000000000000000000000000000000000000000000000000//
 
-
+        /// <summary>
+        /// Обновление отображаемых задач на доске
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ReloadTableButton_Click(object sender, EventArgs e)
         {
             UpdateTable();
         }
 
+        /// <summary>
+        /// Смена действующей базы данных и ее загрузка, если та существует 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
-            openDBDialog.InitialDirectory = "c:\\";
-            openDBDialog.Filter = " access mdb files (*.mdb) | *.mdb";
-            openDBDialog.RestoreDirectory = true;
+            openDbDialog.InitialDirectory = "c:\\";
+            openDbDialog.Filter = " access mdb files (*.mdb) | *.mdb";
+            openDbDialog.RestoreDirectory = true;
 
-            if (openDBDialog.ShowDialog() == DialogResult.OK)
+            if (openDbDialog.ShowDialog() == DialogResult.OK)
             {
 
                 //Get the path of specified file
-                Properties.Settings.Default.PathToDB = openDBDialog.FileName;
+                Properties.Settings.Default.PathToDB = openDbDialog.FileName;
                 if (!File.Exists(Properties.Settings.Default.PathToDB))
                 {
                     MessageBox.Show("Заданной базы данных не существует");
                     return;
                 }
+                tableData.Dispose();
+                tableData = null;
+                tableData = new TaskTableData(Properties.Settings.Default.PathToDB);
                 InitTable();
             }
         }
 
+        /// <summary>
+        /// Происходит при закрытии формы. Сохраняет настройки приложения и очищает память
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TaskTableForm_FormClosing(object sender, FormClosingEventArgs e)
         {
+            tableData.Dispose();
+            tableData = null;
             Properties.Settings.Default.Save();
         }
 
+        /// <summary>
+        /// Вызов окна для авторизации
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AuthtoolStripButton_Click(object sender, EventArgs e)
         {
             var authform = new UserForm(this);
             authform.Show();
         }
 
+        /// <summary>
+        /// Вызов окна добавления пользователя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void AddUsertoolStripButton_Click(object sender, EventArgs e)
         {
             var authform = new UserForm(this, true);
@@ -536,25 +580,56 @@ namespace TaskManager
 
         }
 
+        /// <summary>
+        /// Вызов окна для редактирования профиля пользователя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void EditUsertoolStripButton_Click(object sender, EventArgs e)
         {
             var authform = new UserForm(this, false, true);
             authform.Show();
         }
 
+        /// <summary>
+        /// Обновление действующих привелегий пользователя
+        /// </summary>
         public void Updateprivilege()
         {
             AddUsertoolStripButton.Enabled = Properties.Settings.Default.Admin;
             EditUsertoolStripButton.Enabled = Properties.Settings.Default.Admin;
             LogOuttoolStripButton.Enabled = Properties.Settings.Default.Admin || Properties.Settings.Default.User;
+            addNoteToolStripMenuItem.Enabled = Properties.Settings.Default.Admin;
         }
 
+        /// <summary>
+        /// Выход из авторизованного профиля
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.Admin = false;
             Properties.Settings.Default.User = false;
             UpdateTable();
             Updateprivilege();
+        }
+
+        /// <summary>
+        /// Вызов диалогового окна для сохранения / копирования действующей базы данных
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveDBtoolStripButton_Click(object sender, EventArgs e)
+        {
+            saveDbDialog.InitialDirectory = "c:\\";
+            saveDbDialog.Filter = " access mdb files (*.mdb) | *.mdb";
+            saveDbDialog.RestoreDirectory = true;
+
+            if (saveDbDialog.ShowDialog() == DialogResult.OK)
+            {
+                File.Copy(Properties.Settings.Default.PathToDB, saveDbDialog.FileName, true);
+            }
         }
         /* =========================================== CLASSES ===============================================*/
     }

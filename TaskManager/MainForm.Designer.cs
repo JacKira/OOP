@@ -34,13 +34,13 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.openDBDialog = new System.Windows.Forms.OpenFileDialog();
             this.SaveDBtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.LoadBasetoolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.AuthtoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.AddUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.EditUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.LogOuttoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.openDbDialog = new System.Windows.Forms.OpenFileDialog();
             this.FilterMenu = new System.Windows.Forms.GroupBox();
             this.ReloadTableButton = new System.Windows.Forms.Button();
             this.ClearFilterButton = new System.Windows.Forms.Button();
@@ -52,6 +52,11 @@
             this.StatusButton1 = new System.Windows.Forms.RadioButton();
             this.EmployersLabel = new System.Windows.Forms.Label();
             this.EmployersBox = new System.Windows.Forms.ComboBox();
+            this.saveDbDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.FilterMenu.SuspendLayout();
@@ -96,9 +101,13 @@
             this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.SaveDBtoolStripButton,
+            this.toolStripSeparator1,
             this.LoadBasetoolStripButton2,
+            this.toolStripSeparator4,
             this.AuthtoolStripButton,
+            this.toolStripSeparator2,
             this.AddUsertoolStripButton,
+            this.toolStripSeparator3,
             this.EditUsertoolStripButton,
             this.LogOuttoolStripButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -112,18 +121,21 @@
             // 
             this.SaveDBtoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.SaveDBtoolStripButton.Image = global::TaskManager.Properties.Resources.save_save;
+            this.SaveDBtoolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.SaveDBtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.SaveDBtoolStripButton.Name = "SaveDBtoolStripButton";
-            this.SaveDBtoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.SaveDBtoolStripButton.Size = new System.Drawing.Size(44, 47);
             this.SaveDBtoolStripButton.Text = "Сохранить  или создать базу данных";
+            this.SaveDBtoolStripButton.Click += new System.EventHandler(this.SaveDBtoolStripButton_Click);
             // 
             // LoadBasetoolStripButton2
             // 
             this.LoadBasetoolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.LoadBasetoolStripButton2.Image = global::TaskManager.Properties.Resources.load;
+            this.LoadBasetoolStripButton2.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.LoadBasetoolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.LoadBasetoolStripButton2.Name = "LoadBasetoolStripButton2";
-            this.LoadBasetoolStripButton2.Size = new System.Drawing.Size(24, 47);
+            this.LoadBasetoolStripButton2.Size = new System.Drawing.Size(44, 47);
             this.LoadBasetoolStripButton2.Text = "Загрузить базу данных";
             this.LoadBasetoolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
             // 
@@ -131,9 +143,10 @@
             // 
             this.AuthtoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.AuthtoolStripButton.Image = global::TaskManager.Properties.Resources.authorization_LOGIN;
+            this.AuthtoolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.AuthtoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AuthtoolStripButton.Name = "AuthtoolStripButton";
-            this.AuthtoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.AuthtoolStripButton.Size = new System.Drawing.Size(44, 47);
             this.AuthtoolStripButton.Text = "Авторизоваться";
             this.AuthtoolStripButton.Click += new System.EventHandler(this.AuthtoolStripButton_Click);
             // 
@@ -142,9 +155,10 @@
             this.AddUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.AddUsertoolStripButton.Enabled = false;
             this.AddUsertoolStripButton.Image = global::TaskManager.Properties.Resources.adduser;
+            this.AddUsertoolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.AddUsertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.AddUsertoolStripButton.Name = "AddUsertoolStripButton";
-            this.AddUsertoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.AddUsertoolStripButton.Size = new System.Drawing.Size(44, 47);
             this.AddUsertoolStripButton.Text = "Добавить работника";
             this.AddUsertoolStripButton.Click += new System.EventHandler(this.AddUsertoolStripButton_Click);
             // 
@@ -153,20 +167,23 @@
             this.EditUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.EditUsertoolStripButton.Enabled = false;
             this.EditUsertoolStripButton.Image = global::TaskManager.Properties.Resources.EditUser;
+            this.EditUsertoolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.EditUsertoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.EditUsertoolStripButton.Name = "EditUsertoolStripButton";
-            this.EditUsertoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.EditUsertoolStripButton.Size = new System.Drawing.Size(44, 47);
             this.EditUsertoolStripButton.Text = "Редактировать пользователя";
             this.EditUsertoolStripButton.Click += new System.EventHandler(this.EditUsertoolStripButton_Click);
             // 
             // LogOuttoolStripButton
             // 
+            this.LogOuttoolStripButton.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.LogOuttoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.LogOuttoolStripButton.Enabled = false;
             this.LogOuttoolStripButton.Image = global::TaskManager.Properties.Resources.logout;
+            this.LogOuttoolStripButton.ImageScaling = System.Windows.Forms.ToolStripItemImageScaling.None;
             this.LogOuttoolStripButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.LogOuttoolStripButton.Name = "LogOuttoolStripButton";
-            this.LogOuttoolStripButton.Size = new System.Drawing.Size(24, 47);
+            this.LogOuttoolStripButton.Size = new System.Drawing.Size(44, 47);
             this.LogOuttoolStripButton.Text = "Выйти из учетной записи";
             this.LogOuttoolStripButton.Click += new System.EventHandler(this.toolStripButton1_Click);
             // 
@@ -187,7 +204,6 @@
             this.FilterMenu.TabIndex = 0;
             this.FilterMenu.TabStop = false;
             this.FilterMenu.Text = "Фильтры";
-            this.FilterMenu.Enter += new System.EventHandler(this.groupBox1_Enter);
             // 
             // ReloadTableButton
             // 
@@ -298,6 +314,26 @@
             this.EmployersBox.TabIndex = 3;
             this.EmployersBox.SelectedIndexChanged += new System.EventHandler(this.EmployersBox_SelectedIndexChanged);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 50);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 50);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 50);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
+            // 
             // TaskTableForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,9 +383,14 @@
         private System.Windows.Forms.Label SearchLabel;
         private System.Windows.Forms.Button ClearFilterButton;
         private System.Windows.Forms.Button ReloadTableButton;
-        private System.Windows.Forms.OpenFileDialog openDBDialog;
+        private System.Windows.Forms.OpenFileDialog openDbDialog;
         private System.Windows.Forms.ToolStripButton EditUsertoolStripButton;
         private System.Windows.Forms.ToolStripButton LogOuttoolStripButton;
+        private System.Windows.Forms.SaveFileDialog saveDbDialog;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
     }
 }
 

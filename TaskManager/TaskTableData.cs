@@ -12,44 +12,60 @@ namespace TaskManager
     /// Класс для хранения объектов задач и взаимодействия с ними,
     /// а также для передачи данных интерфейсу для отображения
     /// </summary>
-    public class TaskTableData
+    public class TaskTableData : IDisposable
     {
         private string constr;
         private Dictionary<int, NoteData> _notes = new Dictionary<int, NoteData>();
-        public List<int> _ids = new List<int>();
-        public List<int> _forPrint = new List<int>();
-        public List<Employer> _employers = new List<Employer>();
-        public List<Employer> _allEmployers = new List<Employer>();
-        public Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
+        private List<int> _ids = new List<int>();
+        public List<int> forPrint = new List<int>();
+        public List<Employer> employers = new List<Employer>();
+        public List<Employer> allEmployers = new List<Employer>();
+        private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
         public NoteData this[int id]
         {
             get { return _notes[id]; }
             set { _notes[id] = value; }
         }
 
+        public List<int> GetAllIds()
+        {
+            forPrint = _ids;
+            return forPrint;
+        }
+
+        public void Dispose()
+        {
+            _notes.Clear();
+            _ids.Clear();
+            forPrint.Clear();
+            employers.Clear();
+            allEmployers.Clear();
+            _tasksByStatus.Clear();
+            constr = string.Empty;
+        }
+
         public void Add()
         {
             var db = new TaskDB(constr);
-            //00000000000000000000000000000000000000000000000000000000000000//
-            //  if (note == null)
-            // {
-            //   note = new NoteData();
-            // }
-            //_notes.Add(note.ID, note);
-            //00000000000000000000000000000000000000000000000000000000000000//
             var note = new NoteData() { Status = "To Do", ID = db.AddEmptyNoteData() };
             _notes.Add(note.ID, note);
             db.UpdateNote(note);
             _ids = db.GetTasksId(1);
-            _forPrint = _ids;
+            forPrint = _ids;
             UpdateStatusList();
             UpdateEmployers();
         }
 
-        private void UpdateEmployers()
+        public void UpdateEmployers()
         {
             var db = new TaskDB(constr);
-            _employers = db.GetEmployers(1);
+            employers = db.GetEmployers(1);
+        }
+
+        public void UpdateAllEmployers()
+        {
+            var db = new TaskDB(constr);
+            allEmployers = db.GetEmployers();
         }
 
         public TaskTableData(string path = "")
@@ -68,12 +84,12 @@ namespace TaskManager
             //Получаем id по статусу
             UpdateStatusList();
             //Получим работников
-            _employers = db.GetEmployers(1);
+            UpdateAllEmployers();
             UpdateEmployers();
             //Заполняем доску задачами
-            _forPrint = _ids;
+            forPrint = _ids;
         }
-        private void UpdateStatusList()
+        public void UpdateStatusList()
         {
             var db = new TaskDB(constr);
             var stat1 = db.GetTasksIdByStatus("To Do", 1);
@@ -91,34 +107,34 @@ namespace TaskManager
             db.DeleteNoteData(id);
             _ids = db.GetTasksId(1);
             _notes.Remove(id);
-            _forPrint.Remove(id);
+            forPrint.Remove(id);
         }
         public List<int> TasksByStatus(string status)
         {
-            _forPrint = _tasksByStatus["To Do"];
-            return _forPrint;
+            forPrint = _tasksByStatus[status];
+            return forPrint;
         }
 
         public List<int> GetTasksIdByEmployerId(int id, int id_proj)
         {
             var db = new TaskDB(constr);
-            _forPrint = db.GetTasksIdByEmployerId(id, id_proj);
-            return _forPrint;
+            forPrint = db.GetTasksIdByEmployerId(id, id_proj);
+            return forPrint;
         }
 
         public List<int> GetTasksIdByTitle(string str, int id_proj)
         {
             var db = new TaskDB(constr);
-            _forPrint.Clear();
+            forPrint.Clear();
             foreach(var note in _notes) 
             {
                 if (note.Value.Title.Contains(str)) 
                 {
-                    _forPrint.Add(note.Key);
+                    forPrint.Add(note.Key);
                 }
             }
             //_forPrint = db.GetTasksIdByTitle(str, id_proj);
-            return _forPrint;
+            return forPrint;
         }
 
         public void ChangeTitle(int id, string newStr)
@@ -149,6 +165,12 @@ namespace TaskManager
             db.UpdateNote(_notes[id]);
             UpdateStatusList();
         }
+
+        public void UpdateNote(int id)
+        {
+            var db = new TaskDB(constr);
+            db.UpdateNote(_notes[id]);
+        }
     }
 
     public class NoteData
@@ -169,6 +191,19 @@ namespace TaskManager
         {
             return Name;
         }
+
+        // Перегружаем логический оператор ==
+        public static bool operator ==(Employer employer1, Employer employer2)
+        {
+            return employer1.ID == employer2.ID;
+        }
+
+        public static bool operator !=(Employer employer1, Employer employer2)
+        {
+            return employer1.ID != employer2.ID;
+        }
+
+
     }
 
 

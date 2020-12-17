@@ -63,6 +63,7 @@ namespace TaskManager
                 {
                     Properties.Settings.Default.Admin = (bool)res;
                     Properties.Settings.Default.User = true;
+                    Properties.Settings.Default.UserID = (int)db.GetIdByLogin(LoginBox.Text);
                     parent.Updateprivilege();
                 }
                 parent.UpdateTable();
