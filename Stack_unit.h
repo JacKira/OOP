@@ -1,5 +1,6 @@
 #pragma once
 #include "Artist.h"
+#include <iostream>
 using namespace std;
 class Stack_unit
 {

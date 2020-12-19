@@ -108,6 +108,7 @@ void Stack_unit::Print()
 {
 	while (this->_count)
 	{
+		std::cout << std::endl;
 		this->pop().PrintData();
 	}
 }

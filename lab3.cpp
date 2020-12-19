@@ -60,9 +60,10 @@ int main(int argc, char* argv[])
 		list += artist;
 	}
 	fin.close();
-	
+	cout << "\nПечать всего стека";
 	stack.Print();
 	cout << endl;
+	cout << "\nПечать всего списка";
 	list.Print();
 	cout << endl << "Stack size: " << stack.GetCount() << endl;
 	cout << endl << "List size: " << list.GetCount() << endl;
