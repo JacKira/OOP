@@ -9,9 +9,9 @@ namespace TaskManager
     /// </summary>
     class TaskDB
     {
-        private string _dbconnstring;
-        private string _dbsource;
-        private const string _template_connstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source=";
+        private string _dbconnstring; // строка соединения с БД
+        private string _dbsource; // путь к БД
+        private const string _template_connstring = "Provider = Microsoft.Jet.OLEDB.4.0;  Data Source="; // шаблон для создания строки соединения с БД
 
         /// <summary>
         /// Составить строку соединения с БД
