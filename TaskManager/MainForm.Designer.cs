@@ -346,7 +346,6 @@
             this.Controls.Add(this.FilterMenu);
             this.Name = "TaskTableForm";
             this.Text = "Task Table";
-            this.TransparencyKey = System.Drawing.SystemColors.Highlight;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TaskTableForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.Resize += new System.EventHandler(this.MainForm_Resize);
