@@ -380,6 +380,8 @@ namespace TaskManager
         {
             EmployersBox.Text = "";
             SearchTextBox.Text = "";
+            StatusButton1.Checked = false;
+            StatusButton2.Checked = false;
             _idsForPrint = tableData.TasksByStatus("Done");
             UpdateTable();
         }
