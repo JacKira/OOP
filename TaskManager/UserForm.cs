@@ -44,8 +44,18 @@ namespace TaskManager
 
         private void GoButton_Click(object sender, EventArgs e)
         {
+            if((LoginBox.Text == string.Empty) || (PasswordBox.Text == string.Empty))
+            {
+                MessageBox.Show("Введены не все данные, повторите ввод");
+                return;
+            }
             if (_newMember)
             {
+                if(NameBox.Text == string.Empty)
+                {
+                    MessageBox.Show("Введены не все данные, повторите ввод");
+                    return;
+                }
                 var db = new TaskDB(Properties.Settings.Default.PathToDB);
                 db.LogIn(NameBox.Text, LoginBox.Text, PasswordBox.Text);
                 parent.UpdateAllEmployer();
@@ -69,6 +79,7 @@ namespace TaskManager
                     Properties.Settings.Default.Admin = (bool)res;
                     Properties.Settings.Default.User = true;
                     Properties.Settings.Default.UserID = (int)db.GetIdByLogin(LoginBox.Text);
+                    Properties.Settings.Default.UserLogin = LoginBox.Text;
                     parent.Updateprivilege();
                 }
                 parent.UpdateTable();

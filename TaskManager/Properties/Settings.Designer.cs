@@ -80,5 +80,17 @@ namespace TaskManager.Properties {
                 this["UserID"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Гость")]
+        public string UserLogin {
+            get {
+                return ((string)(this["UserLogin"]));
+            }
+            set {
+                this["UserLogin"] = value;
+            }
+        }
     }
 }

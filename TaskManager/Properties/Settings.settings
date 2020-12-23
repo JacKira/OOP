@@ -22,5 +22,8 @@
     <Setting Name="UserID" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
+    <Setting Name="UserLogin" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Гость</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

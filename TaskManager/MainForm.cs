@@ -568,6 +568,7 @@ namespace TaskManager
         {
             tableData.Dispose();
             tableData = null;
+            SetDefaultPrivilege();
             Properties.Settings.Default.Save();
         }
 
@@ -614,6 +615,7 @@ namespace TaskManager
             EditUsertoolStripButton.Enabled = Properties.Settings.Default.Admin;
             LogOuttoolStripButton.Enabled = Properties.Settings.Default.Admin || Properties.Settings.Default.User;
             addNoteToolStripMenuItem.Enabled = Properties.Settings.Default.Admin;
+            ProfileStatusLabel.Text = "Авторизованный пользователь:\n" + Properties.Settings.Default.UserLogin;
         }
 
         /// <summary>
@@ -623,11 +625,20 @@ namespace TaskManager
         /// <param name="e"></param>
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            SetDefaultPrivilege();
+            UpdateTable();
+            Updateprivilege();
+        }
+
+        /// <summary>
+        /// Установление возможностей пользователя по умолчанию
+        /// </summary>
+        private static void SetDefaultPrivilege()
+        {
             Properties.Settings.Default.Admin = false;
             Properties.Settings.Default.User = false;
             Properties.Settings.Default.UserID = -1;
-            UpdateTable();
-            Updateprivilege();
+            Properties.Settings.Default.UserLogin = "Гость";
         }
 
         /// <summary>

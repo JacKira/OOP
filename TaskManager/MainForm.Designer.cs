@@ -35,14 +35,17 @@
             this.addNoteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.SaveDBtoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.LoadBasetoolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.AuthtoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.AddUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.EditUsertoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.LogOuttoolStripButton = new System.Windows.Forms.ToolStripButton();
             this.openDbDialog = new System.Windows.Forms.OpenFileDialog();
             this.FilterMenu = new System.Windows.Forms.GroupBox();
-            this.ReloadTableButton = new System.Windows.Forms.Button();
             this.ClearFilterButton = new System.Windows.Forms.Button();
             this.SearchLabel = new System.Windows.Forms.Label();
             this.SearchTextBox = new System.Windows.Forms.TextBox();
@@ -53,10 +56,7 @@
             this.EmployersLabel = new System.Windows.Forms.Label();
             this.EmployersBox = new System.Windows.Forms.ComboBox();
             this.saveDbDialog = new System.Windows.Forms.SaveFileDialog();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
-            this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
+            this.ProfileStatusLabel = new System.Windows.Forms.Label();
             this.contextMenuStrip1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
             this.FilterMenu.SuspendLayout();
@@ -128,6 +128,11 @@
             this.SaveDBtoolStripButton.Text = "Сохранить  или создать базу данных";
             this.SaveDBtoolStripButton.Click += new System.EventHandler(this.SaveDBtoolStripButton_Click);
             // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 50);
+            // 
             // LoadBasetoolStripButton2
             // 
             this.LoadBasetoolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -138,6 +143,11 @@
             this.LoadBasetoolStripButton2.Size = new System.Drawing.Size(44, 47);
             this.LoadBasetoolStripButton2.Text = "Загрузить базу данных";
             this.LoadBasetoolStripButton2.Click += new System.EventHandler(this.toolStripButton2_Click);
+            // 
+            // toolStripSeparator4
+            // 
+            this.toolStripSeparator4.Name = "toolStripSeparator4";
+            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
             // 
             // AuthtoolStripButton
             // 
@@ -150,6 +160,11 @@
             this.AuthtoolStripButton.Text = "Авторизоваться";
             this.AuthtoolStripButton.Click += new System.EventHandler(this.AuthtoolStripButton_Click);
             // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 50);
+            // 
             // AddUsertoolStripButton
             // 
             this.AddUsertoolStripButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
@@ -161,6 +176,11 @@
             this.AddUsertoolStripButton.Size = new System.Drawing.Size(44, 47);
             this.AddUsertoolStripButton.Text = "Добавить работника";
             this.AddUsertoolStripButton.Click += new System.EventHandler(this.AddUsertoolStripButton_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 50);
             // 
             // EditUsertoolStripButton
             // 
@@ -191,7 +211,7 @@
             // 
             this.FilterMenu.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.FilterMenu.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("FilterMenu.BackgroundImage")));
-            this.FilterMenu.Controls.Add(this.ReloadTableButton);
+            this.FilterMenu.Controls.Add(this.ProfileStatusLabel);
             this.FilterMenu.Controls.Add(this.ClearFilterButton);
             this.FilterMenu.Controls.Add(this.SearchLabel);
             this.FilterMenu.Controls.Add(this.SearchTextBox);
@@ -205,21 +225,10 @@
             this.FilterMenu.TabStop = false;
             this.FilterMenu.Text = "Фильтры";
             // 
-            // ReloadTableButton
-            // 
-            this.ReloadTableButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ReloadTableButton.Location = new System.Drawing.Point(14, 664);
-            this.ReloadTableButton.Name = "ReloadTableButton";
-            this.ReloadTableButton.Size = new System.Drawing.Size(248, 59);
-            this.ReloadTableButton.TabIndex = 7;
-            this.ReloadTableButton.Text = "Обновить доску";
-            this.ReloadTableButton.UseVisualStyleBackColor = true;
-            this.ReloadTableButton.Click += new System.EventHandler(this.ReloadTableButton_Click);
-            // 
             // ClearFilterButton
             // 
             this.ClearFilterButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ClearFilterButton.Location = new System.Drawing.Point(14, 588);
+            this.ClearFilterButton.Location = new System.Drawing.Point(14, 670);
             this.ClearFilterButton.Name = "ClearFilterButton";
             this.ClearFilterButton.Size = new System.Drawing.Size(248, 56);
             this.ClearFilterButton.TabIndex = 14;
@@ -314,25 +323,17 @@
             this.EmployersBox.TabIndex = 3;
             this.EmployersBox.SelectedIndexChanged += new System.EventHandler(this.EmployersBox_SelectedIndexChanged);
             // 
-            // toolStripSeparator1
+            // ProfileStatusLabel
             // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripSeparator2
-            // 
-            this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 50);
-            // 
-            // toolStripSeparator4
-            // 
-            this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 50);
+            this.ProfileStatusLabel.AutoSize = true;
+            this.ProfileStatusLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.ProfileStatusLabel.Location = new System.Drawing.Point(6, 261);
+            this.ProfileStatusLabel.MaximumSize = new System.Drawing.Size(250, 0);
+            this.ProfileStatusLabel.MinimumSize = new System.Drawing.Size(250, 20);
+            this.ProfileStatusLabel.Name = "ProfileStatusLabel";
+            this.ProfileStatusLabel.Size = new System.Drawing.Size(250, 34);
+            this.ProfileStatusLabel.TabIndex = 15;
+            this.ProfileStatusLabel.Text = "Активный пользователь:\r\n Гость";
             // 
             // TaskTableForm
             // 
@@ -382,7 +383,6 @@
         private System.Windows.Forms.TextBox SearchTextBox;
         private System.Windows.Forms.Label SearchLabel;
         private System.Windows.Forms.Button ClearFilterButton;
-        private System.Windows.Forms.Button ReloadTableButton;
         private System.Windows.Forms.OpenFileDialog openDbDialog;
         private System.Windows.Forms.ToolStripButton EditUsertoolStripButton;
         private System.Windows.Forms.ToolStripButton LogOuttoolStripButton;
@@ -391,6 +391,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.Label ProfileStatusLabel;
     }
 }
 
