@@ -9,8 +9,6 @@ namespace TaskManager
 {
     public partial class TaskTableForm : Form
     {
-
-
         private int _w;
         private int _h;
         [DllImport("user32.dll")]
@@ -25,7 +23,7 @@ namespace TaskManager
         /// </summary>
         public TaskTableForm()
         {
-            InitializeComponent(); //#2 Инициалиизруем меню и доску для записей, но без самих записей.
+            InitializeComponent(); //Инициалиизруем меню и доску для записей, но без самих записей.
             //Запоминаем размеры глафно для дальнейшего использования
             _w = this.Width;
             _h = this.Height;
@@ -59,7 +57,7 @@ namespace TaskManager
         /// </summary>
         private void LoadProperties()
         {
-            Properties.Settings.Default.Reload();
+            Properties.Settings.Default.Reload(); //Загружаем системные настройки из системного файла
             Properties.Settings.Default.Admin = false;
             Properties.Settings.Default.User = false;
             Properties.Settings.Default.UserID = -1;
@@ -70,14 +68,14 @@ namespace TaskManager
         /// </summary>
         private void InitTable()
         {
-            tableData = new TaskTableData(Properties.Settings.Default.PathToDB);
-            _idsForPrint = tableData.forPrint;
+            tableData = new TaskTableData(Properties.Settings.Default.PathToDB); // Создаем экземпляр класса для работы с данными из базы по заданному пути
+            _idsForPrint = tableData.forPrint; //Список id задач для отображения на доске
             UpdateEmployers();
             UpdateAllEmployer();
             UpdateTable();
         }
 
-        //#5 Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
+        //Создаем саму запись как объект, добавляем текстовые поля и события для взаимодействия
         /// <summary>
         /// Метод для создания листочка задачи, возвращает созданный листочек 
         /// </summary>
@@ -141,10 +139,8 @@ namespace TaskManager
             {
                 box.Items.Add(employer);
             }
-            HideCaret(textbox.Handle);
-            NewNote.Controls.Add(box);
-
             box.TextChanged += (sender, args) => ChangeEmployer(note.ID, (sender as ComboBox).SelectedItem);
+            NewNote.Controls.Add(box);
 
             box = new System.Windows.Forms.ComboBox()
             {
@@ -156,9 +152,6 @@ namespace TaskManager
                 Enabled = (note.Employer.ID == Properties.Settings.Default.UserID) || Properties.Settings.Default.Admin
             };
             box.TextChanged += (sender, args) => ChangeStatus(note.ID, (sender as ComboBox).Text);
-
-
-            HideCaret(textbox.Handle);
             NewNote.Controls.Add(box);
 
             System.Drawing.Color color;
@@ -204,7 +197,7 @@ namespace TaskManager
         /// <param name="note"></param>
         private void AddNote(NoteData note)
         {
-            TaskTable.Controls.Add(InitNote(note));
+            TaskTable.Controls.Add(InitNote(note)); 
         }
 
         /// <summary>
@@ -250,22 +243,22 @@ namespace TaskManager
         private void addNoteToolStripMenuItem_Click(object sender, EventArgs e)
         {
             //Добавление записки в базу
-            tableData.Add();
-            _idsForPrint = tableData.forPrint;
+            tableData.Add(); //Добавляем пустой листочек в базу
+            _idsForPrint = tableData.forPrint; //Обновляем список id для отображения
             UpdateTable();
             UpdateStatusList();
             UpdateEmployers();
 
 
         }
+
         /* =========================================== CLASSES ===============================================*/
-       
         /// <summary>
         /// Меню для взаимодействия с листочком на доске
         /// </summary>
         private class NoteContextMenu : System.Windows.Forms.ContextMenuStrip
         {
-            //#8 Инициализируем унаследованный системный компонент с добавлением в него наших элементов меню
+            //Инициализируем унаследованный системный компонент с добавлением в него наших элементов меню
             public NoteContextMenu(Note note, TaskTableData tableData, TaskTableForm form)
             {
 
@@ -280,7 +273,7 @@ namespace TaskManager
         /// </summary>
         private class MenuItemForDeleteNote : ToolStripMenuItem
         {
-            //#9 Инициализируем наш элемент меню, унаследованный системный компонент
+            //Инициализируем наш элемент меню, унаследованный системный компонент
             public MenuItemForDeleteNote(Note note, TaskTableData tableData, TaskTableForm form)
             {
                 //Добавляем в него событие удаления записи
@@ -298,22 +291,13 @@ namespace TaskManager
         }
 
         /// <summary>
-        /// Метод для удаления листочка с доски по ID
-        /// </summary>
-        /// <param name="id">id листочка</param>
-        private void DeleteNote(int id)
-        {
-            tableData.DeleteNote(id);
-            _idsForPrint = tableData.forPrint;
-        }
-  
-        /// <summary>
         /// Модификация стандартного элемента для хранения ID записи
         /// </summary>
         private class Note : TableLayoutPanel
         {
             public int ID = 0;
         }
+        /* =========================================== CLASSES ===============================================*/
 
         /// <summary>
         /// Метод для контроля расположения компонентов на форме при изменении ее размеров
@@ -334,7 +318,6 @@ namespace TaskManager
             //  TaskTable.AutoScroll = true;
         }
 
-
         /// <summary>
         /// Метод события при нажании на вывод задач со статусом "Нужно сделать"
         /// </summary>
@@ -342,7 +325,11 @@ namespace TaskManager
         /// <param name="e"></param>
         private void StatusButton1_CheckedChanged(object sender, EventArgs e)
         {
+            //Переводим другие элементы фильтра в состояние по умолчанию
             EmployersBox.Text = "";
+            SearchTextBox.Text = "";
+            StatusButton2.Checked = false;
+            StatusButton3.Checked = false;
             _idsForPrint = tableData.TasksByStatus("To Do");
             UpdateTable();
         }
@@ -354,8 +341,11 @@ namespace TaskManager
         /// <param name="e"></param>
         private void StatusButton2_CheckedChanged(object sender, EventArgs e)
         {
+            //Переводим другие элементы фильтра в состояние по умолчанию
             EmployersBox.Text = "";
             SearchTextBox.Text = "";
+            StatusButton1.Checked = false;
+            StatusButton3.Checked = false;
             _idsForPrint = tableData.TasksByStatus("Doing");
             UpdateTable();
         }
@@ -367,6 +357,7 @@ namespace TaskManager
         /// <param name="e"></param>
         private void StatusButton3_CheckedChanged(object sender, EventArgs e)
         {
+            //Переводим другие элементы фильтра в состояние по умолчанию
             EmployersBox.Text = "";
             SearchTextBox.Text = "";
             StatusButton1.Checked = false;
@@ -380,7 +371,8 @@ namespace TaskManager
         /// </summary>
         public void UpdateTable()
         {
-            TaskTable.Controls.Clear();
+            TaskTable.Controls.Clear(); //Очищаем наполнение доски
+            //Добавляем объекты для отображения на доску
             foreach (var id in _idsForPrint)
             {
                 AddNote(tableData[id]);
@@ -394,6 +386,7 @@ namespace TaskManager
         /// <param name="e"></param>
         private void EmployersBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            //Переводим другие элементы фильтра в состояние по умолчанию
             StatusButton1.Checked = false;
             StatusButton2.Checked = false;
             StatusButton3.Checked = false;
@@ -409,6 +402,7 @@ namespace TaskManager
         /// <param name="e"></param>
         private void ClearFilterButton_Click(object sender, EventArgs e)
         {
+            //Переводим все элементы фильтра в состояние по умолчанию
             StatusButton1.Checked = false;
             StatusButton2.Checked = false;
             StatusButton3.Checked = false;
@@ -418,7 +412,6 @@ namespace TaskManager
             UpdateTable();
         }
 
-
         /// <summary>
         /// Метод вызываемый при использовании окна поиска
         /// </summary>
@@ -426,8 +419,10 @@ namespace TaskManager
         /// <param name="e"></param>
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            if((SearchTextBox.Text != string.Empty) && (!SearchTextBox.Text.StartsWith(" ")))
+            //Проверка на пустой поиск
+            if((SearchTextBox.Text.Length < 2) && (!SearchTextBox.Text.StartsWith(" ")))
             {
+                //Переводим другие элементы фильтра в состояние по умолчанию
                 StatusButton1.Checked = false;
                 StatusButton2.Checked = false;
                 StatusButton3.Checked = false;
@@ -435,7 +430,6 @@ namespace TaskManager
                 _idsForPrint = tableData.GetTasksIdByTitle(SearchTextBox.Text, 1);
                 UpdateTable();
             }
-         
         }
 
         /// <summary>
@@ -446,7 +440,7 @@ namespace TaskManager
         private void ChangeTitle(int id, string newStr)
         {
             tableData[id].Title = newStr;
-            tableData.UpdateNote(id);
+            tableData.UpdateNote(id); //Обновляем данные о задаче в объекте
         }
 
         /// <summary>
@@ -457,7 +451,7 @@ namespace TaskManager
         private void ChangeDescription(int id, string newStr)
         {
             tableData[id].Description = newStr;
-            tableData.UpdateNote(id);
+            tableData.UpdateNote(id);  //Обновляем данные о задаче в объекте
         }
 
         /// <summary>
@@ -468,7 +462,7 @@ namespace TaskManager
         private void ChangeEmployer(int id, object new_employer)
         {
             tableData[id].Employer = new_employer as Employer;
-            tableData.UpdateNote(id);
+            tableData.UpdateNote(id);  //Обновляем данные о задаче в объекте
             UpdateEmployers();
             UpdateTable();
         }
@@ -481,9 +475,19 @@ namespace TaskManager
         private void ChangeStatus(int id, string newStr)
         {
             tableData[id].Status = newStr;
-            tableData.UpdateNote(id);
+            tableData.UpdateNote(id);  //Обновляем данные о задаче в объекте
             UpdateStatusList();
             UpdateTable();
+        }
+
+        /// <summary>
+        /// Метод для удаления листочка с доски по ID
+        /// </summary>
+        /// <param name="id">id листочка</param>
+        private void DeleteNote(int id)
+        {
+            tableData.DeleteNote(id); //Удаляем листочек из объекта по заданному ID
+            _idsForPrint = tableData.forPrint; //Обновляем список id для отображения
         }
 
         /// <summary>
@@ -491,11 +495,11 @@ namespace TaskManager
         /// </summary>
         public void UpdateEmployers()
         {
-            tableData.UpdateEmployers();
-            EmployersBox.Items.Clear();
+            tableData.UpdateEmployers(); //Обновляем список работников, за которыми закреплены задачи в объекте
+            EmployersBox.Items.Clear(); //Очищаем прошлый список работников, за которыми закреплены задачи в объекте
             foreach (var employer in tableData.employers)
             {
-                EmployersBox.Items.Add(employer);
+                EmployersBox.Items.Add(employer); //Добавляем работников в список
             }
         }
 
@@ -504,16 +508,15 @@ namespace TaskManager
         /// </summary>
         public void UpdateAllEmployer()
         {
-            tableData.UpdateAllEmployers();
+            tableData.UpdateAllEmployers(); //Обновление списка всех работников в объекте
         }
-
 
         /// <summary>
         /// Обновление списков задач по статусу
         /// </summary>
         private void UpdateStatusList()
         {
-            tableData.UpdateStatusList();
+            tableData.UpdateStatusList();// Обновление списков задач по статусу в объекте
         }
 
         /// <summary>
@@ -537,12 +540,12 @@ namespace TaskManager
             openDbDialog.Filter = " access mdb files (*.mdb) | *.mdb";
             openDbDialog.RestoreDirectory = true;
 
-            if (openDbDialog.ShowDialog() == DialogResult.OK)
+            if (openDbDialog.ShowDialog() == DialogResult.OK) //Если диалоговое окно закрыто успешно
             {
 
-                //Get the path of specified file
+                //Получаем путь к файлу, который указали в диалоговом окне
                 Properties.Settings.Default.PathToDB = openDbDialog.FileName;
-                if (!File.Exists(Properties.Settings.Default.PathToDB))
+                if (!File.Exists(Properties.Settings.Default.PathToDB)) //Проверка на существование указаной базы
                 {
                     MessageBox.Show("Заданной базы данных не существует");
                     return;
@@ -573,7 +576,7 @@ namespace TaskManager
             }
             SetDefaultPrivilege();
             Updateprivilege();
-            Properties.Settings.Default.Save();
+            Properties.Settings.Default.Save(); //Сохраняем системные настройки перед закрытием
         }
 
         /// <summary>
@@ -596,7 +599,6 @@ namespace TaskManager
         {
             var authform = new UserForm(this, true);
             authform.Show();
-
         }
 
         /// <summary>
@@ -661,6 +663,5 @@ namespace TaskManager
                 File.Copy(Properties.Settings.Default.PathToDB, saveDbDialog.FileName, true);
             }
         }
-        /* =========================================== CLASSES ===============================================*/
     }
 }
