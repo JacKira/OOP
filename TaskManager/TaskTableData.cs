@@ -14,38 +14,39 @@ namespace TaskManager
     /// </summary>
     public class TaskTableData : IDisposable
     {
-        private string constr;
-        private Dictionary<int, NoteData> _notes = new Dictionary<int, NoteData>();
-        private List<int> _ids = new List<int>();
-        private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();
-        public List<int> forPrint = new List<int>();
-        public List<Employer> employers = new List<Employer>();
-        public List<Employer> allEmployers = new List<Employer>();
+        private string constr; // содержит путь к базе данных
+        private Dictionary<int, NoteData> _notes = new Dictionary<int, NoteData>(); // словарь для хранения списка задач
+        private List<int> _ids = new List<int>(); // список id всех задач
+        private Dictionary<string, List<int>> _tasksByStatus = new Dictionary<string, List<int>>();// словарь для хранения списков задач по id
+        public List<int> forPrint = new List<int>(); // список id задач для отображения на доске
+        public List<Employer> employers = new List<Employer>(); // список работников за которыми закреплены задачи
+        public List<Employer> allEmployers = new List<Employer>(); // список всех работников
 
-        
+
         /// <summary>
         /// Конструктор осуществляющий подключение и загрузку данных из базы данных из файла по заданому пути
         /// </summary>
         /// <param name="path"></param>
-        public TaskTableData(string path = "")
+        public TaskTableData(string path = "") // конструктор принимает путь к базе данных
         {
             constr = path;
-            var db = new TaskDB(path);
+            var db = new TaskDB(path); // создание объекта для взаимодействия с БД по переданному пути
 
             //Получаем все задачи проекта
-            _ids = db.GetTasksId(1);
-            foreach (var id in _ids)
+            _ids = db.GetTasksId(1); // список id задач 1 проекта
+            foreach (var id in _ids) // цик перебора всех элементов списка
             {
-                var note = db.GetNoteData(id);
-                _notes.Add(note.ID, note);
+                var note = db.GetNoteData(id); // создаем объект листочка и получаем данные из БД по id данной итерации
+                _notes.Add(note.ID, note); // добавляем листочек в сорварь по id данной итерации
             }
 
-            //Получаем id по статусу
+            // наполняем словарь статусов списками id задач 
             UpdateStatusList();
-            //Получим работников
+            // наполняем список всех работников
             UpdateAllEmployers();
+            // наполняем список работников у которых есть задачи
             UpdateEmployers();
-            //Заполняем доску задачами
+            // сохраняем id для печати
             forPrint = _ids;
         }
 
@@ -67,8 +68,6 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetAllIds()
         {
-            var db = new TaskDB(constr);
-            _ids = db.GetTasksId(1);
             forPrint = _ids;
             return forPrint;
         }
@@ -84,7 +83,7 @@ namespace TaskManager
             employers.Clear();
             allEmployers.Clear();
             _tasksByStatus.Clear();
-            constr = string.Empty;
+            constr = string.Empty; // очищение переменной для пути БД
         }
 
         /// <summary>
@@ -92,14 +91,14 @@ namespace TaskManager
         /// </summary>
         public void Add()
         {
-            var db = new TaskDB(constr);
-            var note = new NoteData() { Status = "To Do", ID = db.AddEmptyNoteData() };
-            _notes.Add(note.ID, note);
-            db.UpdateNote(note);
-            _ids = db.GetTasksId(1);
-            forPrint = _ids;
-            UpdateStatusList();
-            UpdateEmployers();
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            var note = new NoteData() { Status = "To Do", ID = db.AddEmptyNoteData() }; // создание объекта листочка со статусом "To Do" и новым id
+            _notes.Add(note.ID, note); // добавление листочка в словарь
+            db.UpdateNote(note); // обновление данных листочка в БД
+            _ids = db.GetTasksId(1); // получаем список id всех задач 1 проекта 
+            forPrint = _ids; // сохраняем id для печати
+            UpdateStatusList(); // наполняем словарь статусов по id задач
+            UpdateEmployers(); // наполняем список работников с задачами
         }
 
         /// <summary>
@@ -107,8 +106,8 @@ namespace TaskManager
         /// </summary>
         public void UpdateEmployers()
         {
-            var db = new TaskDB(constr);
-            employers = db.GetEmployers(1);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            employers = db.GetEmployers(1); // заполнение списка работников с задачами
         }
 
         /// <summary>
@@ -116,8 +115,8 @@ namespace TaskManager
         /// </summary>
         public void UpdateAllEmployers()
         {
-            var db = new TaskDB(constr);
-            allEmployers = db.GetEmployers();
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            allEmployers = db.GetEmployers(); // заполнение списка всех работников
         }
 
         /// <summary>
@@ -125,14 +124,14 @@ namespace TaskManager
         /// </summary>
         public void UpdateStatusList()
         {
-            var db = new TaskDB(constr);
-            var stat1 = db.GetTasksIdByStatus("To Do", 1);
-            var stat2 = db.GetTasksIdByStatus("Doing", 1);
-            var stat3 = db.GetTasksIdByStatus("Done", 1);
-            _tasksByStatus.Clear();
-            _tasksByStatus.Add("To Do", stat1);
-            _tasksByStatus.Add("Doing", stat2);
-            _tasksByStatus.Add("Done", stat3);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            var stat1 = db.GetTasksIdByStatus("To Do", 1); //
+            var stat2 = db.GetTasksIdByStatus("Doing", 1); // получаем списки задач по данным статусам проекта 1
+            var stat3 = db.GetTasksIdByStatus("Done", 1);  //
+            _tasksByStatus.Clear(); // очищаем словарь статусов
+            _tasksByStatus.Add("To Do", stat1); //
+            _tasksByStatus.Add("Doing", stat2); // заполняем словарь статусов соответствующими списками задач
+            _tasksByStatus.Add("Done", stat3);  //
         }
 
 
@@ -142,11 +141,11 @@ namespace TaskManager
         /// <param name="id"></param>
         public void DeleteNote(int id)
         {
-            var db = new TaskDB(constr);
-            db.DeleteNoteData(id);
-            _ids = db.GetTasksId(1);
-            _notes.Remove(id);
-            forPrint.Remove(id);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            db.DeleteNoteData(id); // удаление листочка по заданому id
+            _ids = db.GetTasksId(1); // получаем список id всех задач 1 проекта 
+            _notes.Remove(id); // удаляем объект из словаря по id
+            forPrint.Remove(id); // удаляем объект из списка для печати
         }
 
         /// <summary>
@@ -156,7 +155,7 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> TasksByStatus(string status)
         {
-            forPrint = _tasksByStatus[status];
+            forPrint = _tasksByStatus[status]; // получаем список id по заданному статусу
             return forPrint;
         }
 
@@ -168,8 +167,8 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetTasksIdByEmployerId(int id, int id_proj)
         {
-            var db = new TaskDB(constr);
-            forPrint = db.GetTasksIdByEmployerId(id, id_proj);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            forPrint = db.GetTasksIdByEmployerId(id, id_proj); // получаем список id задач по id работника
             return forPrint;
         }
 
@@ -179,18 +178,17 @@ namespace TaskManager
         /// <param name="str"></param>
         /// <param name="id_proj"></param>
         /// <returns></returns>
-        public List<int> GetTasksIdByTitle(string str, int id_proj)
+        public List<int> GetTasksIdByTitle(string str, int id_proj) // получаем заголовок
         {
-            var db = new TaskDB(constr);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
             forPrint.Clear();
-            foreach(var note in _notes) 
+            foreach (var note in _notes) // перебор словаря с задачами
             {
-                if (note.Value.Title.ToUpper().Contains(str.ToUpper())) 
+                if (note.Value.Title.ToUpper().Contains(str.ToUpper())) // проверка поискового условия
                 {
-                    forPrint.Add(note.Key);
+                    forPrint.Add(note.Key); // запоминаем id данной задачи в список для печати
                 }
             }
-            //_forPrint = db.GetTasksIdByTitle(str, id_proj);
             return forPrint;
         }
 
@@ -200,11 +198,11 @@ namespace TaskManager
         /// </summary>
         /// <param name="id"></param>
         /// <param name="newStr"></param>
-        public void ChangeTitle(int id, string newStr)
+        public void ChangeTitle(int id, string newStr) // получаем id и новый заголовок изменяемой задачи
         {
-            var db = new TaskDB(constr);
-            _notes[id].Title = newStr;
-            db.UpdateNote(_notes[id]);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            _notes[id].Title = newStr; // замена заголовка задачи по id на полученное значение 
+            db.UpdateNote(_notes[id]); // обновляем данные о задаче в БД
         }
 
         /// <summary>
@@ -212,11 +210,11 @@ namespace TaskManager
         /// </summary>
         /// <param name="id"></param>
         /// <param name="newStr"></param>
-        public void ChangeDescription(int id, string newStr)
+        public void ChangeDescription(int id, string newStr) // получаем id и новое описание изменяемой задачи
         {
-            var db = new TaskDB(constr);
-            _notes[id].Description = newStr;
-            db.UpdateNote(_notes[id]);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            _notes[id].Description = newStr; // замена описания задачи по id на полученное значение 
+            db.UpdateNote(_notes[id]); // обновляем данные о задаче в БД
         }
 
         /// <summary>
@@ -224,12 +222,12 @@ namespace TaskManager
         /// </summary>
         /// <param name="id"></param>
         /// <param name="new_employer"></param>
-        public void ChangeEmployer(int id, object new_employer)
+        public void ChangeEmployer(int id, object new_employer) // получаем id и работника изменяемой задачи
         {
-            var db = new TaskDB(constr);
-            _notes[id].Employer = new_employer as Employer;
-            db.UpdateNote(_notes[id]);
-            UpdateEmployers();
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            _notes[id].Employer = new_employer as Employer; // замена работника задачи по id на полученное значение 
+            db.UpdateNote(_notes[id]); // обновляем данные о задаче в БД
+            UpdateEmployers(); // обновление списка работников с задачами
         }
 
         /// <summary>
@@ -237,21 +235,21 @@ namespace TaskManager
         /// </summary>
         /// <param name="id"></param>
         /// <param name="newStr"></param>
-        public void ChangeStatus(int id, string newStr)
+        public void ChangeStatus(int id, string newStr) // получаем id и статус изменяемой задачи
         {
-            var db = new TaskDB(constr);
-            _notes[id].Status = newStr;
-            db.UpdateNote(_notes[id]);
-            UpdateStatusList();
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
+            _notes[id].Status = newStr; // замена статуса задачи по id на полученное значение 
+            db.UpdateNote(_notes[id]); // обновляем данные о задаче в БД
+            UpdateStatusList(); // обновление словаря статусов
         }
 
         /// <summary>
         /// обновление данных задачи по id в базе данных
         /// </summary>
         /// <param name="id"></param>
-        public void UpdateNote(int id)
+        public void UpdateNote(int id) // получение id 
         {
-            var db = new TaskDB(constr);
+            var db = new TaskDB(constr); // создание объекта для взаимодействия с БД по переданному пути
             db.UpdateNote(_notes[id]);
         }
     }
@@ -275,7 +273,7 @@ namespace TaskManager
         public int ID { get; set; } = 0;
         public string Name { get; set; } = "";
 
-        override public string ToString() 
+        override public string ToString() // перегрузка метода преобразования объекта в строку
         {
             return Name;
         }
@@ -285,10 +283,11 @@ namespace TaskManager
         {
             return employer1.ID == employer2.ID;
         }
-
+        // Перегружаем логический оператор =!
         public static bool operator !=(Employer employer1, Employer employer2)
         {
             return employer1.ID != employer2.ID;
         }
     }
 }
+
