@@ -67,6 +67,8 @@ namespace TaskManager
         /// <returns></returns>
         public List<int> GetAllIds()
         {
+            var db = new TaskDB(constr);
+            _ids = db.GetTasksId(1);
             forPrint = _ids;
             return forPrint;
         }

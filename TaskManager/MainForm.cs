@@ -353,7 +353,6 @@ namespace TaskManager
         private void StatusButton1_CheckedChanged(object sender, EventArgs e)
         {
             EmployersBox.Text = "";
-            SearchTextBox.Text = "";
             _idsForPrint = tableData.TasksByStatus("To Do");
             UpdateTable();
         }
@@ -437,12 +436,16 @@ namespace TaskManager
         /// <param name="e"></param>
         private void SearchTextBox_TextChanged(object sender, EventArgs e)
         {
-            StatusButton1.Checked = false;
-            StatusButton2.Checked = false;
-            StatusButton3.Checked = false;
-            EmployersBox.Text = "";
-            _idsForPrint = tableData.GetTasksIdByTitle(SearchTextBox.Text, 1);
-            UpdateTable();
+            if((SearchTextBox.Text != string.Empty) && (!SearchTextBox.Text.StartsWith(" ")))
+            {
+                StatusButton1.Checked = false;
+                StatusButton2.Checked = false;
+                StatusButton3.Checked = false;
+                EmployersBox.Text = "";
+                _idsForPrint = tableData.GetTasksIdByTitle(SearchTextBox.Text, 1);
+                UpdateTable();
+            }
+         
         }
 
         /// <summary>
