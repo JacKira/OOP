@@ -1,17 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
-using System.Runtime.CompilerServices;
-using System.Reflection;
-using System.Collections;
-using System.Data.OleDb;
 using System.IO;
 
 namespace TaskManager
@@ -100,7 +91,6 @@ namespace TaskManager
             NewNote.ColumnCount = 1;
             NewNote.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             NewNote.Location = new System.Drawing.Point(3, 3);
-            NewNote.Name = "tableLayoutPanel" + (last_note_cords.Sum() + 1).ToString();
             NewNote.RowCount = 5;
             NewNote.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 18.18182F));
             NewNote.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 81.81818F));
