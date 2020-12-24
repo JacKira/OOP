@@ -554,9 +554,14 @@ namespace TaskManager
                     MessageBox.Show("Заданной базы данных не существует");
                     return;
                 }
-                tableData.Dispose();
-                tableData = null;
+                if(tableData != null)
+                {
+                    tableData.Dispose();
+                    tableData = null;
+                }
                 tableData = new TaskTableData(Properties.Settings.Default.PathToDB);
+                SetDefaultPrivilege();
+                Updateprivilege();
                 InitTable();
             }
         }
@@ -568,9 +573,13 @@ namespace TaskManager
         /// <param name="e"></param>
         private void TaskTableForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            tableData.Dispose();
-            tableData = null;
+            if(tableData != null)
+            {
+                tableData.Dispose();
+                tableData = null;
+            }
             SetDefaultPrivilege();
+            Updateprivilege();
             Properties.Settings.Default.Save();
         }
 
@@ -628,8 +637,8 @@ namespace TaskManager
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             SetDefaultPrivilege();
-            UpdateTable();
             Updateprivilege();
+            UpdateTable();
         }
 
         /// <summary>
