@@ -140,6 +140,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="SanyaClassDiagram.cd" />
     <None Include="TaskManager_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
